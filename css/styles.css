@@ -1,0 +1,81 @@
+/* Grundlayout: zentriert, fullscreen, Hintergrund-Gradient */
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #7f7fd5, #86a8e7, #91eae4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+}
+
+/* Überschrift größer und mit dezentem Glow-Effekt */
+h1 {
+    margin-bottom: 50px;
+    font-size: 4rem;               /* Noch größer als vorher */
+    text-transform: uppercase;     /* Alle Buchstaben groß */
+    text-align: center;            /* Zentrierte Überschrift */
+    color: #fff;                   /* Weißer Text */
+
+    /* Leichter Schimmer/Effekt (zwei Schatten-Ebenen) */
+    text-shadow:
+            0 0 6px rgba(255,255,255,0.7),
+            0 0 20px rgba(255,255,255,0.4);
+
+    /* Sanfter Übergang, wenn man mit der Maus drüberfährt */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Skalierung beim Hover für einen 'Zoom'-Effekt */
+h1:hover {
+    transform: scale(1.05);
+}
+
+
+/* Countdown-Container */
+#countdown {
+    display: flex;
+    gap: 40px; /* Abstand zwischen den Elementen */
+    background: rgba(0,0,0,0.2);
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Jede Zeit-Box: Spalten-Anordnung und große Schrift */
+.time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: pulse 2.5s infinite; /* Puls-Animation (s.u.) */
+    margin: 0 10px;
+}
+
+/* Zahlen sehr groß anzeigen; leichte Text-Schatten für Kontrast */
+.time-box span:first-child {
+    font-size: 4rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Die Label (Tage, Stunden, usw.) etwas kleiner */
+.label {
+    font-size: 1rem;
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Puls-Animation: sanftes Ein- und Auszoomen */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.07);
+    }
+}
