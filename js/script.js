@@ -1,9 +1,9 @@
 // Ziel-Datum ermitteln (4. März im aktuellen Jahr oder, falls schon vorbei, nächstes Jahr)
 const now = new Date();
 const currentYear = now.getFullYear();
-const marchFourThisYear = new Date(`March 4, ${currentYear} 00:00:00`);
+const marchFourThisYear = new Date(`March 4, ${currentYear} 16:00:00`);
 const targetYear = (now > marchFourThisYear) ? currentYear + 1 : currentYear;
-const countdownDate = new Date(`March 4, ${targetYear} 00:00:00`).getTime();
+const countdownDate = new Date(`March 4, ${targetYear} 16:00:00`).getTime();
 
 // Hol dir die HTML-Elemente
 const daysEl = document.getElementById("days");
