@@ -160,53 +160,6 @@
       font-size: 1.1rem;
       color: var(--text-light);
     }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-
-      .btn-primary,
-      .btn-secondary {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow);
-
-        svg {
-          width: 20px;
-          height: 20px;
-        }
-      }
-
-      .btn-primary {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        color: var(--white);
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-lg);
-        }
-      }
-
-      .btn-secondary {
-        background: var(--white);
-        color: var(--primary-color);
-        border: 2px solid var(--primary-color);
-
-        &:hover {
-          background: var(--primary-color);
-          color: var(--white);
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-lg);
-        }
-      }
-    }
   }
 }
 
