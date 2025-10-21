@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-cv-viewer',
-  standalone: true,
-  imports: [],
-  templateUrl: './cv-viewer.component.html',
-  styleUrl: './cv-viewer.component.scss'
+    selector: 'app-cv-viewer',
+    imports: [],
+    templateUrl: './cv-viewer.component.html',
+    styleUrl: './cv-viewer.component.scss'
 })
 export class CvViewerComponent {
   pdfUrl: SafeResourceUrl;
