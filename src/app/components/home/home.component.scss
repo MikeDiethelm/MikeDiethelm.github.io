@@ -24,7 +24,7 @@
       box-shadow: var(--shadow-lg);
       border: 5px solid transparent;
       background: linear-gradient(white, white) padding-box,
-                  linear-gradient(135deg, var(--primary-color), var(--secondary-color)) border-box;
+        linear-gradient(135deg, var(--primary-color), var(--secondary-color)) border-box;
       transition: transform 0.3s ease;
 
       &:hover {
@@ -118,7 +118,7 @@
 
   .skills {
     margin: 3rem 0;
-    
+
     h3 {
       font-size: 1.3rem;
       margin-bottom: 1rem;
