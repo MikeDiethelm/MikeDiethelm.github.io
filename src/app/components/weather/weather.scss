@@ -20,6 +20,18 @@
     width: 2rem;
     height: 2rem;
   }
+
+  mat-card-actions {
+    padding: 1rem;
+
+    .back-button {
+      color: var(--mat-sys-primary);
+
+      &:hover {
+        background-color: rgba(103, 126, 234, 0.1);
+      }
+    }
+  }
 }
 
 // Search Card Styles

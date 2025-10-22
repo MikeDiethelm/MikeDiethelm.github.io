@@ -1,0 +1,340 @@
+.crypto-detail-dialog {
+    width: 100%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+
+    .loading-container,
+    .error-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        text-align: center;
+
+        mat-spinner {
+            margin-bottom: 1rem;
+
+            ::ng-deep circle {
+                stroke: #667eea;
+            }
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            width: 3rem;
+            height: 3rem;
+            color: #f44336;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    .detail-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+
+        .coin-image {
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .header-info {
+            flex: 1;
+
+            .coin-title {
+                margin: 0;
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #333;
+
+                .coin-symbol {
+                    color: #666;
+                    font-weight: 400;
+                }
+            }
+
+            .rank-badge {
+                display: inline-block;
+                background-color: #667eea;
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 1rem;
+                font-size: 0.8rem;
+                font-weight: 500;
+                margin-top: 0.5rem;
+            }
+        }
+
+        .close-button {
+            color: #666;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+        }
+    }
+
+    .detail-content {
+        padding: 0;
+        max-height: 60vh;
+        overflow-y: auto;
+
+        .price-section {
+            padding: 1.5rem;
+
+            .current-price {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 1.5rem;
+
+                .price-label {
+                    font-size: 0.9rem;
+                    color: #666;
+                    margin-bottom: 0.25rem;
+                }
+
+                .price-value {
+                    font-size: 2rem;
+                    font-weight: 600;
+                    color: #333;
+                }
+            }
+
+            .price-changes {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+
+                .change-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 0.75rem 1rem;
+                    border-radius: 8px;
+                    background-color: #f8f9fa;
+                    min-width: 80px;
+
+                    .change-label {
+                        font-size: 0.8rem;
+                        color: #666;
+                        margin-bottom: 0.25rem;
+                        font-weight: 500;
+                    }
+
+                    .change-value {
+                        font-weight: 600;
+                        font-size: 0.9rem;
+                    }
+
+                    &.positive-change {
+                        background-color: #e8f5e8;
+
+                        .change-value {
+                            color: #4caf50;
+                        }
+                    }
+
+                    &.negative-change {
+                        background-color: #ffeaea;
+
+                        .change-value {
+                            color: #f44336;
+                        }
+                    }
+                }
+            }
+        }
+
+        .stats-section,
+        .supply-section,
+        .records-section,
+        .description-section,
+        .links-section {
+            padding: 1.5rem;
+
+            h3 {
+                margin: 0 0 1rem 0;
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+
+                .stat-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+
+                    .stat-label {
+                        font-size: 0.9rem;
+                        color: #666;
+                        font-weight: 500;
+                    }
+
+                    .stat-value {
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: #333;
+                    }
+
+                    .ath-info,
+                    .atl-info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.25rem;
+
+                        .ath-change,
+                        .atl-change {
+                            font-size: 0.85rem;
+                            font-weight: 500;
+
+                            &.positive-change {
+                                color: #4caf50;
+                            }
+
+                            &.negative-change {
+                                color: #f44336;
+                            }
+                        }
+
+                        .ath-date,
+                        .atl-date {
+                            font-size: 0.8rem;
+                            color: #999;
+                        }
+                    }
+                }
+            }
+
+            .description-text {
+                line-height: 1.6;
+                color: #555;
+                margin: 0;
+            }
+
+            .links-container {
+                display: flex;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+
+                .link-button {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: #667eea;
+                    border: 1px solid #667eea;
+
+                    &:hover {
+                        background-color: rgba(103, 126, 234, 0.1);
+                    }
+                }
+            }
+        }
+    }
+
+    .dialog-actions {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #e9ecef;
+        justify-content: flex-end;
+    }
+
+    // Responsive Design
+    @media (max-width: 768px) {
+        max-width: 95vw;
+        max-height: 90vh;
+
+        .detail-header {
+            padding: 1rem;
+
+            .header-info .coin-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        .detail-content {
+            .price-section {
+                padding: 1rem;
+
+                .current-price .price-value {
+                    font-size: 1.5rem;
+                }
+
+                .price-changes {
+                    gap: 0.5rem;
+
+                    .change-item {
+                        padding: 0.5rem 0.75rem;
+                        min-width: 70px;
+                    }
+                }
+            }
+
+            .stats-section,
+            .supply-section,
+            .records-section,
+            .description-section,
+            .links-section {
+                padding: 1rem;
+
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                    gap: 0.75rem;
+                }
+
+                .links-container .link-button {
+                    flex: 1;
+                    min-width: 120px;
+                }
+            }
+        }
+
+        .dialog-actions {
+            padding: 0.75rem 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .detail-header {
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+
+            .close-button {
+                align-self: flex-end;
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+        }
+
+        .detail-content {
+            .price-changes {
+                flex-direction: column;
+
+                .change-item {
+                    flex-direction: row;
+                    justify-content: space-between;
+                    min-width: auto;
+                }
+            }
+        }
+    }
+}

@@ -81,16 +81,22 @@
       <div mat-card-avatar>
         <mat-icon class="features-icon">extension</mat-icon>
       </div>
-      <mat-card-title>Feature Demonstrationen</mat-card-title>
-      <mat-card-subtitle>Entdecken Sie meine Angular-Kenntnisse durch praktische Beispiele</mat-card-subtitle>
+      <mat-card-title>{{ 'home.features.title' | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="feature-preview">
         <div class="feature-item">
           <mat-icon>wb_sunny</mat-icon>
           <div class="feature-info">
-            <h4>Wetter-App</h4>
-            <p>Vollständige Wetter-Anwendung mit kostenloser API-Integration</p>
+            <h4>{{ 'home.features.weather.title' | translate }}</h4>
+            <p>{{ 'home.features.weather.description' | translate }}</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <mat-icon>trending_up</mat-icon>
+          <div class="feature-info">
+            <h4>{{ 'home.features.crypto.title' | translate }}</h4>
+            <p>{{ 'home.features.crypto.description' | translate }}</p>
           </div>
         </div>
       </div>
@@ -98,11 +104,15 @@
     <mat-card-actions>
       <a routerLink="/weather" mat-raised-button color="primary">
         <mat-icon>wb_sunny</mat-icon>
-        Wetter ansehen
+        {{ 'home.features.weather.button' | translate }}
+      </a>
+      <a routerLink="/crypto" mat-raised-button color="accent">
+        <mat-icon>trending_up</mat-icon>
+        {{ 'home.features.crypto.button' | translate }}
       </a>
       <a routerLink="/features" mat-button>
         <mat-icon>extension</mat-icon>
-        Alle Features
+        {{ 'home.features.all.button' | translate }}
       </a>
     </mat-card-actions>
   </mat-card>

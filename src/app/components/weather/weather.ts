@@ -1,5 +1,6 @@
 import { Component, signal, computed, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { WeatherService } from '../../services/weather.service';
 import { WeatherData, WeatherError } from '../../interfaces/weather.interface';
 import { TranslatePipe } from '../../pipes/translate.pipe';
@@ -26,6 +28,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
     MatProgressSpinnerModule,
     MatDividerModule,
     MatChipsModule,
+    MatTooltipModule,
     TranslatePipe
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +43,17 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           <mat-card-title>{{ 'weather.title' | translate }}</mat-card-title>
           <mat-card-subtitle>{{ 'weather.subtitle' | translate }}</mat-card-subtitle>
         </mat-card-header>
+        <mat-card-actions>
+          <button 
+            mat-button 
+            (click)="navigateHome()"
+            [matTooltip]="'weather.backToHome.tooltip' | translate"
+            class="back-button"
+          >
+            <mat-icon>arrow_back</mat-icon>
+            {{ 'weather.backToHome.button' | translate }}
+          </button>
+        </mat-card-actions>
       </mat-card>
 
       <!-- Search Card -->
@@ -242,6 +256,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 })
 export class WeatherComponent implements OnInit {
   private readonly weatherService = inject(WeatherService);
+  private readonly router = inject(Router);
 
   // Signals für reaktive Daten
   weatherData = signal<WeatherData | null>(null);
@@ -337,6 +352,10 @@ export class WeatherComponent implements OnInit {
 
   clearError(): void {
     this.error.set(null);
+  }
+
+  navigateHome(): void {
+    this.router.navigate(['/']);
   }
 
   private loadDefaultWeather(): void {

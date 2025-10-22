@@ -1,0 +1,652 @@
+.crypto-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+        gap: 1rem;
+    }
+}
+
+// Header Card Styles
+.crypto-header-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    .header-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+        color: #ffd700;
+    }
+
+    mat-card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    mat-card-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    mat-card-actions {
+        padding: 1rem;
+        display: flex;
+        gap: 0.75rem;
+
+        button {
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+
+            &[disabled] {
+                color: rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        .back-button {
+            color: rgba(255, 255, 255, 0.9);
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        mat-spinner {
+            margin-right: 0.5rem;
+
+            ::ng-deep circle {
+                stroke: white;
+            }
+        }
+    }
+}
+
+// Controls Card Styles
+.controls-card {
+    .controls-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .currency-selection {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+
+            .currency-label {
+                font-weight: 500;
+                color: #666;
+                min-width: fit-content;
+            }
+
+            .currency-chips {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+
+                .currency-chip {
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover:not([disabled]) {
+                        background-color: rgba(103, 126, 234, 0.1);
+                    }
+
+                    &[aria-selected="true"] {
+                        background-color: #667eea;
+                        color: white;
+                    }
+
+                    &[disabled] {
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: flex-start;
+
+            .market-size-field,
+            .page-size-field {
+                min-width: 180px;
+                margin: 0;
+
+                ::ng-deep {
+                    .mat-mdc-form-field-subscript-wrapper {
+                        display: none;
+                    }
+                }
+            }
+
+            .market-size-field {
+                flex: 1;
+                max-width: 250px;
+            }
+
+            .page-size-field {
+                flex: 1;
+                max-width: 200px;
+            }
+        }
+
+        .page-info {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+
+            .page-info-text {
+                font-size: 0.9rem;
+                color: #666;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+// Error Card Styles
+.error-card {
+    border-left: 4px solid #f44336;
+    background-color: #fff3f3;
+
+    .error-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .error-icon {
+            color: #f44336;
+            font-size: 2rem;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .error-text {
+            flex: 1;
+
+            h3 {
+                margin: 0 0 0.5rem 0;
+                color: #f44336;
+                font-size: 1.1rem;
+            }
+
+            p {
+                margin: 0;
+                color: #666;
+            }
+        }
+    }
+}
+
+// Data Status Styles
+.data-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+
+    .fresh-icon {
+        color: #4caf50;
+    }
+
+    .stale-icon {
+        color: #ff9800;
+    }
+
+    .status-text {
+        font-size: 0.9rem;
+        color: #666;
+
+        .stale-warning {
+            color: #ff9800;
+            font-weight: 500;
+        }
+    }
+}
+
+// Table Styles
+.crypto-table-card {
+    .crypto-table-container {
+        overflow-x: auto;
+
+        .crypto-table {
+            width: 100%;
+            min-width: 600px;
+
+            .mat-column-rank {
+                width: 60px;
+                padding-right: 1rem;
+            }
+
+            .mat-column-name {
+                width: 200px;
+                padding-right: 1rem;
+            }
+
+            .mat-column-price {
+                width: 150px;
+                padding-right: 1rem;
+            }
+
+            .mat-column-change24h {
+                width: 150px;
+                padding-right: 1rem;
+            }
+
+            .mat-column-marketCap {
+                width: 150px;
+            }
+
+            // Header Styles
+            .mat-header-cell {
+                font-weight: 600;
+                color: #333;
+                font-size: 0.9rem;
+                border-bottom: 2px solid #667eea;
+            }
+
+            // Cell Styles
+            .mat-cell {
+                border-bottom: 1px solid #eee;
+                padding: 1rem 0.5rem;
+            }
+
+            .rank-cell {
+                font-weight: 600;
+                color: #667eea;
+                text-align: center;
+            }
+
+            .name-cell {
+                .crypto-name {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+
+                    .crypto-icon {
+                        border-radius: 50%;
+                        flex-shrink: 0;
+                    }
+
+                    .name-info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.25rem;
+
+                        .crypto-full-name {
+                            font-weight: 500;
+                            color: #333;
+                        }
+
+                        .crypto-symbol {
+                            font-size: 0.8rem;
+                            color: #666;
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+
+            .price-cell {
+                .current-price {
+                    font-weight: 600;
+                    font-size: 1rem;
+                    color: #333;
+                }
+            }
+
+            .change-cell {
+                .price-change {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                    font-weight: 500;
+
+                    &.positive-change {
+                        color: #4caf50;
+
+                        .change-icon {
+                            color: #4caf50;
+                        }
+                    }
+
+                    &.negative-change {
+                        color: #f44336;
+
+                        .change-icon {
+                            color: #f44336;
+                        }
+                    }
+
+                    .change-icon {
+                        font-size: 1.2rem;
+                        width: 1.2rem;
+                        height: 1.2rem;
+                    }
+
+                    .change-percentage {
+                        font-size: 0.9rem;
+                    }
+                }
+            }
+
+            .market-cap-cell {
+                font-weight: 500;
+                color: #666;
+                font-size: 0.9rem;
+            }
+
+            // Row Styles
+            .crypto-row {
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: rgba(103, 126, 234, 0.05);
+                }
+
+                &.clickable-row {
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(103, 126, 234, 0.1);
+                        transform: translateY(-1px);
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Loading Card Styles
+.loading-card {
+    .loading-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 2rem;
+        text-align: center;
+
+        mat-spinner {
+            ::ng-deep circle {
+                stroke: #667eea;
+            }
+        }
+
+        p {
+            color: #666;
+            font-size: 1rem;
+            margin: 0;
+        }
+    }
+}
+
+// Empty State Styles
+.empty-card {
+    .empty-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 2rem;
+        text-align: center;
+
+        .empty-icon {
+            font-size: 3rem;
+            width: 3rem;
+            height: 3rem;
+            color: #ccc;
+        }
+
+        h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        p {
+            margin: 0;
+            color: #666;
+            max-width: 400px;
+        }
+    }
+}
+
+// Responsive Styles
+@media (max-width: 768px) {
+    .crypto-table-card {
+        .crypto-table-container {
+            .crypto-table {
+                min-width: 500px;
+
+                .mat-column-marketCap {
+                    display: none;
+                }
+
+                .name-cell {
+                    .crypto-name {
+                        gap: 0.5rem;
+
+                        .name-info {
+                            .crypto-full-name {
+                                font-size: 0.9rem;
+                            }
+
+                            .crypto-symbol {
+                                font-size: 0.75rem;
+                            }
+                        }
+                    }
+                }
+
+                .price-cell .current-price {
+                    font-size: 0.9rem;
+                }
+
+                .change-cell .price-change {
+                    flex-direction: column;
+                    gap: 0.125rem;
+                    align-items: flex-start;
+
+                    .change-percentage {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .controls-card .controls-section {
+        gap: 1rem;
+
+        .currency-selection {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 0.75rem !important;
+
+            .currency-label {
+                align-self: flex-start;
+            }
+        }
+
+        .controls-row {
+            flex-direction: column;
+            gap: 1rem;
+
+            .market-size-field,
+            .page-size-field {
+                min-width: 150px;
+                max-width: none;
+            }
+        }
+
+        .page-info {
+            margin-top: 0.5rem;
+            padding: 0.5rem 0.75rem;
+
+            .page-info-text {
+                font-size: 0.8rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .crypto-container {
+        padding: 0.25rem;
+    }
+
+    .crypto-header-card {
+        mat-card-title {
+            font-size: 1.2rem;
+        }
+
+        mat-card-actions {
+            padding: 0.75rem;
+
+            button {
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    .crypto-table-card {
+        .crypto-table-container {
+            .crypto-table {
+                min-width: 400px;
+
+                .mat-column-change24h {
+                    display: none;
+                }
+
+                .mat-cell,
+                .mat-header-cell {
+                    padding: 0.75rem 0.25rem;
+                }
+            }
+        }
+    }
+}
+
+// Pagination Styles
+.pagination-actions {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+
+        .page-numbers {
+            display: flex;
+            gap: 0.25rem;
+
+            .page-button {
+                min-width: 40px;
+                color: #667eea;
+                border: 1px solid #e9ecef;
+                background-color: white;
+                transition: all 0.2s ease;
+
+                &:hover:not([disabled]) {
+                    background-color: rgba(103, 126, 234, 0.1);
+                    border-color: #667eea;
+                }
+
+                &[disabled] {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+
+            .current-page {
+                min-width: 40px;
+                background-color: #667eea;
+                color: white;
+                border: 1px solid #667eea;
+                font-weight: 600;
+
+                &:hover {
+                    background-color: #5a67d8;
+                }
+            }
+        }
+
+        button[mat-icon-button] {
+            color: #667eea;
+
+            &[disabled] {
+                color: #ccc;
+            }
+
+            &:hover:not([disabled]) {
+                background-color: rgba(103, 126, 234, 0.1);
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.75rem;
+
+        .pagination-controls {
+            gap: 0.25rem;
+
+            .page-numbers {
+
+                .page-button,
+                .current-page {
+                    min-width: 36px;
+                    font-size: 0.9rem;
+                    padding: 0.5rem 0.75rem;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        padding: 0.5rem;
+
+        .pagination-controls {
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .page-numbers {
+                order: -1;
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}
+
+// Global Dialog Styles for Crypto Detail Modal
+::ng-deep .crypto-detail-dialog-container {
+    .mat-mdc-dialog-container {
+        padding: 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .mat-mdc-dialog-surface {
+        border-radius: 12px;
+    }
+}
