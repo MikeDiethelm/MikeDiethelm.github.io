@@ -1,0 +1,55 @@
+// Material Design 3 App Layout
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--mat-sys-background);
+
+    router-outlet {
+        display: contents;
+    }
+}
+
+// Global Material Design 3 improvements
+* {
+    box-sizing: border-box;
+}
+
+// Smooth transitions for Material components
+.mat-mdc-card,
+.mat-mdc-button,
+.mat-toolbar {
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+// Focus indicators
+.mat-mdc-button:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+}
+
+// Custom scrollbar for webkit browsers
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--mat-sys-surface-container-low);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--mat-sys-outline-variant);
+    border-radius: 4px;
+
+    &:hover {
+        background-color: var(--mat-sys-outline);
+    }
+}

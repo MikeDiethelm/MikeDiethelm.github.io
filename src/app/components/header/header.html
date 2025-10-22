@@ -1,12 +1,28 @@
-<header>
-  <nav class="navbar">
-    <div class="container">
-      <a routerLink="/" class="logo">Mike Diethelm</a>
-      <ul class="nav-links">
-        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-        <li><a routerLink="/weather" routerLinkActive="active">🌤️ Wetter</a></li>
-        <li><a routerLink="/features" routerLinkActive="active">Features</a></li>
-      </ul>
-    </div>
-  </nav>
-</header>
+<mat-toolbar class="app-toolbar" color="primary">
+  <div class="toolbar-content">
+    <a routerLink="/" class="logo" mat-button>
+      <mat-icon>person</mat-icon>
+      <span class="logo-text">Mike Diethelm</span>
+    </a>
+
+    <nav class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-button
+        class="nav-button">
+        <mat-icon>home</mat-icon>
+        <span class="button-text">{{ 'nav.home' | translate }}</span>
+      </a>
+
+      <a routerLink="/weather" routerLinkActive="active" mat-button class="nav-button">
+        <mat-icon>wb_sunny</mat-icon>
+        <span class="button-text">{{ 'nav.weather' | translate }}</span>
+      </a>
+
+      <a routerLink="/features" routerLinkActive="active" mat-button class="nav-button">
+        <mat-icon>extension</mat-icon>
+        <span class="button-text">{{ 'nav.features' | translate }}</span>
+      </a>
+    </nav>
+
+    <app-language-switcher></app-language-switcher>
+  </div>
+</mat-toolbar>

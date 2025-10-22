@@ -1,3 +1,36 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((color: (primary: mat.$rose-palette,
+        tertiary: mat.$red-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+
 /* Global Styles */
 * {
   margin: 0;
@@ -5,53 +38,109 @@
   box-sizing: border-box;
 }
 
+// Custom Material Design 3 Theme Configuration
 :root {
-  --primary-color: #dd0031;
-  --secondary-color: #c3002f;
-  --dark-color: #1976d2;
-  --light-color: #f5f5f5;
-  --text-color: #333;
-  --text-light: #666;
-  --white: #fff;
-  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+  // Weather-specific colors
+  --weather-primary: var(--mat-sys-primary);
+  --weather-secondary: var(--mat-sys-secondary);
+  --weather-surface: var(--mat-sys-surface-container);
+  --weather-on-surface: var(--mat-sys-on-surface);
+  --weather-error: var(--mat-sys-error);
+  --weather-warning: var(--mat-sys-tertiary);
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: var(--text-color);
-  line-height: 1.6;
-  background-color: var(--light-color);
+// Material Design 3 Global Utilities
+.mat-elevation-z2 {
+  box-shadow: var(--mat-sys-level2);
 }
 
+.mat-elevation-z4 {
+  box-shadow: var(--mat-sys-level3);
+}
+
+// Material Design 3 Breakpoints and Layout
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
+
+  // Material breakpoints
+  @media (min-width: 600px) {
+    // sm
+    padding: 0 1.5rem;
+  }
+
+  @media (min-width: 900px) {
+    // md
+    padding: 0 2rem;
+  }
+
+  @media (min-width: 1200px) {
+    // lg
+    padding: 0 2.5rem;
+  }
+
+  @media (min-width: 1536px) {
+    // xl
+    padding: 0 3rem;
+  }
 }
 
 main {
-  min-height: calc(100vh - 140px);
-  padding-top: 80px;
-}
+  min-height: calc(100vh - 200px);
+  padding-top: 80px; // Account for fixed toolbar
+  padding-bottom: 2rem;
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.btn-primary {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: var(--white);
-  border-radius: 50px;
-  font-weight: 600;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: var(--shadow);
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+  @media (min-width: 600px) {
+    padding-bottom: 3rem;
   }
+}
+
+// Responsive Grid System
+.responsive-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+// Material Design 3 spacing helpers
+.mat-spacing-xs {
+  margin: 0.25rem;
+}
+
+.mat-spacing-sm {
+  margin: 0.5rem;
+}
+
+.mat-spacing-md {
+  margin: 1rem;
+}
+
+.mat-spacing-lg {
+  margin: 1.5rem;
+}
+
+.mat-spacing-xl {
+  margin: 2rem;
+}
+
+// Material Design 3 compatible styles
+.mat-mdc-card {
+  --mdc-elevated-card-container-elevation: var(--mat-sys-level2);
+}
+
+// Ensure proper Material Design 3 integration
+html,
+body {
+  height: 100%;
 }

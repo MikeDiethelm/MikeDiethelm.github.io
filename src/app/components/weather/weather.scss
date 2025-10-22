@@ -1,329 +1,225 @@
-// Wetter-Komponente Styling
+// Material Design 3 Weather Component
 .weather-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 
-  .weather-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  @media (min-width: 600px) {
+    padding: 2rem 1rem;
+  }
+}
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      color: #2c5aa0;
-      font-weight: 700;
+// Header Card Styles
+.weather-header-card {
+  .header-icon {
+    color: var(--mat-sys-primary);
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+// Search Card Styles
+.search-card {
+  .search-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
     }
 
-    p {
-      color: #666;
-      font-size: 1.1rem;
+    .city-input {
+      flex: 1;
+    }
+
+    .search-btn {
+      white-space: nowrap;
+
+      @media (max-width: 600px) {
+        width: 100%;
+      }
+
+      mat-spinner {
+        margin-right: 0.5rem;
+      }
+
+      span {
+        margin-left: 0.5rem;
+      }
     }
   }
 
-  .weather-search {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  .quick-cities-section {
+    .cities-hint {
+      margin: 1rem 0 0.75rem 0;
+      color: var(--mat-sys-on-surface-variant);
+      font-weight: 500;
+    }
 
-    .search-controls {
+    .quick-cities {
       display: flex;
-      gap: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
 
-      .city-input {
-        flex: 1;
-        padding: 0.75rem 1rem;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: border-color 0.3s ease;
-
-        &:focus {
-          outline: none;
-          border-color: #2c5aa0;
-        }
-
-        &::placeholder {
-          color: #999;
-        }
-      }
-
-      .search-btn {
-        padding: 0.75rem 1.5rem;
-        background-color: #2c5aa0;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
+      .city-chip {
         cursor: pointer;
-        transition: background-color 0.3s ease;
-        white-space: nowrap;
+        transition: all 0.2s ease;
 
-        &:hover:not(:disabled) {
-          background-color: #1e3a6f;
+        &:hover {
+          background-color: var(--mat-sys-secondary-container);
+          color: var(--mat-sys-on-secondary-container);
         }
 
         &:disabled {
-          background-color: #ccc;
+          opacity: 0.6;
           cursor: not-allowed;
         }
       }
     }
+  }
+}
 
-    .quick-cities-section {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: center;
+// Error Card Styles
+.error-card {
+  .error-icon {
+    color: var(--mat-sys-error);
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
 
-      .cities-hint {
-        margin: 0;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #666;
-        max-width: 500px;
+  mat-card-title {
+    color: var(--mat-sys-error);
+  }
+}
+
+// Weather Data Card Styles
+.weather-data-card {
+  .weather-avatar-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .temperature-section {
+    margin: 1rem 0;
+
+    .main-temperature {
+      text-align: center;
+
+      .temp-value {
+        font-size: 3rem;
+        font-weight: 300;
+        color: var(--mat-sys-primary);
+        display: block;
+        margin-bottom: 0.5rem;
       }
 
-      .quick-cities {
+      .weather-description {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--mat-sys-on-surface);
+        margin: 0 0 0.25rem 0;
+      }
+
+      .feels-like {
+        color: var(--mat-sys-on-surface-variant);
+        margin: 0;
+      }
+    }
+  }
+
+  .weather-details {
+    margin: 1.5rem 0;
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+
+      @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-item {
         display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        justify-content: center;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 8px;
+        background-color: var(--mat-sys-surface-container-low);
 
-        .quick-city-btn {
-          padding: 0.5rem 1rem;
-          background-color: #f8f9fa;
-          color: #495057;
-          border: 2px solid #dee2e6;
-          border-radius: 6px;
-          font-size: 0.9rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-
-          &:hover:not(:disabled) {
-            background-color: #e9ecef;
-            border-color: #adb5bd;
-          }
-
-          &:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-          }
-        }
-      }
-    }
-  }
-
-  .error-message {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 1rem;
-    border-radius: 8px;
-    border-left: 4px solid #dc3545;
-    margin-bottom: 2rem;
-
-    h3 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.2rem;
-    }
-
-    p {
-      margin: 0 0 1rem 0;
-    }
-
-    .error-help {
-      background-color: rgba(255, 255, 255, 0.3);
-      padding: 0.75rem;
-      border-radius: 6px;
-      margin: 1rem 0;
-
-      p {
-        margin: 0 0 0.5rem 0;
-        font-weight: 600;
-      }
-
-      ul {
-        margin: 0.5rem 0 0 0;
-        padding-left: 1.25rem;
-
-        li {
-          margin-bottom: 0.25rem;
-          line-height: 1.4;
-        }
-      }
-    }
-
-    .clear-error-btn {
-      background-color: #dc3545;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 1rem;
-
-      &:hover {
-        background-color: #c82333;
-      }
-    }
-  }
-
-  .weather-card {
-    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-    color: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin-bottom: 2rem;
-
-    .weather-main {
-      padding: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-
-      .location-info {
-        h2 {
-          margin: 0 0 0.5rem 0;
-          font-size: 1.8rem;
-          font-weight: 600;
+        mat-icon {
+          color: var(--mat-sys-primary);
+          font-size: 1.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
         }
 
-        .coordinates {
-          margin: 0;
-          opacity: 0.8;
-          font-size: 0.9rem;
-        }
-      }
-
-      .temperature-section {
-        text-align: center;
-
-        .current-temp {
+        .detail-content {
           display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 0.5rem;
+          flex-direction: column;
 
-          .temp-value {
-            font-size: 4rem;
-            font-weight: 300;
-            line-height: 1;
+          .detail-label {
+            font-size: 0.875rem;
+            color: var(--mat-sys-on-surface-variant);
+            font-weight: 500;
+            margin-bottom: 0.125rem;
           }
 
-          .weather-icon {
-            width: 80px;
-            height: 80px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+          .detail-value {
+            font-size: 1rem;
+            color: var(--mat-sys-on-surface);
+            font-weight: 600;
           }
-        }
-
-        .weather-description {
-          margin: 0 0 0.25rem 0;
-          font-size: 1.2rem;
-          font-weight: 500;
-        }
-
-        .feels-like {
-          margin: 0;
-          opacity: 0.9;
-          font-size: 1rem;
-        }
-      }
-    }
-
-    .weather-details {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 1.5rem 2rem;
-
-      .detail-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-
-        .detail-item {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-
-          .detail-icon {
-            font-size: 1.5rem;
-            width: 2rem;
-            text-align: center;
-          }
-
-          .detail-content {
-            display: flex;
-            flex-direction: column;
-
-            .detail-label {
-              font-size: 0.85rem;
-              opacity: 0.8;
-              margin-bottom: 0.1rem;
-            }
-
-            .detail-value {
-              font-size: 1rem;
-              font-weight: 500;
-            }
-          }
-        }
-      }
-    }
-
-    .weather-footer {
-      padding: 1rem 2rem;
-      background-color: rgba(255, 255, 255, 0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-
-      .last-updated {
-        margin: 0;
-        opacity: 0.8;
-        font-size: 0.9rem;
-      }
-
-      .refresh-btn {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.3);
         }
       }
     }
   }
 
-  .welcome-message {
-    text-align: center;
-    padding: 3rem 2rem;
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    border: 2px dashed #dee2e6;
+  mat-card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    h2 {
-      color: #495057;
-      margin-bottom: 1rem;
-      font-size: 1.8rem;
-    }
-
-    p {
-      color: #6c757d;
-      font-size: 1.1rem;
+    .last-updated {
+      color: var(--mat-sys-on-surface-variant);
+      font-size: 0.875rem;
       margin: 0;
+    }
+
+    button {
+      mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+
+
+// Welcome Card Styles
+.welcome-card {
+  text-align: center;
+
+  .welcome-icon {
+    color: var(--mat-sys-tertiary);
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  mat-card-content {
+    p {
+      color: var(--mat-sys-on-surface-variant);
+      line-height: 1.6;
     }
   }
 }
@@ -331,79 +227,29 @@
 // Responsive Design
 @media (max-width: 768px) {
   .weather-container {
-    padding: 1rem;
+    padding: 0.5rem;
+    gap: 1rem;
+  }
 
-    .weather-header h1 {
-      font-size: 2rem;
-    }
-
-    .weather-search {
-      .search-controls {
-        flex-direction: column;
-
-        .search-btn {
-          width: 100%;
-        }
-      }
-
-      .quick-cities-section {
-        .quick-cities {
-          .quick-city-btn {
-            flex: 1 1 auto;
-            min-width: 80px;
-          }
-        }
-      }
-    }
-
-    .weather-card {
-      .weather-main {
-        flex-direction: column;
-        text-align: center;
-
-        .temperature-section .current-temp {
-          justify-content: center;
-
-          .temp-value {
-            font-size: 3rem;
-          }
-
-          .weather-icon {
-            width: 60px;
-            height: 60px;
-          }
-        }
-      }
-
-      .weather-details .detail-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .weather-footer {
-        flex-direction: column;
-        text-align: center;
-
-        .refresh-btn {
-          width: 100%;
+  .weather-data-card {
+    .temperature-section {
+      .main-temperature {
+        .temp-value {
+          font-size: 2.5rem;
         }
       }
     }
   }
 }
 
-// Dark Mode Support (falls implementiert)
+// Dark Mode Support
 @media (prefers-color-scheme: dark) {
-  .weather-container {
-    .welcome-message {
-      background-color: #2d3748;
-      border-color: #4a5568;
-
-      h2 {
-        color: #e2e8f0;
-      }
-
-      p {
-        color: #a0aec0;
+  .weather-data-card {
+    .temperature-section {
+      .main-temperature {
+        .temp-value {
+          color: var(--mat-sys-primary);
+        }
       }
     }
   }

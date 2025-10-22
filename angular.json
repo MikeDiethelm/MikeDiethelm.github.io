@@ -17,6 +17,7 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -72,15 +73,11 @@
             "development": {
               "buildTarget": "MikeDiethelm.github.io:build:development"
             }
+
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n",
-          "options": {
-            "buildTarget": "MikeDiethelm.github.io:build"
-          }
-        },
+
         "test": {
           "builder": "@angular/build:karma",
           "options": {
