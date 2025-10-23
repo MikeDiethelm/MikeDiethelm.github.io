@@ -8,9 +8,9 @@ export interface Translations {
   providedIn: 'root'
 })
 export class TranslationService {
-  private currentLang = signal<'de' | 'en'>('de');
+  private currentLang = signal<'de' | 'en' | 'fr' | 'it'>('de');
 
-  private translations: Record<'de' | 'en', Translations> = {
+  private translations: Record<'de' | 'en' | 'fr' | 'it', Translations> = {
     de: {
       // Navigation
       'nav.home': 'Home',
@@ -19,11 +19,24 @@ export class TranslationService {
       'nav.features': 'Features',
 
       // Home Component
+      'home.greeting': 'Hi, ich bin',
       'home.subtitle': 'Fullstack Developer',
       'home.intro': 'Willkommen auf meiner Portfolio-Seite! Ich bin ein leidenschaftlicher Entwickler mit Fokus auf Angular und moderne Webtechnologien. Hier demonstriere ich meine Kenntnisse durch verschiedene Features und Projekte.',
       'home.linkedin': 'LinkedIn',
+      'home.cta.viewPortfolio': 'Portfolio ansehen',
+      'home.cta.contact': 'Kontakt aufnehmen',
+      'home.stats.yearsExperience': 'Jahre Erfahrung',
+      'home.stats.projects': 'Projekte',
+      'home.stats.technologies': 'Technologien',
+      'home.stats.engagement': 'Engagement',
+      'home.skills.title': 'Meine Expertise',
+      'home.skills.subtitle': 'Technologien und Tools mit denen ich täglich arbeite',
       'home.skills.frontend': 'Frontend',
       'home.skills.backend': 'Backend & APIs',
+      'home.skills.tools': 'Tools & DevOps',
+      'home.projects.title': 'Ausgewählte Projekte',
+      'home.projects.subtitle': 'Entdecke meine neuesten Arbeiten und technischen Demonstrationen',
+      'home.projects.viewAll': 'Alle Projekte ansehen',
       'home.features.title': 'Feature Demonstrationen',
       'home.features.weather.title': 'Wetter-App',
       'home.features.weather.description': 'Vollständige Wetter-Anwendung mit kostenloser API-Integration',
@@ -33,6 +46,24 @@ export class TranslationService {
       'home.features.crypto.button': 'Krypto ansehen',
       'home.features.all.button': 'Alle Features',
 
+      // Technology names
+      'tech.angular': 'Angular',
+      'tech.typescript': 'TypeScript',
+      'tech.scss': 'SCSS',
+      'tech.material': 'Material Design',
+      'tech.rxjs': 'RxJS',
+      'tech.restful': 'RESTful APIs',
+      'tech.httpclient': 'HttpClient',
+      'tech.state': 'State Management',
+      'tech.node': 'Node.js',
+      'tech.git': 'Git',
+      'tech.vscode': 'VS Code',
+      'tech.npm': 'NPM',
+      'tech.webpack': 'Webpack',
+      'tech.openweather': 'OpenWeather API',
+      'tech.coingecko': 'CoinGecko API',
+      'tech.charts': 'Charts',
+
       // Weather Component
       'weather.title': 'Wettervorhersage',
       'weather.subtitle': 'Aktuelle Wetterdaten für deine Stadt',
@@ -41,7 +72,22 @@ export class TranslationService {
       'weather.search.button': 'Suchen',
       'weather.loading': 'Lädt...',
       'weather.error': 'Fehler beim Laden der Wetterdaten',
+      'weather.error.title': 'Fehler aufgetreten',
+      'weather.error.tip': 'Tipp',
+      'weather.error.suggestion': 'Prüfe die Schreibweise oder versuche es mit einem anderen Stadtnamen',
+      'weather.error.close': 'Schließen',
       'weather.popular.title': 'Beliebte Städte',
+      'weather.refresh': 'Aktualisieren',
+      'weather.lastUpdated': 'Zuletzt aktualisiert',
+      'weather.backToHome.button': 'Zurück zur Startseite',
+      'weather.backToHome.tooltip': 'Zurück zur Startseite',
+      'weather.feelsLike': 'Gefühlt',
+      'weather.minMax': 'Min/Max',
+      'weather.humidity': 'Luftfeuchtigkeit',
+      'weather.pressure': 'Luftdruck',
+      'weather.wind': 'Wind',
+      'weather.sunrise': 'Sonnenaufgang',
+      'weather.sunset': 'Sonnenuntergang',
 
       // Crypto Component
       'crypto.title': 'Kryptowährungen',
@@ -104,10 +150,6 @@ export class TranslationService {
       'crypto.detail.links': 'Links',
       'crypto.detail.website': 'Website',
 
-      // Weather Component
-      'weather.backToHome.button': 'Zur Startseite',
-      'weather.backToHome.tooltip': 'Zurück zur Startseite',
-
       // Footer
       'footer.copyright': '2025 Mike Diethelm. Built with Angular 20.',
       'footer.github.title': 'GitHub Profile',
@@ -122,11 +164,24 @@ export class TranslationService {
       'nav.features': 'Features',
 
       // Home Component
+      'home.greeting': 'Hi, I am',
       'home.subtitle': 'Fullstack Developer',
       'home.intro': 'Welcome to my portfolio site! I am a passionate developer focused on Angular and modern web technologies. Here I demonstrate my skills through various features and projects.',
       'home.linkedin': 'LinkedIn',
+      'home.cta.viewPortfolio': 'View Portfolio',
+      'home.cta.contact': 'Get in Touch',
+      'home.stats.yearsExperience': 'Years Experience',
+      'home.stats.projects': 'Projects',
+      'home.stats.technologies': 'Technologies',
+      'home.stats.engagement': 'Engagement',
+      'home.skills.title': 'My Expertise',
+      'home.skills.subtitle': 'Technologies and tools I work with daily',
       'home.skills.frontend': 'Frontend',
       'home.skills.backend': 'Backend & APIs',
+      'home.skills.tools': 'Tools & DevOps',
+      'home.projects.title': 'Featured Projects',
+      'home.projects.subtitle': 'Explore my latest work and technical demonstrations',
+      'home.projects.viewAll': 'View All Projects',
       'home.features.title': 'Feature Demonstrations',
       'home.features.weather.title': 'Weather App',
       'home.features.weather.description': 'Complete weather application with free API integration',
@@ -136,6 +191,24 @@ export class TranslationService {
       'home.features.crypto.button': 'View Crypto',
       'home.features.all.button': 'All Features',
 
+      // Technology names
+      'tech.angular': 'Angular',
+      'tech.typescript': 'TypeScript',
+      'tech.scss': 'SCSS',
+      'tech.material': 'Material Design',
+      'tech.rxjs': 'RxJS',
+      'tech.restful': 'RESTful APIs',
+      'tech.httpclient': 'HttpClient',
+      'tech.state': 'State Management',
+      'tech.node': 'Node.js',
+      'tech.git': 'Git',
+      'tech.vscode': 'VS Code',
+      'tech.npm': 'NPM',
+      'tech.webpack': 'Webpack',
+      'tech.openweather': 'OpenWeather API',
+      'tech.coingecko': 'CoinGecko API',
+      'tech.charts': 'Charts',
+
       // Weather Component
       'weather.title': 'Weather Forecast',
       'weather.subtitle': 'Current weather data for your city',
@@ -144,7 +217,22 @@ export class TranslationService {
       'weather.search.button': 'Search',
       'weather.loading': 'Loading...',
       'weather.error': 'Error loading weather data',
+      'weather.error.title': 'Error occurred',
+      'weather.error.tip': 'Tip',
+      'weather.error.suggestion': 'Check the spelling or try another city name',
+      'weather.error.close': 'Close',
       'weather.popular.title': 'Popular Cities',
+      'weather.refresh': 'Refresh',
+      'weather.lastUpdated': 'Last updated',
+      'weather.backToHome.button': 'Back to Home',
+      'weather.backToHome.tooltip': 'Return to homepage',
+      'weather.feelsLike': 'Feels like',
+      'weather.minMax': 'Min/Max',
+      'weather.humidity': 'Humidity',
+      'weather.pressure': 'Pressure',
+      'weather.wind': 'Wind',
+      'weather.sunrise': 'Sunrise',
+      'weather.sunset': 'Sunset',
 
       // Crypto Component
       'crypto.title': 'Cryptocurrencies',
@@ -209,21 +297,319 @@ export class TranslationService {
       'crypto.backToHome.button': 'Back to Home',
       'crypto.backToHome.tooltip': 'Return to homepage',
 
-      // Weather Component  
-      'weather.backToHome.button': 'Back to Home',
-      'weather.backToHome.tooltip': 'Return to homepage',
-
       // Footer
       'footer.copyright': '2025 Mike Diethelm. Built with Angular 20.',
       'footer.github.title': 'GitHub Profile',
       'footer.linkedin.title': 'LinkedIn Profile',
+      'footer.techstack': 'Angular • Material Design 3 • TypeScript'
+    },
+    fr: {
+      // Navigation
+      'nav.home': 'Accueil',
+      'nav.weather': 'Météo',
+      'nav.crypto': 'Crypto',
+      'nav.features': 'Fonctionnalités',
+
+      // Home Component
+      'home.greeting': 'Salut, je suis',
+      'home.subtitle': 'Développeur Fullstack',
+      'home.intro': 'Bienvenue sur mon portfolio ! Je suis un développeur passionné avec un focus sur Angular et les technologies web modernes. Ici, je démontre mes compétences à travers diverses fonctionnalités et projets.',
+      'home.linkedin': 'LinkedIn',
+      'home.cta.viewPortfolio': 'Voir le portfolio',
+      'home.cta.contact': 'Me contacter',
+      'home.stats.yearsExperience': 'Ans d\'expérience',
+      'home.stats.projects': 'Projets',
+      'home.stats.technologies': 'Technologies',
+      'home.stats.engagement': 'Engagement',
+      'home.skills.title': 'Mon expertise',
+      'home.skills.subtitle': 'Technologies et outils que j\'utilise quotidiennement',
+      'home.skills.frontend': 'Frontend',
+      'home.skills.backend': 'Backend & APIs',
+      'home.skills.tools': 'Outils & DevOps',
+      'home.projects.title': 'Projets sélectionnés',
+      'home.projects.subtitle': 'Découvrez mes derniers travaux et démonstrations techniques',
+      'home.projects.viewAll': 'Voir tous les projets',
+      'home.features.title': 'Démonstrations de fonctionnalités',
+      'home.features.weather.title': 'Application Météo',
+      'home.features.weather.description': 'Application météo complète avec intégration API gratuite',
+      'home.features.weather.button': 'Voir la météo',
+      'home.features.crypto.title': 'Tracker Crypto',
+      'home.features.crypto.description': 'Prix en direct et variations 24h des top cryptomonnaies',
+      'home.features.crypto.button': 'Voir Crypto',
+      'home.features.all.button': 'Toutes les fonctionnalités',
+
+      // Technology names
+      'tech.angular': 'Angular',
+      'tech.typescript': 'TypeScript',
+      'tech.scss': 'SCSS',
+      'tech.material': 'Material Design',
+      'tech.rxjs': 'RxJS',
+      'tech.restful': 'RESTful API',
+      'tech.httpclient': 'HttpClient',
+      'tech.state': 'Gestion d\'état',
+      'tech.node': 'Node.js',
+      'tech.git': 'Git',
+      'tech.vscode': 'VS Code',
+      'tech.npm': 'NPM',
+      'tech.webpack': 'Webpack',
+      'tech.openweather': 'API OpenWeather',
+      'tech.coingecko': 'API CoinGecko',
+      'tech.charts': 'Graphiques',
+
+      // Weather Component
+      'weather.title': 'Prévisions météo',
+      'weather.subtitle': 'Données météo actuelles pour votre ville',
+      'weather.search.label': 'Entrer une ville',
+      'weather.search.placeholder': 'ex. Berlin, Munich, Zurich...',
+      'weather.search.button': 'Rechercher',
+      'weather.loading': 'Chargement...',
+      'weather.error': 'Erreur lors du chargement des données météo',
+      'weather.error.title': 'Erreur survenue',
+      'weather.error.tip': 'Conseil',
+      'weather.error.suggestion': 'Vérifiez l\'orthographe ou essayez un autre nom de ville',
+      'weather.error.close': 'Fermer',
+      'weather.popular.title': 'Villes populaires',
+      'weather.refresh': 'Actualiser',
+      'weather.lastUpdated': 'Dernière mise à jour',
+      'weather.backToHome.button': 'Retour à l\'accueil',
+      'weather.backToHome.tooltip': 'Retour à la page d\'accueil',
+      'weather.feelsLike': 'Ressenti',
+      'weather.minMax': 'Min/Max',
+      'weather.humidity': 'Humidité',
+      'weather.pressure': 'Pression',
+      'weather.wind': 'Vent',
+      'weather.sunrise': 'Lever du soleil',
+      'weather.sunset': 'Coucher du soleil',
+
+      // Crypto Component
+      'crypto.title': 'Cryptomonnaies',
+      'crypto.subtitle': 'Prix en direct des top cryptomonnaies',
+      'crypto.loading': 'Chargement...',
+      'crypto.refresh.button': 'Actualiser',
+      'crypto.refresh.tooltip': 'Recharger les données',
+      'crypto.currency.label': 'Devise:',
+
+      'crypto.error.title': 'Erreur de chargement',
+      'crypto.error.dismiss': 'Fermer',
+      'crypto.lastUpdate': 'Dernière mise à jour',
+      'crypto.dataStale': 'Les données peuvent être obsolètes',
+      'crypto.topCurrencies': 'Top Cryptomonnaies',
+      'crypto.table.rank': 'Rang',
+      'crypto.table.name': 'Nom',
+      'crypto.table.price': 'Prix',
+      'crypto.table.change24h': 'Variation 24h',
+      'crypto.table.marketCap': 'Capitalisation',
+      'crypto.marketSize.label': 'Taille du marché',
+      'crypto.marketSize.top100': 'Top 100 Coins',
+      'crypto.marketSize.top250': 'Top 250 Coins',
+      'crypto.marketSize.top500': 'Top 500 Coins',
+      'crypto.marketSize.top1000': 'Top 1.000 Coins',
+      'crypto.marketSize.top2500': 'Top 2.500 Coins',
+      'crypto.pageSize.label': 'Coins par page',
+      'crypto.pageSize.coinsPerPage': 'coins par page',
+      'crypto.pagination.showing': 'Affichage',
+      'crypto.pagination.of': 'de',
+      'crypto.pagination.previous': 'Page précédente',
+      'crypto.pagination.next': 'Page suivante',
+      'crypto.empty.title': 'Aucune donnée disponible',
+      'crypto.empty.subtitle': 'Cliquez sur "Charger les données" pour voir les prix actuels des cryptomonnaies.',
+      'crypto.loadData': 'Charger les données',
+      'crypto.clickForDetails': 'Cliquez pour plus de détails',
+      'crypto.table.volume': 'Volume 24h',
+      'crypto.table.supply': 'Offre',
+      'crypto.table.chart': 'Graphique 7j',
+      'crypto.search.placeholder': 'Rechercher une crypto...',
+      'crypto.noResults': 'Aucun résultat trouvé',
+      'crypto.viewDetails': 'Voir les détails',
+
+      // Crypto Detail Modal
+      'crypto.detail.loading': 'Chargement des détails...',
+      'crypto.detail.loadingSubtitle': 'Récupération des informations détaillées',
+      'crypto.detail.error.title': 'Erreur de chargement',
+      'crypto.detail.error.retry': 'Réessayer',
+      'crypto.detail.close': 'Fermer',
+      'crypto.detail.rank': 'Rang du marché',
+      'crypto.detail.currentPrice': 'Prix actuel',
+      'crypto.detail.marketStats': 'Statistiques du marché',
+      'crypto.detail.title': 'Détails de',
+      'crypto.detail.price': 'Prix actuel',
+      'crypto.detail.marketCap': 'Capitalisation boursière',
+      'crypto.detail.volume': 'Volume 24h',
+      'crypto.detail.circulatingSupply': 'Offre en circulation',
+      'crypto.detail.totalSupply': 'Offre totale',
+      'crypto.detail.maxSupply': 'Offre maximale',
+      'crypto.detail.allTimeHigh': 'Plus haut historique',
+      'crypto.detail.allTimeLow': 'Plus bas historique',
+      'crypto.detail.about': 'À propos',
+      'crypto.detail.links': 'Liens',
+      'crypto.detail.website': 'Site web',
+
+      // Footer
+      'crypto.backToHome.button': 'Retour à l\'accueil',
+      'crypto.backToHome.tooltip': 'Retour à la page d\'accueil',
+
+      // Footer
+      'footer.copyright': '2025 Mike Diethelm. Développé avec Angular 20.',
+      'footer.github.title': 'Profil GitHub',
+      'footer.linkedin.title': 'Profil LinkedIn',
+      'footer.techstack': 'Angular • Material Design 3 • TypeScript'
+    },
+    it: {
+      // Navigation
+      'nav.home': 'Home',
+      'nav.weather': 'Meteo',
+      'nav.crypto': 'Crypto',
+      'nav.features': 'Funzionalità',
+
+      // Home Component
+      'home.greeting': 'Ciao, sono',
+      'home.subtitle': 'Sviluppatore Fullstack',
+      'home.intro': 'Benvenuto nel mio portfolio! Sono uno sviluppatore appassionato con focus su Angular e tecnologie web moderne. Qui dimostro le mie competenze attraverso varie funzionalità e progetti.',
+      'home.linkedin': 'LinkedIn',
+      'home.cta.viewPortfolio': 'Vedi il portfolio',
+      'home.cta.contact': 'Contattami',
+      'home.stats.yearsExperience': 'Anni di esperienza',
+      'home.stats.projects': 'Progetti',
+      'home.stats.technologies': 'Tecnologie',
+      'home.stats.engagement': 'Impegno',
+      'home.skills.title': 'La mia esperienza',
+      'home.skills.subtitle': 'Tecnologie e strumenti che uso quotidianamente',
+      'home.skills.frontend': 'Frontend',
+      'home.skills.backend': 'Backend & APIs',
+      'home.skills.tools': 'Strumenti & DevOps',
+      'home.projects.title': 'Progetti selezionati',
+      'home.projects.subtitle': 'Scopri i miei ultimi lavori e dimostrazioni tecniche',
+      'home.projects.viewAll': 'Vedi tutti i progetti',
+      'home.features.title': 'Dimostrazioni di funzionalità',
+      'home.features.weather.title': 'App Meteo',
+      'home.features.weather.description': 'Applicazione meteo completa con integrazione API gratuita',
+      'home.features.weather.button': 'Vedi Meteo',
+      'home.features.crypto.title': 'Tracker Crypto',
+      'home.features.crypto.description': 'Prezzi in tempo reale e variazioni 24h delle top criptovalute',
+      'home.features.crypto.button': 'Vedi Crypto',
+      'home.features.all.button': 'Tutte le funzionalità',
+
+      // Technology names
+      'tech.angular': 'Angular',
+      'tech.typescript': 'TypeScript',
+      'tech.scss': 'SCSS',
+      'tech.material': 'Material Design',
+      'tech.rxjs': 'RxJS',
+      'tech.restful': 'API RESTful',
+      'tech.httpclient': 'HttpClient',
+      'tech.state': 'Gestione dello stato',
+      'tech.node': 'Node.js',
+      'tech.git': 'Git',
+      'tech.vscode': 'VS Code',
+      'tech.npm': 'NPM',
+      'tech.webpack': 'Webpack',
+      'tech.openweather': 'API OpenWeather',
+      'tech.coingecko': 'API CoinGecko',
+      'tech.charts': 'Grafici',
+
+      // Weather Component
+      'weather.title': 'Previsioni meteo',
+      'weather.subtitle': 'Dati meteo attuali per la tua città',
+      'weather.search.label': 'Inserisci città',
+      'weather.search.placeholder': 'es. Berlino, Monaco, Zurigo...',
+      'weather.search.button': 'Cerca',
+      'weather.loading': 'Caricamento...',
+      'weather.error': 'Errore nel caricamento dei dati meteo',
+      'weather.error.title': 'Errore verificato',
+      'weather.error.tip': 'Suggerimento',
+      'weather.error.suggestion': 'Controlla l\'ortografia o prova un altro nome di città',
+      'weather.error.close': 'Chiudi',
+      'weather.popular.title': 'Città popolari',
+      'weather.refresh': 'Aggiorna',
+      'weather.lastUpdated': 'Ultimo aggiornamento',
+      'weather.backToHome.button': 'Torna alla home',
+      'weather.backToHome.tooltip': 'Torna alla pagina principale',
+      'weather.feelsLike': 'Percepita',
+      'weather.minMax': 'Min/Max',
+      'weather.humidity': 'Umidità',
+      'weather.pressure': 'Pressione',
+      'weather.wind': 'Vento',
+      'weather.sunrise': 'Alba',
+      'weather.sunset': 'Tramonto',
+
+      // Crypto Component
+      'crypto.title': 'Criptovalute',
+      'crypto.subtitle': 'Prezzi in tempo reale delle top criptovalute',
+      'crypto.loading': 'Caricamento...',
+      'crypto.refresh.button': 'Aggiorna',
+      'crypto.refresh.tooltip': 'Ricarica dati',
+      'crypto.currency.label': 'Valuta:',
+
+      'crypto.error.title': 'Errore di caricamento',
+      'crypto.error.dismiss': 'Chiudi',
+      'crypto.lastUpdate': 'Ultimo aggiornamento',
+      'crypto.dataStale': 'I dati potrebbero essere obsoleti',
+      'crypto.topCurrencies': 'Top Criptovalute',
+      'crypto.table.rank': 'Posizione',
+      'crypto.table.name': 'Nome',
+      'crypto.table.price': 'Prezzo',
+      'crypto.table.change24h': 'Variazione 24h',
+      'crypto.table.marketCap': 'Capitalizzazione',
+      'crypto.marketSize.label': 'Dimensione del mercato',
+      'crypto.marketSize.top100': 'Top 100 Coins',
+      'crypto.marketSize.top250': 'Top 250 Coins',
+      'crypto.marketSize.top500': 'Top 500 Coins',
+      'crypto.marketSize.top1000': 'Top 1.000 Coins',
+      'crypto.marketSize.top2500': 'Top 2.500 Coins',
+      'crypto.pageSize.label': 'Coins per pagina',
+      'crypto.pageSize.coinsPerPage': 'coins per pagina',
+      'crypto.pagination.showing': 'Visualizzazione',
+      'crypto.pagination.of': 'di',
+      'crypto.pagination.previous': 'Pagina precedente',
+      'crypto.pagination.next': 'Pagina successiva',
+      'crypto.empty.title': 'Nessun dato disponibile',
+      'crypto.empty.subtitle': 'Fai clic su "Carica dati" per visualizzare i prezzi attuali delle criptovalute.',
+      'crypto.loadData': 'Carica dati',
+      'crypto.clickForDetails': 'Clicca per i dettagli',
+      'crypto.table.volume': 'Volume 24h',
+      'crypto.table.supply': 'Offerta',
+      'crypto.table.chart': 'Grafico 7g',
+      'crypto.search.placeholder': 'Cerca crypto...',
+      'crypto.noResults': 'Nessun risultato trovato',
+      'crypto.viewDetails': 'Vedi dettagli',
+
+      // Crypto Detail Modal
+      'crypto.detail.loading': 'Caricamento dettagli...',
+      'crypto.detail.loadingSubtitle': 'Recupero informazioni dettagliate',
+      'crypto.detail.error.title': 'Errore di caricamento',
+      'crypto.detail.error.retry': 'Riprova',
+      'crypto.detail.close': 'Chiudi',
+      'crypto.detail.rank': 'Posizione di mercato',
+      'crypto.detail.currentPrice': 'Prezzo attuale',
+      'crypto.detail.marketStats': 'Statistiche di mercato',
+      'crypto.detail.title': 'Dettagli di',
+      'crypto.detail.price': 'Prezzo attuale',
+      'crypto.detail.marketCap': 'Capitalizzazione di mercato',
+      'crypto.detail.volume': 'Volume 24h',
+      'crypto.detail.circulatingSupply': 'Offerta circolante',
+      'crypto.detail.totalSupply': 'Offerta totale',
+      'crypto.detail.maxSupply': 'Offerta massima',
+      'crypto.detail.allTimeHigh': 'Massimo storico',
+      'crypto.detail.allTimeLow': 'Minimo storico',
+      'crypto.detail.about': 'Informazioni',
+      'crypto.detail.links': 'Link',
+      'crypto.detail.website': 'Sito web',
+
+      // Footer
+      'crypto.backToHome.button': 'Torna alla home',
+      'crypto.backToHome.tooltip': 'Torna alla pagina principale',
+
+      // Footer
+      'footer.copyright': '2025 Mike Diethelm. Realizzato con Angular 20.',
+      'footer.github.title': 'Profilo GitHub',
+      'footer.linkedin.title': 'Profilo LinkedIn',
       'footer.techstack': 'Angular • Material Design 3 • TypeScript'
     }
   };
 
   getCurrentLang = this.currentLang.asReadonly();
 
-  setLanguage(lang: 'de' | 'en') {
+  setLanguage(lang: 'de' | 'en' | 'fr' | 'it') {
     this.currentLang.set(lang);
     // Store in localStorage for persistence
     localStorage.setItem('language', lang);
@@ -236,14 +622,18 @@ export class TranslationService {
 
   // Initialize language from localStorage or browser locale
   initializeLanguage() {
-    const saved = localStorage.getItem('language') as 'de' | 'en';
-    if (saved && (saved === 'de' || saved === 'en')) {
+    const saved = localStorage.getItem('language') as 'de' | 'en' | 'fr' | 'it';
+    if (saved && (saved === 'de' || saved === 'en' || saved === 'fr' || saved === 'it')) {
       this.currentLang.set(saved);
     } else {
       // Fallback to browser language
       const browserLang = navigator.language.toLowerCase();
       if (browserLang.startsWith('en')) {
         this.currentLang.set('en');
+      } else if (browserLang.startsWith('fr')) {
+        this.currentLang.set('fr');
+      } else if (browserLang.startsWith('it')) {
+        this.currentLang.set('it');
       } else {
         this.currentLang.set('de');
       }

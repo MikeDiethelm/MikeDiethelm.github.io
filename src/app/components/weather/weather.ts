@@ -43,7 +43,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           <mat-card-title>{{ 'weather.title' | translate }}</mat-card-title>
           <mat-card-subtitle>{{ 'weather.subtitle' | translate }}</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-actions>
+        <mat-card-actions align="start">
           <button 
             mat-button 
             (click)="navigateHome()"
@@ -77,9 +77,11 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 color="primary"
                 [disabled]="true"
                 class="search-btn"
+                [attr.aria-busy]="true"
+                [attr.aria-label]="'weather.loading' | translate"
               >
                 <mat-spinner diameter="20"></mat-spinner>
-                {{ 'weather.loading' | translate }}
+                <span>{{ 'weather.loading' | translate }}</span>
               </button>
             } @else {
               <button 
@@ -88,9 +90,10 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 (click)="loadWeatherByCity()" 
                 [disabled]="!searchCity.trim()"
                 class="search-btn"
+                [attr.aria-label]="'weather.search.button' | translate"
               >
                 <mat-icon>search</mat-icon>
-                {{ 'weather.search.button' | translate }}
+                <span>{{ 'weather.search.button' | translate }}</span>
               </button>
             }
           </div>
@@ -99,40 +102,41 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           
           <div class="quick-cities-section">
             <p class="cities-hint">{{ 'weather.popular.title' | translate }}</p>
-            <div class="quick-cities">
+            <mat-chip-set aria-label="Quick city selection" class="quick-cities">
               @for (city of quickCities; track city) {
                 <mat-chip-option 
                   (click)="loadQuickCity(city)"
+                  [selected]="selectedCity() === city"
                   [disabled]="isLoading()"
-                  class="city-chip"
+                  [attr.aria-label]="'Select ' + city"
                 >
                   {{ city }}
                 </mat-chip-option>
               }
-            </div>
+            </mat-chip-set>
           </div>
         </mat-card-content>
       </mat-card>
 
             <!-- Error Card -->
       @if (error()) {
-        <mat-card class="error-card">
+        <mat-card class="error-card" role="alert">
           <mat-card-header>
             <div mat-card-avatar>
               <mat-icon class="error-icon">error</mat-icon>
             </div>
-            <mat-card-title>Fehler aufgetreten</mat-card-title>
+            <mat-card-title>{{ 'weather.error.title' | translate }}</mat-card-title>
             <mat-card-subtitle>{{ error()?.message }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             @if (error()?.message?.includes('nicht gefunden')) {
-              <p><strong>💡 Tipp:</strong> Prüfe die Schreibweise oder versuche es mit einem anderen Stadtnamen.</p>
+              <p><strong>💡 {{ 'weather.error.tip' | translate }}:</strong> {{ 'weather.error.suggestion' | translate }}</p>
             }
           </mat-card-content>
-          <mat-card-actions>
-            <button mat-button (click)="clearError()">
+          <mat-card-actions align="end">
+            <button mat-button (click)="clearError()" [attr.aria-label]="'weather.error.close' | translate">
               <mat-icon>close</mat-icon>
-              Schließen
+              {{ 'weather.error.close' | translate }}
             </button>
           </mat-card-actions>
         </mat-card>
@@ -140,19 +144,20 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 
       <!-- Weather Data Card -->
       @if (weatherData()) {
-        <mat-card class="weather-data-card">
+        <mat-card class="weather-data-card" role="region" [attr.aria-label]="'Weather data for ' + weatherData()!.name">
           <mat-card-header>
             <div mat-card-avatar>
               <img 
                 [src]="weatherIconUrl()" 
                 [alt]="weatherData()!.weather[0].description"
                 class="weather-avatar-icon"
+                loading="lazy"
               />
             </div>
             <mat-card-title>{{ weatherData()!.name }}</mat-card-title>
             <mat-card-subtitle>
               {{ weatherData()!.coord.lat.toFixed(2) }}°N, 
-              {{ weatherData()!.coord.lon.toFixed(2) }}°O
+              {{ weatherData()!.coord.lon.toFixed(2) }}°{{ weatherData()!.coord.lon >= 0 ? 'E' : 'W' }}
             </mat-card-subtitle>
           </mat-card-header>
           
@@ -164,7 +169,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                   {{ weatherData()!.weather[0].description | titlecase }}
                 </p>
                 <p class="feels-like">
-                  Gefühlt {{ weatherData()!.main.feels_like }}°C
+                  {{ 'weather.feelsLike' | translate }} {{ weatherData()!.main.feels_like }}°C
                 </p>
               </div>
             </div>
@@ -175,7 +180,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <div class="detail-item">
                   <mat-icon>thermostat</mat-icon>
                   <div class="detail-content">
-                    <span class="detail-label">Min/Max</span>
+                    <span class="detail-label">{{ 'weather.minMax' | translate }}</span>
                     <span class="detail-value">
                       {{ weatherData()!.main.temp_min }}° / {{ weatherData()!.main.temp_max }}°
                     </span>
@@ -185,7 +190,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <div class="detail-item">
                   <mat-icon>water_drop</mat-icon>
                   <div class="detail-content">
-                    <span class="detail-label">Luftfeuchtigkeit</span>
+                    <span class="detail-label">{{ 'weather.humidity' | translate }}</span>
                     <span class="detail-value">{{ weatherData()!.main.humidity }}%</span>
                   </div>
                 </div>
@@ -193,7 +198,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <div class="detail-item">
                   <mat-icon>speed</mat-icon>
                   <div class="detail-content">
-                    <span class="detail-label">Luftdruck</span>
+                    <span class="detail-label">{{ 'weather.pressure' | translate }}</span>
                     <span class="detail-value">{{ weatherData()!.main.pressure }} hPa</span>
                   </div>
                 </div>
@@ -201,7 +206,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <div class="detail-item">
                   <mat-icon>air</mat-icon>
                   <div class="detail-content">
-                    <span class="detail-label">Wind</span>
+                    <span class="detail-label">{{ 'weather.wind' | translate }}</span>
                     <span class="detail-value">
                       {{ weatherData()!.wind.speed.toFixed(1) }} m/s
                       @if (weatherData()!.wind.deg) {
@@ -214,7 +219,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <div class="detail-item">
                   <mat-icon>wb_twilight</mat-icon>
                   <div class="detail-content">
-                    <span class="detail-label">Sonnenaufgang</span>
+                    <span class="detail-label">{{ 'weather.sunrise' | translate }}</span>
                     <span class="detail-value">{{ sunriseTime() }}</span>
                   </div>
                 </div>
@@ -222,7 +227,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <div class="detail-item">
                   <mat-icon>nights_stay</mat-icon>
                   <div class="detail-content">
-                    <span class="detail-label">Sonnenuntergang</span>
+                    <span class="detail-label">{{ 'weather.sunset' | translate }}</span>
                     <span class="detail-value">{{ sunsetTime() }}</span>
                   </div>
                 </div>
@@ -230,13 +235,17 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
             </div>
           </mat-card-content>
           
-          <mat-card-actions>
+          <mat-card-actions align="end">
             <span class="last-updated">
-              Zuletzt aktualisiert: {{ lastUpdateTime() }}
+              {{ 'weather.lastUpdated' | translate }}: {{ lastUpdateTime() }}
             </span>
-            <button mat-button (click)="refreshWeather()">
+            <button 
+              mat-button 
+              (click)="refreshWeather()" 
+              [attr.aria-label]="'weather.refresh' | translate"
+            >
               <mat-icon>refresh</mat-icon>
-              Aktualisieren
+              {{ 'weather.refresh' | translate }}
             </button>
           </mat-card-actions>
         </mat-card>
@@ -262,12 +271,13 @@ export class WeatherComponent implements OnInit {
   weatherData = signal<WeatherData | null>(null);
   isLoading = signal(false);
   error = signal<WeatherError | null>(null);
+  selectedCity = signal<string | null>(null); // Track selected city
 
   // Eingabefeld für Stadt-Suche
   searchCity = '';
 
   // Beliebte Städte für schnellen Zugriff
-  quickCities = ['Berlin', 'München', 'Hamburg', 'Köln', 'Frankfurt', 'Stuttgart'];
+  quickCities = ['Zürich', 'Berlin', 'London', 'Paris', 'Rom', 'Moskau', 'Warschau', 'New York'];
 
   // Berechnete Werte
   weatherIconUrl = computed(() => {
@@ -329,11 +339,13 @@ export class WeatherComponent implements OnInit {
       next: (data) => {
         this.weatherData.set(data);
         this.isLoading.set(false);
+        this.selectedCity.set(this.searchCity.trim()); // Set selected city
       },
       error: (err) => {
         this.error.set(err);
         this.isLoading.set(false);
         this.weatherData.set(null);
+        this.selectedCity.set(null); // Clear selection on error
       }
     });
   }

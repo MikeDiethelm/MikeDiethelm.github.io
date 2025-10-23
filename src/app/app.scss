@@ -12,6 +12,7 @@ main {
     display: flex;
     flex-direction: column;
     background-color: var(--mat-sys-background);
+    margin-top: 64px; // Account for fixed header height
 
     router-outlet {
         display: contents;

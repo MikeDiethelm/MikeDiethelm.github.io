@@ -1,245 +1,957 @@
-// Material Design 3 Home Component
+// Modern Professional Home Component - Black & Gold Dark Theme
 .home-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--portfolio-bg-primary);
+  color: var(--portfolio-text-primary);
 
-  @media (min-width: 600px) {
-    padding: 2rem;
+  section {
+    width: 100%;
   }
 }
 
-// Profile Card
-.profile-card {
-  text-align: center;
+// Hero Section - Black & Gold Professional Layout
+.hero-section {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
 
-  .profile-avatar {
-    overflow: hidden;
+  @media (min-width: 768px) {
+    padding: 6rem 2rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding: 8rem 3rem;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at top right, rgba(255, 215, 0, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-content-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    align-items: center;
     position: relative;
-    background-color: var(--mat-sys-surface-container-high);
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    margin: 0 auto 0.5rem auto;
+    z-index: 1;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+    }
+
+    @media (min-width: 1200px) {
+      gap: 8rem;
+    }
+  }
+
+  .hero-text {
+    text-align: left;
+
+    @media (max-width: 767px) {
+      text-align: center;
+      order: 2;
+    }
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50px;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--portfolio-accent-primary);
+    box-shadow: var(--portfolio-shadow-sm);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--portfolio-accent-primary);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 1.5rem 0;
+    color: var(--portfolio-text-primary);
+    letter-spacing: -0.02em;
+
+    .highlight {
+      background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      text-shadow: var(--portfolio-glow-gold);
+      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+    }
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 600;
+    color: var(--portfolio-accent-secondary);
+    margin: 0 0 1.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero-description {
+    font-size: clamp(1.0625rem, 2.2vw, 1.25rem);
+    line-height: 1.7;
+    color: var(--portfolio-text-secondary);
+    margin: 0 0 3rem 0;
+    max-width: 600px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem; // Material 3: Consistent gap
+    margin-bottom: 3rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 48px; // Material 3: Minimum touch target
+      padding: 0 24px; // Material 3: Button padding
+      font-weight: 500; // Material 3: Medium weight
+      font-size: 0.875rem; // Material 3: 14px button text
+      letter-spacing: 0.0892857143em; // Material 3: Button letter spacing
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+
+      mat-icon {
+        font-size: 1.125rem; // Material 3: 18px icon in button
+        width: 1.125rem;
+        height: 1.125rem;
+      }
+    }
+
+    .primary-cta {
+      border-radius: 24px; // Material 3: Pill shape for FAB-style
+      background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+      color: #000000;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15); // Material 3: Elevation 1
+
+      &:hover:not(:disabled) {
+        background: linear-gradient(135deg, var(--portfolio-accent-secondary) 0%, var(--portfolio-accent-dark) 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px 2px rgba(0, 0, 0, 0.15); // Material 3: Elevation 2
+      }
+
+      &:active {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    .secondary-cta {
+      border-radius: 24px; // Material 3: Pill shape
+      color: var(--portfolio-accent-primary);
+      border-color: var(--portfolio-accent-primary);
+      border-width: 1px; // Material 3: 1px border for outlined buttons
+
+      &:hover:not(:disabled) {
+        background-color: rgba(255, 215, 0, 0.08); // Material 3: 8% opacity hover
+        border-color: var(--portfolio-accent-secondary);
+      }
+    }
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+
+    @media (max-width: 767px) {
+      justify-content: center;
+    }
+  }
+
+  .social-icon {
+    width: 48px; // Material 3: Standard icon button size
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 12px; // Material 3: Standard radius
+    background-color: var(--portfolio-bg-secondary);
+    color: var(--portfolio-text-muted);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+    position: relative;
+
+    svg {
+      width: 24px; // Material 3: Standard icon size
+      height: 24px;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &:hover {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15); // Material 3: Elevation 1
+
+      svg {
+        transform: scale(1.1); // Material 3: Subtle scale
+      }
+    }
+
+    &.github:hover {
+      background-color: #24292e;
+      color: white;
+      border-color: var(--portfolio-accent-primary);
+    }
+
+    &.linkedin:hover {
+      background-color: #0077b5;
+      color: white;
+      border-color: var(--portfolio-accent-primary);
+    }
+
+    // Material 3: Focus state
+    &:focus-visible {
+      outline: 2px solid var(--portfolio-accent-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  .hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 767px) {
+      order: 1;
+    }
+  }
+
+  .image-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+
+    @media (min-width: 768px) {
+      width: 360px;
+      height: 360px;
+    }
+
+    @media (min-width: 1200px) {
+      width: 420px;
+      height: 420px;
+    }
+
+    .image-backdrop {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0.15;
+      animation: float 6s ease-in-out infinite;
+      box-shadow: var(--portfolio-glow-gold-strong);
+    }
 
     .profile-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      display: block;
+      border: 6px solid var(--portfolio-accent-primary);
+      box-shadow: var(--portfolio-shadow-xl), var(--portfolio-glow-gold);
+      transition: transform 0.4s ease;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: var(--portfolio-shadow-xl), var(--portfolio-glow-gold-strong);
+      }
     }
 
-    // Fallback für mat-icon falls Bild nicht lädt
-    mat-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2rem;
-      width: 2rem;
-      height: 2rem;
-      color: var(--mat-sys-primary);
-      background: transparent;
+    .fallback-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 193, 7, 0.1) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 6px solid var(--portfolio-accent-primary);
+      box-shadow: var(--portfolio-shadow-xl);
+
+      mat-icon {
+        font-size: 5rem;
+        width: 5rem;
+        height: 5rem;
+        color: var(--portfolio-accent-primary);
+      }
+    }
+  }
+}
+
+// Stats Section - Black & Gold Professional Design
+.stats-section {
+  background: var(--portfolio-bg-secondary);
+  padding: 4rem 1.5rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+
+  @media (min-width: 768px) {
+    padding: 5rem 2rem;
+  }
+
+  .stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 1.5rem; // Material 3: 24px padding
+    border-radius: 12px; // Material 3: Standard radius
+    background: var(--portfolio-bg-accent);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    min-height: 120px; // Material 3: Minimum content height
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &:hover {
+      background: var(--portfolio-bg-secondary);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 12px 4px rgba(0, 0, 0, 0.15); // Material 3: Elevation 3
+      border-color: var(--portfolio-accent-primary);
     }
 
-    @media (min-width: 600px) {
-      width: 72px;
-      height: 72px;
+    .stat-number {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700; // Material 3: Bold weight (not 800)
+      line-height: 1.2; // Material 3: Display line height
+      background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.875rem; // Material 3: 14px body text
+      font-weight: 500; // Material 3: Medium weight
+      color: var(--portfolio-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.0892857143em; // Material 3: Button/label tracking
+      line-height: 1.43; // Material 3: Body line height
+    }
+  }
+}
+
+// Skills Section - Black & Gold Enhanced Design
+.skills-section {
+  padding: 8rem 1.5rem;
+  background-color: var(--portfolio-bg-primary);
+
+  @media (min-width: 768px) {
+    padding: 10rem 2rem;
+  }
+
+  .stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 16px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    border: 1px solid #f1f5f9;
+
+    &:hover {
+      transform: translateY(-4px);
+      background: white;
+      box-shadow: var(--portfolio-shadow-lg);
+      border-color: #bfdbfe;
+    }
+
+    .stat-number {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--portfolio-accent-primary);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--portfolio-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+// Skills Section - Black & Gold Enhanced Design (continued)
+.skills-section {
+  .section-content {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 5rem auto;
+
+    h2 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--portfolio-text-primary);
+      margin: 0 0 1.5rem 0;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1.0625rem, 2vw, 1.25rem);
+      color: var(--portfolio-text-secondary);
+      line-height: 1.7;
+      margin: 0;
+    }
+  }
+
+  .skills-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
     }
 
     @media (min-width: 1024px) {
-      width: 96px;
-      height: 96px;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  .intro {
-    line-height: 1.6;
-    color: var(--mat-sys-on-surface-variant);
-    margin: 1rem 0;
-  }
+  .skill-category {
+    background: var(--portfolio-bg-secondary);
+    border-radius: 16px; // Material 3: Larger radius for cards
+    padding: 1.5rem; // Material 3: 24px padding
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15); // Material 3: Elevation 1
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+    border: 1px solid rgba(255, 215, 0, 0.15); // Material 3: Thinner border
 
-  mat-card-actions {
-    justify-content: center;
-    gap: 1rem;
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 12px 4px rgba(0, 0, 0, 0.15); // Material 3: Elevation 3
+      border-color: var(--portfolio-accent-primary);
+    }
 
-    .social-button {
+    .category-header {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
+      gap: 1rem; // Material 3: 16px gap
+      margin-bottom: 1.5rem; // Material 3: 24px margin
 
-      svg {
-        width: 20px;
-        height: 20px;
-        transition: transform 0.2s ease;
-      }
+      .category-icon {
+        width: 48px; // Material 3: Standard icon container
+        height: 48px;
+        border-radius: 12px; // Material 3: Standard radius
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0; // Prevent shrinking
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15); // Material 3: Elevation 1
 
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        &.frontend {
+          background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, var(--portfolio-accent-primary) 100%);
+          color: var(--portfolio-accent-primary);
+        }
 
-        svg {
-          transform: scale(1.1);
+        &.backend {
+          background: linear-gradient(135deg, rgba(0, 188, 212, 0.2) 0%, var(--portfolio-cyan) 100%);
+          color: var(--portfolio-cyan-light);
+        }
+
+        &.tools {
+          background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, var(--portfolio-accent-secondary) 100%);
+          color: var(--portfolio-accent-secondary);
+        }
+
+        mat-icon {
+          font-size: 1.5rem; // Material 3: 24px icon
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
 
-      &.github {
-        color: var(--mat-sys-on-surface);
-
-        &:hover {
-          background-color: #24292e;
-          color: white;
-        }
+      h3 {
+        font-size: 1.25rem; // Material 3: Headline 6 (20px)
+        font-weight: 500; // Material 3: Medium weight
+        line-height: 1.6; // Material 3: Headline line height
+        color: var(--portfolio-text-primary);
+        margin: 0;
       }
+    }
 
-      &.linkedin {
-        color: var(--mat-sys-on-surface);
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem; // Material 3: 8px gap
 
-        &:hover {
-          background-color: #0077b5;
-          color: white;
+      .skill-tag {
+        padding: 6px 12px; // Material 3: Chip padding (6px vertical, 12px horizontal)
+        min-height: 32px; // Material 3: Chip height
+        background-color: var(--portfolio-bg-accent);
+        color: var(--portfolio-text-secondary);
+        border-radius: 16px; // Material 3: Chip radius (half of height)
+        font-size: 0.875rem; // Material 3: 14px
+        font-weight: 500; // Material 3: Medium weight
+        letter-spacing: 0.0178571429em; // Material 3: Body tracking
+        line-height: 1.43; // Material 3: Body line height
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+        border: 1px solid rgba(255, 215, 0, 0.1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        &.featured {
+          background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+          color: #000000;
+          font-weight: 600;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15); // Material 3: Elevation 1
+          border-color: transparent;
+        }
+
+        &:hover:not(.featured) {
+          background-color: rgba(255, 215, 0, 0.08); // Material 3: 8% hover state
+          color: var(--portfolio-accent-primary);
+          border-color: var(--portfolio-accent-primary);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15); // Material 3: Elevation 1
         }
       }
     }
   }
 }
 
-// Skills Grid
-.skills-grid {
-  @media (max-width: 600px) {
-    mat-grid-list {
-      columns: 1;
+// Projects Section - Black & Gold Professional Layout
+.projects-section {
+  padding: 8rem 1.5rem;
+  background-color: var(--portfolio-bg-secondary);
+
+  @media (min-width: 768px) {
+    padding: 10rem 2rem;
+  }
+
+  .section-content {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 5rem auto;
+
+    h2 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--portfolio-text-primary);
+      margin: 0 0 1.5rem 0;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1.0625rem, 2vw, 1.25rem);
+      color: var(--portfolio-text-secondary);
+      line-height: 1.7;
+      margin: 0;
     }
   }
-}
 
-.skill-card {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  .projects-grid {
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
 
-  .skill-icon {
-    font-size: 1.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-
-    &.angular {
-      color: var(--mat-sys-primary);
-    }
-
-    &.backend {
-      color: var(--mat-sys-tertiary);
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
     }
   }
 
-  mat-card-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
+  .project-card {
+    background: var(--portfolio-bg-accent);
+    border-radius: 16px; // Material 3: Large component radius
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15); // Material 3: Elevation 1
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+    cursor: pointer;
+    border: 1px solid rgba(255, 215, 0, 0.15); // Material 3: Thinner border
+    position: relative;
 
-  .skill-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 12px 4px rgba(0, 0, 0, 0.15); // Material 3: Elevation 3
+      border-color: var(--portfolio-accent-primary);
 
-    .skill-chip {
-      padding: 0.25rem 0.75rem;
-      background-color: var(--mat-sys-secondary-container);
-      color: var(--mat-sys-on-secondary-container);
-      border-radius: 16px;
-      font-size: 0.875rem;
-      font-weight: 500;
+      .project-image .project-icon {
+        transform: scale(1.1); // Material 3: Subtle scale
+      }
+
+      .project-action {
+        transform: translateX(4px);
+        opacity: 1;
+      }
     }
-  }
-}
 
-// Features Card
-.features-card {
-  .features-icon {
-    color: var(--mat-sys-tertiary);
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
-  }
+    // Material 3: Focus state
+    &:focus-visible {
+      outline: 2px solid var(--portfolio-accent-primary);
+      outline-offset: 2px;
+    }
 
-  .feature-preview {
-    margin: 1rem 0;
-
-    .feature-item {
+    .project-image {
+      height: 160px;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      border-radius: 8px;
-      background-color: var(--mat-sys-surface-container-low);
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--portfolio-bg-secondary);
+
+      .project-icon {
+        width: 64px; // Material 3: Large icon container
+        height: 64px;
+        border-radius: 16px; // Material 3: Standard radius
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px 2px rgba(0, 0, 0, 0.15); // Material 3: Elevation 2
+
+        &.weather {
+          background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+          color: #000000;
+        }
+
+        &.crypto {
+          background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+          color: #000000;
+        }
+
+        mat-icon {
+          font-size: 2rem; // Material 3: 32px icon
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+    }
+
+    .project-content {
+      padding: 1.5rem; // Material 3: 24px padding
+      position: relative;
+
+      h3 {
+        font-size: 1.25rem; // Material 3: Headline 6 (20px)
+        font-weight: 500; // Material 3: Medium weight
+        line-height: 1.6; // Material 3: Headline line height
+        color: var(--portfolio-text-primary);
+        margin: 0 0 0.75rem 0; // Material 3: 12px margin
+      }
+
+      p {
+        color: var(--portfolio-text-secondary);
+        font-size: 0.875rem; // Material 3: Body 2 (14px)
+        line-height: 1.43; // Material 3: Body line height
+        letter-spacing: 0.0178571429em; // Material 3: Body tracking
+        margin: 0 0 1rem 0; // Material 3: 16px margin
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem; // Material 3: 8px gap
+        margin-bottom: 1rem; // Material 3: 16px margin
+
+        .tech-tag {
+          padding: 4px 8px; // Material 3: Compact chip padding
+          min-height: 24px; // Material 3: Small chip height
+          background-color: rgba(255, 215, 0, 0.08); // Material 3: 8% opacity
+          color: var(--portfolio-text-secondary);
+          border-radius: 12px; // Material 3: Small chip radius
+          font-size: 0.75rem; // Material 3: Caption (12px)
+          font-weight: 500; // Material 3: Medium weight
+          letter-spacing: 0.0333333333em; // Material 3: Caption tracking
+          border: 1px solid rgba(255, 215, 0, 0.2);
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+
+      .project-action {
+        position: absolute;
+        top: 1.5rem; // Material 3: Consistent with padding
+        right: 1.5rem;
+        width: 40px; // Material 3: Icon button size
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(255, 215, 0, 0.08); // Material 3: 8% opacity
+        color: var(--portfolio-accent-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+
+        mat-icon {
+          font-size: 1.125rem; // Material 3: 18px icon
+          width: 1.125rem;
+          height: 1.125rem;
+        }
+      }
+    }
+  }
+
+  .projects-footer {
+    text-align: center;
+
+    .view-all-btn {
+      min-height: 48px; // Material 3: Minimum touch target
+      padding: 0 24px; // Material 3: Button padding
+      font-weight: 500; // Material 3: Medium weight
+      font-size: 0.875rem; // Material 3: 14px button text
+      letter-spacing: 0.0892857143em; // Material 3: Button letter spacing
+      border-radius: 24px; // Material 3: Pill shape
+      border-width: 1px; // Material 3: 1px border
+      border-color: var(--portfolio-accent-primary);
+      color: var(--portfolio-accent-primary);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
 
       mat-icon {
-        color: var(--mat-sys-primary);
-        font-size: 2rem;
-        width: 2rem;
-        height: 2rem;
+        font-size: 1.125rem; // Material 3: 18px icon
+        width: 1.125rem;
+        height: 1.125rem;
+        margin-right: 0.5rem;
       }
 
-      .feature-info {
-        h4 {
-          margin: 0 0 0.25rem 0;
-          color: var(--mat-sys-on-surface);
-          font-weight: 600;
-        }
-
-        p {
-          margin: 0;
-          color: var(--mat-sys-on-surface-variant);
-          font-size: 0.875rem;
-        }
+      &:hover:not(:disabled) {
+        background-color: rgba(255, 215, 0, 0.08); // Material 3: 8% hover state
+        border-color: var(--portfolio-accent-secondary);
       }
-    }
-  }
-
-  mat-card-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
   }
 }
 
-// Responsive Design
-@media (max-width: 768px) {
-  .home-container {
-    padding: 0.5rem;
-    gap: 1.5rem;
+// Animations
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
   }
 
-  .skills-grid {
-    mat-grid-list {
-      columns: 1 !important;
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+// Responsive Improvements
+@media (max-width: 767px) {
+  .hero-section {
+    min-height: auto;
+    padding: 3rem 1.5rem;
+
+    .hero-content {
+      gap: 3rem;
     }
-  }
 
-  .features-card {
-    mat-card-actions {
-      flex-direction: column;
-      align-items: stretch;
-
-      a {
-        justify-content: center;
+    .hero-actions {
+      button {
+        width: 100%;
       }
     }
+  }
+
+  .stats-section {
+    padding: 3rem 1.5rem;
+
+    .stats-container {
+      gap: 2rem;
+    }
+  }
+
+  .skills-section,
+  .projects-section {
+    padding: 5rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    .image-container {
+      width: 260px;
+      height: 260px;
+    }
+  }
+
+  .stats-section {
+    .stat-item {
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .stat-label {
+        font-size: 0.8125rem;
+      }
+    }
+  }
+}
+
+// Smooth Scroll Behavior
+html {
+  scroll-behavior: smooth;
+}
+
+// Focus States for Accessibility
+button,
+a {
+  &:focus-visible {
+    outline: 2px solid var(--portfolio-accent-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Responsive Improvements
+@media (max-width: 767px) {
+  .hero-section {
+    min-height: auto;
+    padding: 3rem 1.5rem;
+
+    .hero-content {
+      gap: 3rem;
+    }
+
+    .hero-actions {
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .stats-section {
+    padding: 3rem 1.5rem;
+
+    .stats-container {
+      gap: 2rem;
+    }
+  }
+
+  .skills-section,
+  .projects-section {
+    padding: 5rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    .image-container {
+      width: 260px;
+      height: 260px;
+    }
+  }
+
+  .stats-section {
+    .stat-item {
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .stat-label {
+        font-size: 0.8125rem;
+      }
+    }
+  }
+}
+
+// Smooth Scroll Behavior
+html {
+  scroll-behavior: smooth;
+}
+
+// Focus States for Accessibility
+button,
+a {
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
   }
 }

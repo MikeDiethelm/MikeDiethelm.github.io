@@ -1,4 +1,4 @@
-// Material Design 3 Weather Component
+// Material Design 3 Weather Component - Black & Gold Theme
 .weather-container {
   max-width: 800px;
   margin: 0 auto;
@@ -6,36 +6,65 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  background: var(--portfolio-bg-primary);
+  min-height: 100vh;
 
   @media (min-width: 600px) {
     padding: 2rem 1rem;
   }
 }
 
-// Header Card Styles
+// Header Card Styles - Black & Gold Theme
 .weather-header-card {
+  background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 12px; // Material 3: Explicit radius
+  box-shadow: var(--portfolio-shadow-lg), var(--portfolio-glow-gold);
+  color: var(--portfolio-text-primary);
+
   .header-icon {
-    color: var(--mat-sys-primary);
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
+    color: var(--portfolio-accent-primary);
+    font-size: 2.5rem; // Material 3: Larger avatar icon (40px)
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  mat-card-title {
+    color: var(--portfolio-text-primary);
+  }
+
+  mat-card-subtitle {
+    color: var(--portfolio-text-secondary);
   }
 
   mat-card-actions {
-    padding: 1rem;
+    padding: 0.5rem 1rem 1rem 1rem; // Material 3: Consistent padding
+    display: flex;
+    align-items: center;
 
     .back-button {
-      color: var(--mat-sys-primary);
+      color: var(--portfolio-accent-primary);
+      min-height: 40px; // Material 3: Touch target
+      border-radius: 20px; // Material 3: Button radius
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        background-color: rgba(103, 126, 234, 0.1);
+        background-color: rgba(255, 215, 0, 0.1);
+      }
+
+      mat-icon {
+        margin-right: 0.5rem;
       }
     }
   }
 }
 
-// Search Card Styles
+// Search Card Styles - Black & Gold Theme
 .search-card {
+  background: var(--portfolio-bg-secondary);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 12px; // Material 3: Explicit radius
+
   .search-section {
     display: flex;
     gap: 1rem;
@@ -48,21 +77,71 @@
 
     .city-input {
       flex: 1;
+
+      // Material 3: Use proper CSS variables instead of ::ng-deep
+      .mat-mdc-text-field-wrapper {
+        background-color: var(--portfolio-bg-accent);
+      }
+
+      .mdc-text-field--filled {
+        background-color: var(--portfolio-bg-accent);
+      }
+
+      .mat-mdc-form-field-focus-overlay {
+        background-color: var(--portfolio-bg-accent);
+      }
+
+      label.mat-mdc-floating-label {
+        color: var(--portfolio-text-secondary);
+      }
+
+      input.mat-mdc-input-element {
+        color: var(--portfolio-text-primary);
+        caret-color: var(--portfolio-accent-primary);
+      }
     }
 
     .search-btn {
       white-space: nowrap;
+      min-height: 40px; // Material 3: Minimum touch target
+      padding: 0 16px; // Material 3: Standard button padding
+      border-radius: 20px; // Material 3: Pill shape for raised buttons
+      background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+      color: #000000;
+      font-weight: 500; // Material 3: Medium font weight
+      letter-spacing: 0.0892857143em; // Material 3: Button letter spacing
+      box-shadow: var(--portfolio-glow-gold);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
 
       @media (max-width: 600px) {
         width: 100%;
       }
 
-      mat-spinner {
-        margin-right: 0.5rem;
+      &:hover:not(:disabled) {
+        background: linear-gradient(135deg, var(--portfolio-accent-secondary) 0%, var(--portfolio-accent-dark) 100%);
+        transform: translateY(-2px); // Material 3: Subtle lift
+        box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
       }
 
-      span {
-        margin-left: 0.5rem;
+      &:disabled {
+        opacity: 0.38; // Material 3: Disabled state opacity
+        cursor: not-allowed;
+      }
+
+      mat-spinner {
+        margin-right: 0.5rem;
+        display: inline-block; // Material 3: Proper inline display
+        vertical-align: middle;
+
+        // Material 3: Use CSS variables instead of ::ng-deep
+        circle {
+          stroke: #000000;
+        }
+      }
+
+      mat-icon {
+        margin-right: 0.5rem;
+        vertical-align: middle;
       }
     }
   }
@@ -70,8 +149,10 @@
   .quick-cities-section {
     .cities-hint {
       margin: 1rem 0 0.75rem 0;
-      color: var(--mat-sys-on-surface-variant);
+      color: var(--portfolio-text-secondary);
+      font-size: 0.875rem; // Material 3: 14px for labels
       font-weight: 500;
+      letter-spacing: 0.0071428571em; // Material 3: Label tracking
     }
 
     .quick-cities {
@@ -79,17 +160,52 @@
       flex-wrap: wrap;
       gap: 0.5rem;
 
-      .city-chip {
+      // Material 3: Chips should have proper styling
+      mat-chip-option {
         cursor: pointer;
-        transition: all 0.2s ease;
+        min-height: 32px; // Material 3: Chip height
+        border-radius: 16px; // Material 3: Chip radius (half of height)
+        padding: 0 16px; // Material 3: Chip horizontal padding
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+        background-color: var(--portfolio-bg-accent);
+        color: var(--portfolio-text-secondary);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        font-size: 0.875rem; // Material 3: 14px
+        font-weight: 500;
+        letter-spacing: 0.0178571429em; // Material 3: Body tracking
 
-        &:hover {
-          background-color: var(--mat-sys-secondary-container);
-          color: var(--mat-sys-on-secondary-container);
+        &:hover:not(:disabled) {
+          background-color: rgba(255, 215, 0, 0.1);
+          color: var(--portfolio-accent-primary);
+          border-color: var(--portfolio-accent-primary);
+          transform: scale(1.05); // Material 3: Subtle scale
         }
 
         &:disabled {
-          opacity: 0.6;
+          opacity: 0.38; // Material 3: Disabled state opacity
+          cursor: not-allowed;
+        }
+      }
+
+      // Fallback for .city-chip class (if needed)
+      .city-chip {
+        cursor: pointer;
+        min-height: 32px;
+        border-radius: 16px;
+        padding: 0 16px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: var(--portfolio-bg-accent);
+        color: var(--portfolio-text-secondary);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+
+        &:hover {
+          background-color: rgba(255, 215, 0, 0.1);
+          color: var(--portfolio-accent-primary);
+          border-color: var(--portfolio-accent-primary);
+        }
+
+        &:disabled {
+          opacity: 0.38;
           cursor: not-allowed;
         }
       }
@@ -97,99 +213,196 @@
   }
 }
 
-// Error Card Styles
+// Error Card Styles - Black & Gold Theme
 .error-card {
+  background: var(--portfolio-bg-secondary);
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  border-left: 4px solid var(--portfolio-error);
+  border-radius: 12px; // Material 3: Explicit radius
+
   .error-icon {
-    color: var(--mat-sys-error);
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
+    color: var(--portfolio-error);
+    font-size: 2.5rem; // Material 3: Larger avatar icon (40px)
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   mat-card-title {
-    color: var(--mat-sys-error);
+    color: var(--portfolio-error);
+    font-size: 1.25rem; // Material 3: Headline 6
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  mat-card-subtitle {
+    color: var(--portfolio-text-secondary);
+    font-size: 0.875rem; // Material 3: Body 2
+    line-height: 1.43;
+    margin-top: 0.25rem;
+  }
+
+  mat-card-content {
+    color: var(--portfolio-text-secondary);
+    font-size: 0.875rem; // Material 3: Body 2
+    line-height: 1.43;
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+
+  mat-card-actions {
+    padding: 0.5rem 1rem 1rem 1rem; // Material 3: Consistent padding
   }
 }
 
-// Weather Data Card Styles
+// Weather Data Card Styles - Black & Gold Theme
 .weather-data-card {
+  background: var(--portfolio-bg-secondary);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 12px; // Material 3: Explicit radius
+  overflow: visible; // Material 3: Allow content to breathe
+
+  mat-card-header {
+    padding: 1rem; // Material 3: Consistent padding
+
+    .mat-mdc-card-header-text {
+      color: var(--portfolio-text-primary);
+    }
+  }
+
+  mat-card-title {
+    color: var(--portfolio-text-primary);
+    font-size: 1.5rem; // Material 3: Headline 5 (24px)
+    font-weight: 400;
+    line-height: 1.334;
+    letter-spacing: 0em;
+  }
+
+  mat-card-subtitle {
+    color: var(--portfolio-text-secondary);
+    font-size: 0.875rem; // Material 3: Body 2 (14px)
+    font-weight: 400;
+    line-height: 1.43;
+    letter-spacing: 0.0178571429em;
+    margin-top: 0.25rem; // Material 3: Spacing
+  }
+
   .weather-avatar-icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid var(--portfolio-accent-primary);
+    box-shadow: var(--portfolio-glow-gold);
+  }
+
+  mat-card-content {
+    overflow: visible; // Material 3: Prevent clipping
+    padding: 1rem 1rem 0 1rem; // Material 3: Consistent spacing
   }
 
   .temperature-section {
-    margin: 1rem 0;
+    margin: 1.5rem 0 2rem 0; // Increased bottom margin for breathing room
+    padding: 1rem 0; // Added vertical padding
+    overflow: visible; // Prevent any clipping
 
     .main-temperature {
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem; // Material 3: Consistent spacing
 
       .temp-value {
-        font-size: 3rem;
+        font-size: 3.5rem; // Slightly larger for better readability
         font-weight: 300;
-        color: var(--mat-sys-primary);
-        display: block;
-        margin-bottom: 0.5rem;
+        line-height: 1.2; // Material 3: Proper line-height
+        background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block; // Changed from block to inline-block
+        margin: 0; // Reset margin
+        padding: 0.5rem 1rem; // Add padding for shadow space
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
       }
 
       .weather-description {
-        font-size: 1.2rem;
+        font-size: 1.25rem; // Material 3: Slightly larger
         font-weight: 500;
-        color: var(--mat-sys-on-surface);
-        margin: 0 0 0.25rem 0;
+        color: var(--portfolio-text-primary);
+        margin: 0;
+        padding: 0;
       }
 
       .feels-like {
-        color: var(--mat-sys-on-surface-variant);
+        font-size: 0.9375rem; // Material 3: 15px
+        color: var(--portfolio-text-secondary);
         margin: 0;
+        padding: 0;
       }
     }
   }
 
   .weather-details {
-    margin: 1.5rem 0;
+    margin: 2rem 0 1.5rem 0; // Material 3: Better spacing
+    padding: 0; // Reset padding
 
     .detail-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      gap: 1rem; // Material 3: Consistent gap
 
       @media (max-width: 600px) {
         grid-template-columns: 1fr;
+        gap: 0.75rem; // Slightly smaller on mobile
       }
 
       .detail-item {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        padding: 0.75rem;
-        border-radius: 8px;
-        background-color: var(--mat-sys-surface-container-low);
+        padding: 1rem; // Material 3: 16px padding
+        border-radius: 12px; // Material 3: Larger radius
+        background-color: var(--portfolio-bg-accent);
+        border: 1px solid rgba(255, 215, 0, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+        min-height: 64px; // Material 3: Minimum touch target
+
+        &:hover {
+          border-color: var(--portfolio-accent-primary);
+          box-shadow: var(--portfolio-shadow-sm);
+          transform: translateY(-2px); // Material 3: Subtle lift
+        }
 
         mat-icon {
-          color: var(--mat-sys-primary);
+          color: var(--portfolio-accent-primary);
           font-size: 1.5rem;
           width: 1.5rem;
           height: 1.5rem;
+          flex-shrink: 0; // Prevent icon from shrinking
         }
 
         .detail-content {
           display: flex;
           flex-direction: column;
+          gap: 0.25rem; // Material 3: Consistent spacing
+          flex: 1; // Take remaining space
+          min-width: 0; // Allow text truncation if needed
 
           .detail-label {
-            font-size: 0.875rem;
-            color: var(--mat-sys-on-surface-variant);
+            font-size: 0.875rem; // Material 3: 14px
+            color: var(--portfolio-text-muted);
             font-weight: 500;
-            margin-bottom: 0.125rem;
+            letter-spacing: 0.0178571429em; // Material 3: Tracking
           }
 
           .detail-value {
-            font-size: 1rem;
-            color: var(--mat-sys-on-surface);
+            font-size: 1rem; // Material 3: 16px
+            color: var(--portfolio-text-primary);
             font-weight: 600;
+            line-height: 1.5; // Material 3: Readable line-height
           }
         }
       }
@@ -200,16 +413,36 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; // Material 3: Allow wrapping on small screens
+    gap: 1rem; // Material 3: Larger gap between items
+    padding: 0.5rem 1rem 1rem 1rem; // Material 3: Consistent padding
 
     .last-updated {
-      color: var(--mat-sys-on-surface-variant);
-      font-size: 0.875rem;
+      color: var(--portfolio-text-muted);
+      font-size: 0.75rem; // Material 3: Caption (12px)
+      font-weight: 400;
+      letter-spacing: 0.0333333333em; // Material 3: Caption tracking
       margin: 0;
+      flex: 1; // Take available space
     }
 
     button {
+      color: var(--portfolio-accent-primary);
+      border-color: var(--portfolio-accent-primary);
+      min-height: 40px; // Material 3: Touch target
+      border-radius: 20px; // Material 3: Button radius
+      padding: 0 16px; // Material 3: Button padding
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); // Material 3: Standard easing
+
+      &:hover {
+        background-color: rgba(255, 215, 0, 0.1);
+      }
+
       mat-icon {
         margin-right: 0.5rem;
+        font-size: 1.125rem; // Material 3: Icon size (18px)
+        width: 1.125rem;
+        height: 1.125rem;
       }
     }
   }
@@ -217,32 +450,91 @@
 
 
 
-// Welcome Card Styles
+// Welcome Card Styles - Black & Gold Theme
 .welcome-card {
   text-align: center;
+  background: var(--portfolio-bg-secondary);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 12px; // Material 3: Explicit radius
 
   .welcome-icon {
-    color: var(--mat-sys-tertiary);
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
+    color: var(--portfolio-accent-primary);
+    font-size: 3rem; // Material 3: Larger for welcome (48px)
+    width: 3rem;
+    height: 3rem;
+  }
+
+  mat-card-title {
+    color: var(--portfolio-text-primary);
+    font-size: 1.5rem; // Material 3: Headline 5
+    font-weight: 400;
+    line-height: 1.334;
   }
 
   mat-card-content {
     p {
-      color: var(--mat-sys-on-surface-variant);
-      line-height: 1.6;
+      color: var(--portfolio-text-secondary);
+      font-size: 1rem; // Material 3: Body 1
+      line-height: 1.5;
+      letter-spacing: 0.00938em;
+      margin: 1rem 0;
     }
   }
 }
 
-// Responsive Design
+// Welcome placeholder - Material 3
+.welcome-placeholder {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Responsive Design - Material 3 Best Practices
 @media (max-width: 768px) {
   .weather-container {
     padding: 0.5rem;
     gap: 1rem;
   }
 
+  .weather-data-card {
+    .temperature-section {
+      margin: 1rem 0 1.5rem 0;
+      padding: 0.5rem 0;
+
+      .main-temperature {
+        .temp-value {
+          font-size: 2.75rem; // Slightly smaller on mobile
+          padding: 0.25rem 0.5rem;
+        }
+
+        .weather-description {
+          font-size: 1.125rem;
+        }
+
+        .feels-like {
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    mat-card-actions {
+      flex-direction: column; // Stack vertically on mobile
+      align-items: stretch; // Full width items
+
+      .last-updated {
+        text-align: center;
+        width: 100%;
+      }
+
+      button {
+        width: 100%; // Full width button on mobile
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
   .weather-data-card {
     .temperature-section {
       .main-temperature {
@@ -254,15 +546,4 @@
   }
 }
 
-// Dark Mode Support
-@media (prefers-color-scheme: dark) {
-  .weather-data-card {
-    .temperature-section {
-      .main-temperature {
-        .temp-value {
-          color: var(--mat-sys-primary);
-        }
-      }
-    }
-  }
-}
+// Dark mode styles already integrated in main theme

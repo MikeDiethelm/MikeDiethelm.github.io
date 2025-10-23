@@ -5,9 +5,10 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+// Professional Portfolio Color Theme - Black & Gold Dark Theme
 html {
-  @include mat.theme((color: (primary: mat.$rose-palette,
-        tertiary: mat.$red-palette,
+  @include mat.theme((color: (primary: mat.$yellow-palette,
+        tertiary: mat.$cyan-palette,
       ),
       typography: Roboto,
       density: 0,
@@ -15,10 +16,8 @@ html {
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
+  // Dark color theme enabled
+  color-scheme: dark;
 
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
@@ -38,8 +37,48 @@ body {
   box-sizing: border-box;
 }
 
-// Custom Material Design 3 Theme Configuration
+// Professional Portfolio Color Overrides - Black & Gold Dark Theme
 :root {
+  // Black & Gold Dark Theme Base Colors
+  --portfolio-bg-primary: #0D0D0D; // Deep black background
+  --portfolio-bg-secondary: #1A1A1A; // Surface color
+  --portfolio-bg-accent: #252525; // Elevated surface
+  --portfolio-bg-dark: #000000; // True black
+  --portfolio-bg-darker: #050505; // Deepest black
+
+  // Text Colors with WCAG AAA Compliance on Dark
+  --portfolio-text-primary: #F5F5F5; // High-emphasis text (87% white)
+  --portfolio-text-secondary: #E0E0E0; // Medium-emphasis text
+  --portfolio-text-muted: #9E9E9E; // Low-emphasis text (60% white)
+  --portfolio-text-on-dark: #FFFFFF; // Pure white for maximum contrast
+  --portfolio-text-disabled: #616161; // Disabled text (38% white)
+
+  // Professional Gold Accent Colors
+  --portfolio-accent-primary: #FFD700; // Rich gold
+  --portfolio-accent-secondary: #FFC107; // Amber gold
+  --portfolio-accent-dark: #FFA000; // Deep amber
+  --portfolio-accent-light: #FFECB3; // Light gold for highlights
+
+  // Cyan accent for secondary actions
+  --portfolio-cyan: #00BCD4;
+  --portfolio-cyan-light: #4DD0E1;
+  --portfolio-cyan-dark: #0097A7;
+
+  // Semantic Colors for Dark Theme
+  --portfolio-success: #66BB6A;
+  --portfolio-warning: #FFA726;
+  --portfolio-error: #EF5350;
+
+  // Shadows for depth on dark surfaces
+  --portfolio-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --portfolio-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+  --portfolio-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+  --portfolio-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6);
+
+  // Gold glow effects
+  --portfolio-glow-gold: 0 0 20px rgba(255, 215, 0, 0.3);
+  --portfolio-glow-gold-strong: 0 0 30px rgba(255, 215, 0, 0.5);
+
   // Weather-specific colors
   --weather-primary: var(--mat-sys-primary);
   --weather-secondary: var(--mat-sys-secondary);

@@ -5,6 +5,8 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
+    background: var(--portfolio-bg-primary);
+    min-height: 100vh;
 
     @media (max-width: 768px) {
         padding: 0.5rem;
@@ -12,25 +14,28 @@
     }
 }
 
-// Header Card Styles
+// Header Card Styles - Black & Gold Theme
 .crypto-header-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%);
+    color: var(--portfolio-text-primary);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: var(--portfolio-shadow-lg), var(--portfolio-glow-gold);
 
     .header-icon {
         font-size: 2rem;
         width: 2rem;
         height: 2rem;
-        color: #ffd700;
+        color: var(--portfolio-accent-primary);
     }
 
     mat-card-title {
         font-size: 1.5rem;
         font-weight: 600;
+        color: var(--portfolio-text-primary);
     }
 
     mat-card-subtitle {
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--portfolio-text-secondary);
     }
 
     mat-card-actions {
@@ -39,19 +44,25 @@
         gap: 0.75rem;
 
         button {
-            color: white;
-            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--portfolio-accent-primary);
+            border-color: var(--portfolio-accent-primary);
+
+            &:hover {
+                background-color: rgba(255, 215, 0, 0.1);
+            }
 
             &[disabled] {
-                color: rgba(255, 255, 255, 0.5);
+                color: var(--portfolio-text-disabled);
+                border-color: var(--portfolio-text-disabled);
             }
         }
 
         .back-button {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--portfolio-accent-primary);
+            border-color: var(--portfolio-accent-primary);
 
             &:hover {
-                background-color: rgba(255, 255, 255, 0.1);
+                background-color: rgba(255, 215, 0, 0.1);
             }
         }
 
@@ -59,14 +70,17 @@
             margin-right: 0.5rem;
 
             ::ng-deep circle {
-                stroke: white;
+                stroke: var(--portfolio-accent-primary);
             }
         }
     }
 }
 
-// Controls Card Styles
+// Controls Card Styles - Black & Gold Theme
 .controls-card {
+    background: var(--portfolio-bg-secondary);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+
     .controls-section {
         display: flex;
         flex-direction: column;
@@ -80,7 +94,7 @@
 
             .currency-label {
                 font-weight: 500;
-                color: #666;
+                color: var(--portfolio-text-secondary);
                 min-width: fit-content;
             }
 
@@ -92,14 +106,20 @@
                 .currency-chip {
                     cursor: pointer;
                     transition: all 0.2s ease;
+                    background-color: var(--portfolio-bg-accent);
+                    color: var(--portfolio-text-secondary);
+                    border: 1px solid rgba(255, 215, 0, 0.1);
 
                     &:hover:not([disabled]) {
-                        background-color: rgba(103, 126, 234, 0.1);
+                        background-color: rgba(255, 215, 0, 0.1);
+                        border-color: var(--portfolio-accent-primary);
                     }
 
                     &[aria-selected="true"] {
-                        background-color: #667eea;
-                        color: white;
+                        background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+                        color: #000000;
+                        border-color: transparent;
+                        box-shadow: var(--portfolio-glow-gold);
                     }
 
                     &[disabled] {
@@ -125,6 +145,18 @@
                     .mat-mdc-form-field-subscript-wrapper {
                         display: none;
                     }
+
+                    .mat-mdc-text-field-wrapper {
+                        background-color: var(--portfolio-bg-accent);
+                    }
+
+                    label {
+                        color: var(--portfolio-text-secondary);
+                    }
+
+                    .mat-mdc-select-value {
+                        color: var(--portfolio-text-primary);
+                    }
                 }
             }
 
@@ -142,23 +174,24 @@
         .page-info {
             margin-top: 1rem;
             padding: 0.75rem 1rem;
-            background-color: #f8f9fa;
+            background-color: rgba(255, 215, 0, 0.05);
             border-radius: 8px;
-            border: 1px solid #e9ecef;
+            border: 1px solid rgba(255, 215, 0, 0.15);
 
             .page-info-text {
                 font-size: 0.9rem;
-                color: #666;
+                color: var(--portfolio-text-secondary);
                 font-weight: 500;
             }
         }
     }
 }
 
-// Error Card Styles
+// Error Card Styles - Black & Gold Theme
 .error-card {
-    border-left: 4px solid #f44336;
-    background-color: #fff3f3;
+    border-left: 4px solid var(--portfolio-error);
+    background-color: rgba(239, 83, 80, 0.1);
+    border: 1px solid rgba(239, 83, 80, 0.3);
 
     .error-content {
         display: flex;
@@ -166,7 +199,7 @@
         gap: 1rem;
 
         .error-icon {
-            color: #f44336;
+            color: var(--portfolio-error);
             font-size: 2rem;
             width: 2rem;
             height: 2rem;
@@ -177,55 +210,59 @@
 
             h3 {
                 margin: 0 0 0.5rem 0;
-                color: #f44336;
+                color: var(--portfolio-error);
                 font-size: 1.1rem;
             }
 
             p {
                 margin: 0;
-                color: #666;
+                color: var(--portfolio-text-secondary);
             }
         }
     }
 }
 
-// Data Status Styles
+// Data Status Styles - Black & Gold Theme
 .data-status {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background-color: #f8f9fa;
+    background-color: rgba(255, 215, 0, 0.05);
     border-radius: 8px;
-    border: 1px solid #e9ecef;
+    border: 1px solid rgba(255, 215, 0, 0.15);
 
     .fresh-icon {
-        color: #4caf50;
+        color: var(--portfolio-success);
     }
 
     .stale-icon {
-        color: #ff9800;
+        color: var(--portfolio-warning);
     }
 
     .status-text {
         font-size: 0.9rem;
-        color: #666;
+        color: var(--portfolio-text-secondary);
 
         .stale-warning {
-            color: #ff9800;
+            color: var(--portfolio-warning);
             font-weight: 500;
         }
     }
 }
 
-// Table Styles
+// Table Styles - Black & Gold Theme
 .crypto-table-card {
+    background: var(--portfolio-bg-secondary);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+
     .crypto-table-container {
         overflow-x: auto;
 
         .crypto-table {
             width: 100%;
             min-width: 600px;
+            background: var(--portfolio-bg-secondary);
 
             .mat-column-rank {
                 width: 60px;
@@ -254,20 +291,22 @@
             // Header Styles
             .mat-header-cell {
                 font-weight: 600;
-                color: #333;
+                color: var(--portfolio-accent-primary);
                 font-size: 0.9rem;
-                border-bottom: 2px solid #667eea;
+                border-bottom: 2px solid var(--portfolio-accent-primary);
+                background: var(--portfolio-bg-accent);
             }
 
             // Cell Styles
             .mat-cell {
-                border-bottom: 1px solid #eee;
+                border-bottom: 1px solid rgba(255, 215, 0, 0.1);
                 padding: 1rem 0.5rem;
+                color: var(--portfolio-text-primary);
             }
 
             .rank-cell {
                 font-weight: 600;
-                color: #667eea;
+                color: var(--portfolio-accent-primary);
                 text-align: center;
             }
 
@@ -280,6 +319,7 @@
                     .crypto-icon {
                         border-radius: 50%;
                         flex-shrink: 0;
+                        border: 1px solid rgba(255, 215, 0, 0.2);
                     }
 
                     .name-info {
@@ -289,12 +329,12 @@
 
                         .crypto-full-name {
                             font-weight: 500;
-                            color: #333;
+                            color: var(--portfolio-text-primary);
                         }
 
                         .crypto-symbol {
                             font-size: 0.8rem;
-                            color: #666;
+                            color: var(--portfolio-text-muted);
                             text-transform: uppercase;
                         }
                     }
@@ -305,7 +345,7 @@
                 .current-price {
                     font-weight: 600;
                     font-size: 1rem;
-                    color: #333;
+                    color: var(--portfolio-accent-secondary);
                 }
             }
 
@@ -317,18 +357,18 @@
                     font-weight: 500;
 
                     &.positive-change {
-                        color: #4caf50;
+                        color: var(--portfolio-success);
 
                         .change-icon {
-                            color: #4caf50;
+                            color: var(--portfolio-success);
                         }
                     }
 
                     &.negative-change {
-                        color: #f44336;
+                        color: var(--portfolio-error);
 
                         .change-icon {
-                            color: #f44336;
+                            color: var(--portfolio-error);
                         }
                     }
 
@@ -346,25 +386,26 @@
 
             .market-cap-cell {
                 font-weight: 500;
-                color: #666;
+                color: var(--portfolio-text-secondary);
                 font-size: 0.9rem;
             }
 
             // Row Styles
             .crypto-row {
-                transition: background-color 0.2s ease;
+                transition: all 0.2s ease;
+                background: var(--portfolio-bg-secondary);
 
                 &:hover {
-                    background-color: rgba(103, 126, 234, 0.05);
+                    background-color: rgba(255, 215, 0, 0.05);
                 }
 
                 &.clickable-row {
                     cursor: pointer;
 
                     &:hover {
-                        background-color: rgba(103, 126, 234, 0.1);
+                        background-color: rgba(255, 215, 0, 0.1);
                         transform: translateY(-1px);
-                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
                     }
                 }
             }
@@ -372,8 +413,11 @@
     }
 }
 
-// Loading Card Styles
+// Loading Card Styles - Black & Gold Theme
 .loading-card {
+    background: var(--portfolio-bg-secondary);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+
     .loading-content {
         display: flex;
         flex-direction: column;
@@ -384,20 +428,23 @@
 
         mat-spinner {
             ::ng-deep circle {
-                stroke: #667eea;
+                stroke: var(--portfolio-accent-primary);
             }
         }
 
         p {
-            color: #666;
+            color: var(--portfolio-text-secondary);
             font-size: 1rem;
             margin: 0;
         }
     }
 }
 
-// Empty State Styles
+// Empty State Styles - Black & Gold Theme
 .empty-card {
+    background: var(--portfolio-bg-secondary);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+
     .empty-content {
         display: flex;
         flex-direction: column;
@@ -410,18 +457,19 @@
             font-size: 3rem;
             width: 3rem;
             height: 3rem;
-            color: #ccc;
+            color: var(--portfolio-accent-primary);
+            opacity: 0.5;
         }
 
         h3 {
             margin: 0;
-            color: #333;
+            color: var(--portfolio-text-primary);
             font-size: 1.2rem;
         }
 
         p {
             margin: 0;
-            color: #666;
+            color: var(--portfolio-text-secondary);
             max-width: 400px;
         }
     }
@@ -543,11 +591,11 @@
     }
 }
 
-// Pagination Styles
+// Pagination Styles - Black & Gold Theme
 .pagination-actions {
     padding: 1rem;
-    background-color: #f8f9fa;
-    border-top: 1px solid #e9ecef;
+    background-color: var(--portfolio-bg-accent);
+    border-top: 1px solid rgba(255, 215, 0, 0.15);
 
     .pagination-controls {
         display: flex;
@@ -561,14 +609,14 @@
 
             .page-button {
                 min-width: 40px;
-                color: #667eea;
-                border: 1px solid #e9ecef;
-                background-color: white;
+                color: var(--portfolio-accent-primary);
+                border: 1px solid rgba(255, 215, 0, 0.2);
+                background-color: var(--portfolio-bg-secondary);
                 transition: all 0.2s ease;
 
                 &:hover:not([disabled]) {
-                    background-color: rgba(103, 126, 234, 0.1);
-                    border-color: #667eea;
+                    background-color: rgba(255, 215, 0, 0.1);
+                    border-color: var(--portfolio-accent-primary);
                 }
 
                 &[disabled] {
@@ -579,26 +627,27 @@
 
             .current-page {
                 min-width: 40px;
-                background-color: #667eea;
-                color: white;
-                border: 1px solid #667eea;
+                background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+                color: #000000;
+                border: 1px solid var(--portfolio-accent-primary);
                 font-weight: 600;
+                box-shadow: var(--portfolio-glow-gold);
 
                 &:hover {
-                    background-color: #5a67d8;
+                    background: linear-gradient(135deg, var(--portfolio-accent-secondary) 0%, var(--portfolio-accent-dark) 100%);
                 }
             }
         }
 
         button[mat-icon-button] {
-            color: #667eea;
+            color: var(--portfolio-accent-primary);
 
             &[disabled] {
-                color: #ccc;
+                color: var(--portfolio-text-disabled);
             }
 
             &:hover:not([disabled]) {
-                background-color: rgba(103, 126, 234, 0.1);
+                background-color: rgba(255, 215, 0, 0.1);
             }
         }
     }
@@ -638,15 +687,18 @@
     }
 }
 
-// Global Dialog Styles for Crypto Detail Modal
+// Global Dialog Styles for Crypto Detail Modal - Black & Gold Theme
 ::ng-deep .crypto-detail-dialog-container {
     .mat-mdc-dialog-container {
         padding: 0;
         border-radius: 12px;
         overflow: hidden;
+        background: var(--portfolio-bg-secondary);
+        border: 1px solid rgba(255, 215, 0, 0.2);
     }
 
     .mat-mdc-dialog-surface {
         border-radius: 12px;
+        background: var(--portfolio-bg-secondary);
     }
 }
