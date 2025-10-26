@@ -1,0 +1,152 @@
+.feature-detail-dialog {
+    .dialog-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        .feature-icon {
+            font-size: 2rem;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--portfolio-text-primary);
+        }
+    }
+
+    mat-dialog-content {
+        max-width: 600px;
+        padding: 1rem 0;
+        color: var(--portfolio-text-secondary);
+
+        .description {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--portfolio-text-primary);
+        }
+
+        .explanation {
+            margin-bottom: 1.5rem;
+
+            h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+                color: var(--portfolio-accent-primary);
+                font-weight: 500;
+            }
+
+            p {
+                line-height: 1.6;
+                color: var(--portfolio-text-secondary);
+            }
+        }
+
+        .code-example {
+            margin-bottom: 1.5rem;
+
+            h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+                color: var(--portfolio-accent-primary);
+                font-weight: 500;
+            }
+
+            pre {
+                background: var(--portfolio-bg-accent);
+                border-left: 4px solid var(--portfolio-accent-primary);
+                padding: 1rem;
+                overflow-x: auto;
+                border-radius: 4px;
+                box-shadow: var(--portfolio-shadow-sm);
+
+                code {
+                    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+                    font-size: 0.9rem;
+                    line-height: 1.5;
+                    color: var(--portfolio-text-primary);
+                }
+            }
+        }
+
+        .benefits {
+            margin-bottom: 1.5rem;
+
+            h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+                color: var(--portfolio-accent-primary);
+                font-weight: 500;
+            }
+
+            mat-chip-set {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            mat-chip {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                background-color: var(--portfolio-bg-accent);
+                color: var(--portfolio-text-primary);
+
+                mat-icon {
+                    font-size: 1rem;
+                    width: 1rem;
+                    height: 1rem;
+                    color: var(--portfolio-accent-secondary);
+                }
+            }
+        }
+
+        .use-cases {
+            h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+                color: var(--portfolio-accent-primary);
+                font-weight: 500;
+            }
+
+            ul {
+                margin: 0;
+                padding-left: 1.5rem;
+
+                li {
+                    margin-bottom: 0.5rem;
+                    line-height: 1.6;
+                    color: var(--portfolio-text-secondary);
+
+                    &::marker {
+                        color: var(--portfolio-accent-secondary);
+                    }
+                }
+            }
+        }
+    }
+
+    mat-dialog-actions {
+        padding: 1rem 0 0;
+        margin: 0;
+
+        button {
+            color: var(--portfolio-accent-primary);
+        }
+    }
+}
+
+// Dialog Container Styling
+::ng-deep .mat-mdc-dialog-container {
+    background-color: var(--portfolio-bg-secondary);
+    color: var(--portfolio-text-primary);
+    box-shadow: var(--portfolio-shadow-xl);
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+    background-color: var(--portfolio-bg-secondary);
+}

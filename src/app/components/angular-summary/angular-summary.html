@@ -33,7 +33,9 @@
 
         <div class="features-grid">
             @for (feature of coreFeatures(); track feature.title) {
-            <mat-card class="feature-card" [class.primary-card]="feature.color === 'primary'">
+            <mat-card class="feature-card clickable-card" [class.primary-card]="feature.color === 'primary'"
+                (click)="openFeatureDetail(feature)" role="button" tabindex="0"
+                (keydown.enter)="openFeatureDetail(feature)" (keydown.space)="openFeatureDetail(feature)">
                 <mat-card-header>
                     <div mat-card-avatar class="feature-avatar" [class.primary-avatar]="feature.color === 'primary'">
                         <mat-icon>{{ feature.icon }}</mat-icon>
@@ -42,6 +44,10 @@
                 </mat-card-header>
                 <mat-card-content>
                     <p class="feature-description">{{ feature.description | translate }}</p>
+                    <div class="click-hint">
+                        <mat-icon>info</mat-icon>
+                        <span>{{ 'angular.common.clickForDetails' | translate }}</span>
+                    </div>
                 </mat-card-content>
             </mat-card>
             }
@@ -57,7 +63,9 @@
 
         <div class="practices-grid">
             @for (practice of bestPractices(); track practice.category) {
-            <mat-card class="practice-card">
+            <mat-card class="practice-card clickable-card" (click)="openPracticeDetail(practice)" role="button"
+                tabindex="0" (keydown.enter)="openPracticeDetail(practice)"
+                (keydown.space)="openPracticeDetail(practice)">
                 <mat-card-header>
                     <div mat-card-avatar class="practice-avatar">
                         <mat-icon>{{ practice.icon }}</mat-icon>
@@ -73,6 +81,10 @@
                         </li>
                         }
                     </ul>
+                    <div class="click-hint">
+                        <mat-icon>info</mat-icon>
+                        <span>{{ 'angular.common.clickForDetails' | translate }}</span>
+                    </div>
                 </mat-card-content>
             </mat-card>
             }
@@ -189,7 +201,7 @@
 
                 <div class="pattern-content">
                     <p class="pattern-description">{{ pattern.description | translate }}</p>
-                    
+
                     <div class="use-cases">
                         <h4>{{ 'angular.common.useCases' | translate }}</h4>
                         <ul>
@@ -229,7 +241,7 @@
 
                 <div class="tool-content">
                     <p class="tool-description">{{ tool.description | translate }}</p>
-                    
+
                     <div class="setup-instructions">
                         <h4>{{ 'angular.common.setup' | translate }}</h4>
                         <pre><code>{{ tool.setup }}</code></pre>
@@ -267,7 +279,7 @@
 
                 <div class="deployment-content">
                     <p class="deployment-description">{{ strategy.description | translate }}</p>
-                    
+
                     <div class="deployment-steps">
                         <h4>{{ 'angular.common.steps' | translate }}</h4>
                         <ol>
@@ -309,7 +321,7 @@
 
                 <div class="accessibility-content">
                     <p class="accessibility-description">{{ pattern.description | translate }}</p>
-                    
+
                     <div class="a11y-tips">
                         <h4>{{ 'angular.common.bestPractices' | translate }}</h4>
                         <ul>
@@ -349,7 +361,7 @@
 
                 <div class="pitfall-content">
                     <p class="pitfall-description">{{ pitfall.description | translate }}</p>
-                    
+
                     <div class="problem-section">
                         <h4>❌ {{ 'angular.common.problem' | translate }}</h4>
                         <pre><code>{{ pitfall.problem }}</code></pre>

@@ -1,0 +1,57 @@
+<div class="feature-detail-dialog">
+    <div mat-dialog-title class="dialog-header">
+        <mat-icon [style.color]="data.color" class="feature-icon">{{ data.icon }}</mat-icon>
+        <h2>{{ data.detailTitle || data.title | translate }}</h2>
+    </div>
+
+    <mat-dialog-content>
+        <div class="description">
+            <p>{{ data.description | translate }}</p>
+        </div>
+
+        @if (data.explanation) {
+        <div class="explanation">
+            <h3>{{ 'angularSummary.explanation' | translate }}</h3>
+            <p [innerHTML]="data.explanation | translate"></p>
+        </div>
+        }
+
+        @if (data.codeExample) {
+        <div class="code-example">
+            <h3>{{ 'angularSummary.codeExample' | translate }}</h3>
+            <pre><code>{{ data.codeExample }}</code></pre>
+        </div>
+        }
+
+        @if (data.benefits && data.benefits.length > 0) {
+        <div class="benefits">
+            <h3>{{ 'angularSummary.benefits' | translate }}</h3>
+            <mat-chip-set>
+                @for (benefit of data.benefits; track benefit) {
+                <mat-chip>
+                    <mat-icon>check_circle</mat-icon>
+                    {{ benefit | translate }}
+                </mat-chip>
+                }
+            </mat-chip-set>
+        </div>
+        }
+
+        @if (data.useCases && data.useCases.length > 0) {
+        <div class="use-cases">
+            <h3>{{ 'angularSummary.useCases' | translate }}</h3>
+            <ul>
+                @for (useCase of data.useCases; track useCase) {
+                <li>{{ useCase | translate }}</li>
+                }
+            </ul>
+        </div>
+        }
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="close()">
+            {{ 'common.close' | translate }}
+        </button>
+    </mat-dialog-actions>
+</div>
