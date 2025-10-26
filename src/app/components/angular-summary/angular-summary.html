@@ -169,7 +169,201 @@
         </div>
     </section>
 
-    <!-- Footer Actions -->
+    <!-- Real-World Patterns Section -->
+    <section class="realworld-patterns-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.realWorldPatterns' | translate }}</h2>
+            <p class="section-description">{{ 'angular.sections.realWorldPatternsDesc' | translate }}</p>
+            <mat-divider></mat-divider>
+        </div>
+
+        <mat-accordion class="patterns-accordion">
+            @for (pattern of realWorldPatterns(); track pattern.title) {
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon [color]="'primary'">{{ pattern.icon }}</mat-icon>
+                        <span class="panel-title-text">{{ pattern.title | translate }}</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="pattern-content">
+                    <p class="pattern-description">{{ pattern.description | translate }}</p>
+                    
+                    <div class="use-cases">
+                        <h4>{{ 'angular.common.useCases' | translate }}</h4>
+                        <ul>
+                            @for (useCase of pattern.useCases; track useCase) {
+                            <li>{{ useCase | translate }}</li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="code-example">
+                        <h4>{{ 'angular.common.implementation' | translate }}</h4>
+                        <pre><code>{{ pattern.code }}</code></pre>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            }
+        </mat-accordion>
+    </section>
+
+    <!-- Development Tools Section -->
+    <section class="dev-tools-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.developmentTools' | translate }}</h2>
+            <p class="section-description">{{ 'angular.sections.developmentToolsDesc' | translate }}</p>
+            <mat-divider></mat-divider>
+        </div>
+
+        <mat-accordion class="tools-accordion">
+            @for (tool of developmentTools(); track tool.title) {
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon [color]="'accent'">{{ tool.icon }}</mat-icon>
+                        <span class="panel-title-text">{{ tool.title | translate }}</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="tool-content">
+                    <p class="tool-description">{{ tool.description | translate }}</p>
+                    
+                    <div class="setup-instructions">
+                        <h4>{{ 'angular.common.setup' | translate }}</h4>
+                        <pre><code>{{ tool.setup }}</code></pre>
+                    </div>
+
+                    @if (tool.config) {
+                    <div class="config-example">
+                        <h4>{{ 'angular.common.configuration' | translate }}</h4>
+                        <pre><code>{{ tool.config }}</code></pre>
+                    </div>
+                    }
+                </div>
+            </mat-expansion-panel>
+            }
+        </mat-accordion>
+    </section>
+
+    <!-- Deployment Strategies Section -->
+    <section class="deployment-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.deployment' | translate }}</h2>
+            <p class="section-description">{{ 'angular.sections.deploymentDesc' | translate }}</p>
+            <mat-divider></mat-divider>
+        </div>
+
+        <mat-accordion class="deployment-accordion">
+            @for (strategy of deploymentStrategies(); track strategy.title) {
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon [color]="'primary'">{{ strategy.icon }}</mat-icon>
+                        <span class="panel-title-text">{{ strategy.title | translate }}</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="deployment-content">
+                    <p class="deployment-description">{{ strategy.description | translate }}</p>
+                    
+                    <div class="deployment-steps">
+                        <h4>{{ 'angular.common.steps' | translate }}</h4>
+                        <ol>
+                            @for (step of strategy.steps; track step) {
+                            <li>{{ step | translate }}</li>
+                            }
+                        </ol>
+                    </div>
+
+                    @if (strategy.code) {
+                    <div class="deployment-code">
+                        <h4>{{ 'angular.common.example' | translate }}</h4>
+                        <pre><code>{{ strategy.code }}</code></pre>
+                    </div>
+                    }
+                </div>
+            </mat-expansion-panel>
+            }
+        </mat-accordion>
+    </section>
+
+    <!-- Accessibility Patterns Section -->
+    <section class="accessibility-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.accessibility' | translate }}</h2>
+            <p class="section-description">{{ 'angular.sections.accessibilityDesc' | translate }}</p>
+            <mat-divider></mat-divider>
+        </div>
+
+        <mat-accordion class="accessibility-accordion">
+            @for (pattern of accessibilityPatterns(); track pattern.title) {
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon [color]="'accent'">{{ pattern.icon }}</mat-icon>
+                        <span class="panel-title-text">{{ pattern.title | translate }}</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="accessibility-content">
+                    <p class="accessibility-description">{{ pattern.description | translate }}</p>
+                    
+                    <div class="a11y-tips">
+                        <h4>{{ 'angular.common.bestPractices' | translate }}</h4>
+                        <ul>
+                            @for (tip of pattern.tips; track tip) {
+                            <li>{{ tip | translate }}</li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="a11y-example">
+                        <h4>{{ 'angular.common.example' | translate }}</h4>
+                        <pre><code>{{ pattern.example }}</code></pre>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            }
+        </mat-accordion>
+    </section>
+
+    <!-- Common Pitfalls Section -->
+    <section class="pitfalls-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.commonPitfalls' | translate }}</h2>
+            <p class="section-description">{{ 'angular.sections.commonPitfallsDesc' | translate }}</p>
+            <mat-divider></mat-divider>
+        </div>
+
+        <mat-accordion class="pitfalls-accordion">
+            @for (pitfall of commonPitfalls(); track pitfall.title) {
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon [color]="'warn'">{{ pitfall.icon }}</mat-icon>
+                        <span class="panel-title-text">{{ pitfall.title | translate }}</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="pitfall-content">
+                    <p class="pitfall-description">{{ pitfall.description | translate }}</p>
+                    
+                    <div class="problem-section">
+                        <h4>❌ {{ 'angular.common.problem' | translate }}</h4>
+                        <pre><code>{{ pitfall.problem }}</code></pre>
+                    </div>
+
+                    <div class="solution-section">
+                        <h4>✅ {{ 'angular.common.solution' | translate }}</h4>
+                        <pre><code>{{ pitfall.solution }}</code></pre>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            }
+        </mat-accordion>
+    </section>
 
     <!-- CLI & DevTools Section -->
     <section class="tools-section">
@@ -239,28 +433,38 @@
         </div>
     </section>
 
-    <!-- Technologies Section -->
-    <section class="technologies-section">
+    <!-- Resources Section -->
+    <section class="resources-section">
         <div class="section-header">
-            <h2>{{ 'angular.sections.technologies' | translate }}</h2>
+            <h2>{{ 'angular.sections.resources' | translate }}</h2>
+            <p class="section-description">{{ 'angular.sections.resourcesDesc' | translate }}</p>
             <mat-divider></mat-divider>
         </div>
 
-        <div class="technologies-content">
-            <mat-card class="technologies-card">
-                <mat-card-content>
-                    <div class="tech-chips">
-                        @for (tech of technologiesUsed(); track tech) {
-                        <mat-chip-set>
-                            <mat-chip class="tech-chip" highlighted>
-                                <mat-icon matChipAvatar>code</mat-icon>
-                                {{ tech }}
-                            </mat-chip>
-                        </mat-chip-set>
-                        }
+        <div class="resources-grid">
+            @for (resource of resources(); track resource.title) {
+            <mat-card class="resource-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="resource-avatar">
+                        <mat-icon [color]="'primary'">{{ resource.icon }}</mat-icon>
                     </div>
+                    <mat-card-title>{{ resource.title | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p class="resource-description">{{ resource.description | translate }}</p>
+                    <ul class="resource-links">
+                        @for (link of resource.links; track link.url) {
+                        <li>
+                            <a [href]="link.url" target="_blank" rel="noopener noreferrer">
+                                <mat-icon>open_in_new</mat-icon>
+                                <span>{{ link.name }}</span>
+                            </a>
+                        </li>
+                        }
+                    </ul>
                 </mat-card-content>
             </mat-card>
+            }
         </div>
     </section>
 

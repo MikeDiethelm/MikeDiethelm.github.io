@@ -44,6 +44,53 @@ interface CodeExample {
     language: string;
 }
 
+interface RealWorldPattern {
+    title: string;
+    description: string;
+    code: string;
+    icon: string;
+    useCases: string[];
+}
+
+interface DevelopmentTool {
+    title: string;
+    description: string;
+    icon: string;
+    setup: string;
+    config?: string;
+}
+
+interface DeploymentStrategy {
+    title: string;
+    description: string;
+    icon: string;
+    steps: string[];
+    code?: string;
+}
+
+interface AccessibilityPattern {
+    title: string;
+    description: string;
+    icon: string;
+    example: string;
+    tips: string[];
+}
+
+interface CommonPitfall {
+    title: string;
+    description: string;
+    icon: string;
+    problem: string;
+    solution: string;
+}
+
+interface Resource {
+    title: string;
+    description: string;
+    icon: string;
+    links: { name: string; url: string; }[];
+}
+
 @Component({
     selector: 'app-angular-summary',
     imports: [
@@ -1593,6 +1640,2593 @@ export class OptimizedListComponent {
   
   private filterSignal = signal('');
 }`
+        }
+    ]);
+
+    readonly realWorldPatterns = signal<RealWorldPattern[]>([
+        {
+            title: 'angular.realWorldPatterns.errorBoundary.title',
+            description: 'angular.realWorldPatterns.errorBoundary.description',
+            icon: 'error_outline',
+            useCases: [
+                'angular.realWorldPatterns.errorBoundary.useCase1',
+                'angular.realWorldPatterns.errorBoundary.useCase2',
+                'angular.realWorldPatterns.errorBoundary.useCase3',
+                'angular.realWorldPatterns.errorBoundary.useCase4'
+            ],
+            code: `// Error Boundary Service
+@Injectable({ providedIn: 'root' })
+export class ErrorBoundaryService {
+  private errorSubject = new Subject<Error>();
+  errors$ = this.errorSubject.asObservable();
+  
+  handleError(error: Error, context?: string) {
+    console.error(\`Error in \${context}:\`, error);
+    this.errorSubject.next(error);
+  }
+}
+
+// Error Boundary Component
+@Component({
+  selector: 'app-error-boundary',
+  template: \`
+    @if (hasError()) {
+      <div class="error-container">
+        <mat-icon>error</mat-icon>
+        <h2>{{ 'errors.somethingWentWrong' | translate }}</h2>
+        <p>{{ errorMessage() }}</p>
+        <button mat-raised-button (click)="retry()">
+          {{ 'errors.retry' | translate }}
+        </button>
+      </div>
+    } @else {
+      <ng-content />
+    }
+  \`
+})
+export class ErrorBoundaryComponent implements OnInit {
+  hasError = signal(false);
+  errorMessage = signal('');
+  private errorBoundary = inject(ErrorBoundaryService);
+  
+  ngOnInit() {
+    this.errorBoundary.errors$.subscribe(error => {
+      this.hasError.set(true);
+      this.errorMessage.set(error.message);
+    });
+  }
+  
+  retry() {
+    this.hasError.set(false);
+    this.errorMessage.set('');
+    window.location.reload();
+  }
+}`
+        },
+        {
+            title: 'angular.realWorldPatterns.loadingState.title',
+            description: 'angular.realWorldPatterns.loadingState.description',
+            icon: 'hourglass_empty',
+            useCases: [
+                'angular.realWorldPatterns.loadingState.useCase1',
+                'angular.realWorldPatterns.loadingState.useCase2',
+                'angular.realWorldPatterns.loadingState.useCase3',
+                'angular.realWorldPatterns.loadingState.useCase4'
+            ],
+            code: `// Loading State Service mit Signals
+@Injectable({ providedIn: 'root' })
+export class LoadingService {
+  private loadingMap = new Map<string, boolean>();
+  private loadingSignal = signal<Map<string, boolean>>(new Map());
+  
+  isLoading = computed(() => {
+    const map = this.loadingSignal();
+    return Array.from(map.values()).some(loading => loading);
+  });
+  
+  startLoading(key: string) {
+    this.loadingMap.set(key, true);
+    this.loadingSignal.set(new Map(this.loadingMap));
+  }
+  
+  stopLoading(key: string) {
+    this.loadingMap.delete(key);
+    this.loadingSignal.set(new Map(this.loadingMap));
+  }
+  
+  isLoadingKey(key: string): boolean {
+    return this.loadingMap.get(key) ?? false;
+  }
+}
+
+// Component mit Loading States
+@Component({
+  selector: 'app-data-list',
+  template: \`
+    @if (isLoading()) {
+      <mat-progress-spinner mode="indeterminate" />
+    } @else if (error()) {
+      <app-error-message [error]="error()" />
+    } @else if (data().length === 0) {
+      <app-empty-state />
+    } @else {
+      @for (item of data(); track item.id) {
+        <app-item-card [item]="item" />
+      }
+    }
+  \`
+})
+export class DataListComponent {
+  private http = inject(HttpClient);
+  private loadingService = inject(LoadingService);
+  
+  isLoading = signal(false);
+  error = signal<Error | null>(null);
+  data = signal<Item[]>([]);
+  
+  async loadData() {
+    const key = 'data-list';
+    this.isLoading.set(true);
+    this.loadingService.startLoading(key);
+    
+    try {
+      const result = await firstValueFrom(
+        this.http.get<Item[]>('/api/items')
+      );
+      this.data.set(result);
+      this.error.set(null);
+    } catch (err) {
+      this.error.set(err as Error);
+    } finally {
+      this.isLoading.set(false);
+      this.loadingService.stopLoading(key);
+    }
+  }
+}`
+        },
+        {
+            title: 'angular.realWorldPatterns.retryLogic.title',
+            description: 'angular.realWorldPatterns.retryLogic.description',
+            icon: 'replay',
+            useCases: [
+                'angular.realWorldPatterns.retryLogic.useCase1',
+                'angular.realWorldPatterns.retryLogic.useCase2',
+                'angular.realWorldPatterns.retryLogic.useCase3',
+                'angular.realWorldPatterns.retryLogic.useCase4'
+            ],
+            code: `// Retry Service mit exponential backoff
+@Injectable({ providedIn: 'root' })
+export class RetryService {
+  private http = inject(HttpClient);
+  
+  // Retry mit exponential backoff
+  retryWithBackoff<T>(
+    observable: Observable<T>,
+    maxRetries = 3,
+    delay = 1000
+  ): Observable<T> {
+    return observable.pipe(
+      retry({
+        count: maxRetries,
+        delay: (error, retryCount) => {
+          const backoffDelay = delay * Math.pow(2, retryCount - 1);
+          console.log(\`Retry \${retryCount} nach \${backoffDelay}ms\`);
+          return timer(backoffDelay);
+        }
+      })
+    );
+  }
+  
+  // Retry nur bei bestimmten HTTP Fehlern
+  retryOnSpecificErrors<T>(
+    observable: Observable<T>,
+    retriableErrors = [500, 502, 503, 504]
+  ): Observable<T> {
+    return observable.pipe(
+      retryWhen(errors =>
+        errors.pipe(
+          mergeMap((error, index) => {
+            if (index >= 3) {
+              return throwError(() => error);
+            }
+            if (error.status && retriableErrors.includes(error.status)) {
+              return timer(1000 * (index + 1));
+            }
+            return throwError(() => error);
+          })
+        )
+      )
+    );
+  }
+}
+
+// Component mit Retry Logic
+@Component({
+  selector: 'app-api-data',
+  template: \`
+    <button (click)="loadWithRetry()">Load with Retry</button>
+    @if (data()) {
+      <pre>{{ data() | json }}</pre>
+    }
+  \`
+})
+export class ApiDataComponent {
+  private http = inject(HttpClient);
+  private retryService = inject(RetryService);
+  
+  data = signal<any>(null);
+  
+  loadWithRetry() {
+    const request$ = this.http.get('/api/unstable-endpoint');
+    
+    this.retryService
+      .retryWithBackoff(request$, 5, 500)
+      .subscribe({
+        next: data => this.data.set(data),
+        error: err => console.error('Failed after retries:', err)
+      });
+  }
+}`
+        },
+        {
+            title: 'angular.realWorldPatterns.optimisticUpdates.title',
+            description: 'angular.realWorldPatterns.optimisticUpdates.description',
+            icon: 'flash_on',
+            useCases: [
+                'angular.realWorldPatterns.optimisticUpdates.useCase1',
+                'angular.realWorldPatterns.optimisticUpdates.useCase2',
+                'angular.realWorldPatterns.optimisticUpdates.useCase3',
+                'angular.realWorldPatterns.optimisticUpdates.useCase4'
+            ],
+            code: `// Optimistic Update Service
+@Injectable({ providedIn: 'root' })
+export class TodoService {
+  private http = inject(HttpClient);
+  private todos = signal<Todo[]>([]);
+  
+  getTodos = computed(() => this.todos());
+  
+  // Optimistic Add
+  async addTodo(title: string) {
+    const optimisticTodo: Todo = {
+      id: crypto.randomUUID(),
+      title,
+      completed: false,
+      isOptimistic: true
+    };
+    
+    // Sofort zur UI hinzufügen
+    this.todos.update(current => [...current, optimisticTodo]);
+    
+    try {
+      // Server Request
+      const serverTodo = await firstValueFrom(
+        this.http.post<Todo>('/api/todos', { title })
+      );
+      
+      // Optimistisches Todo durch Server-Todo ersetzen
+      this.todos.update(current =>
+        current.map(t => t.id === optimisticTodo.id ? serverTodo : t)
+      );
+    } catch (error) {
+      // Rollback bei Fehler
+      this.todos.update(current =>
+        current.filter(t => t.id !== optimisticTodo.id)
+      );
+      throw error;
+    }
+  }
+  
+  // Optimistic Update
+  async updateTodo(id: string, updates: Partial<Todo>) {
+    const previousTodos = this.todos();
+    
+    // Sofort UI updaten
+    this.todos.update(current =>
+      current.map(t => t.id === id ? { ...t, ...updates } : t)
+    );
+    
+    try {
+      await firstValueFrom(
+        this.http.patch(\`/api/todos/\${id}\`, updates)
+      );
+    } catch (error) {
+      // Rollback bei Fehler
+      this.todos.set(previousTodos);
+      throw error;
+    }
+  }
+  
+  // Optimistic Delete
+  async deleteTodo(id: string) {
+    const previousTodos = this.todos();
+    
+    // Sofort aus UI entfernen
+    this.todos.update(current => current.filter(t => t.id !== id));
+    
+    try {
+      await firstValueFrom(
+        this.http.delete(\`/api/todos/\${id}\`)
+      );
+    } catch (error) {
+      // Rollback bei Fehler
+      this.todos.set(previousTodos);
+      throw error;
+    }
+  }
+}`
+        },
+        {
+            title: 'angular.realWorldPatterns.polling.title',
+            description: 'angular.realWorldPatterns.polling.description',
+            icon: 'sync',
+            useCases: [
+                'angular.realWorldPatterns.polling.useCase1',
+                'angular.realWorldPatterns.polling.useCase2',
+                'angular.realWorldPatterns.polling.useCase3',
+                'angular.realWorldPatterns.polling.useCase4'
+            ],
+            code: `// Polling Service
+@Injectable({ providedIn: 'root' })
+export class PollingService {
+  private http = inject(HttpClient);
+  
+  // Einfaches Polling
+  poll<T>(
+    url: string,
+    interval = 5000
+  ): Observable<T> {
+    return timer(0, interval).pipe(
+      switchMap(() => this.http.get<T>(url)),
+      shareReplay(1)
+    );
+  }
+  
+  // Polling mit Bedingung
+  pollUntil<T>(
+    url: string,
+    condition: (data: T) => boolean,
+    interval = 2000,
+    maxAttempts = 30
+  ): Observable<T> {
+    return timer(0, interval).pipe(
+      take(maxAttempts),
+      switchMap(() => this.http.get<T>(url)),
+      takeWhile(data => !condition(data), true),
+      last()
+    );
+  }
+  
+  // Exponential Backoff Polling
+  pollWithBackoff<T>(
+    url: string,
+    initialDelay = 1000,
+    maxDelay = 60000
+  ): Observable<T> {
+    let delay = initialDelay;
+    
+    return defer(() => this.http.get<T>(url)).pipe(
+      expand(() => {
+        delay = Math.min(delay * 2, maxDelay);
+        return timer(delay).pipe(
+          switchMap(() => this.http.get<T>(url))
+        );
+      })
+    );
+  }
+}
+
+// Component mit Polling
+@Component({
+  selector: 'app-job-status',
+  template: \`
+    <div class="status-card">
+      <h3>Job Status: {{ status() }}</h3>
+      <mat-progress-bar 
+        [value]="progress()" 
+        mode="determinate" 
+      />
+      @if (status() === 'completed') {
+        <mat-icon color="primary">check_circle</mat-icon>
+      }
+    </div>
+  \`
+})
+export class JobStatusComponent implements OnInit, OnDestroy {
+  private pollingService = inject(PollingService);
+  private destroyRef = inject(DestroyRef);
+  
+  status = signal<string>('pending');
+  progress = signal<number>(0);
+  
+  ngOnInit() {
+    // Poll bis Job fertig ist
+    this.pollingService
+      .pollUntil<JobStatus>(
+        '/api/jobs/123',
+        data => data.status === 'completed',
+        3000,
+        100
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: data => {
+          this.status.set(data.status);
+          this.progress.set(data.progress);
+        },
+        error: err => console.error('Polling failed:', err)
+      });
+  }
+}`
+        },
+        {
+            title: 'angular.realWorldPatterns.websocket.title',
+            description: 'angular.realWorldPatterns.websocket.description',
+            icon: 'cable',
+            useCases: [
+                'angular.realWorldPatterns.websocket.useCase1',
+                'angular.realWorldPatterns.websocket.useCase2',
+                'angular.realWorldPatterns.websocket.useCase3',
+                'angular.realWorldPatterns.websocket.useCase4'
+            ],
+            code: `// WebSocket Service
+@Injectable({ providedIn: 'root' })
+export class WebSocketService {
+  private socket: WebSocket | null = null;
+  private messages$ = new Subject<any>();
+  private reconnectAttempts = 0;
+  private maxReconnectAttempts = 5;
+  
+  connect(url: string): Observable<any> {
+    if (this.socket) {
+      return this.messages$.asObservable();
+    }
+    
+    this.socket = new WebSocket(url);
+    
+    this.socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      this.messages$.next(data);
+    };
+    
+    this.socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+      this.reconnect(url);
+    };
+    
+    this.socket.onclose = () => {
+      console.log('WebSocket closed');
+      this.socket = null;
+      this.reconnect(url);
+    };
+    
+    return this.messages$.asObservable();
+  }
+  
+  private reconnect(url: string) {
+    if (this.reconnectAttempts < this.maxReconnectAttempts) {
+      this.reconnectAttempts++;
+      const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
+      
+      setTimeout(() => {
+        console.log(\`Reconnecting... Attempt \${this.reconnectAttempts}\`);
+        this.connect(url);
+      }, delay);
+    }
+  }
+  
+  send(message: any) {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(message));
+    }
+  }
+  
+  disconnect() {
+    if (this.socket) {
+      this.socket.close();
+      this.socket = null;
+    }
+  }
+}
+
+// Component mit WebSocket
+@Component({
+  selector: 'app-live-chat',
+  template: \`
+    <div class="chat-container">
+      <div class="messages">
+        @for (msg of messages(); track msg.id) {
+          <div class="message" [class.own]="msg.userId === currentUserId()">
+            <strong>{{ msg.username }}:</strong>
+            <span>{{ msg.text }}</span>
+            <small>{{ msg.timestamp | date:'short' }}</small>
+          </div>
+        }
+      </div>
+      
+      <form (submit)="sendMessage()">
+        <input [(ngModel)]="messageText" placeholder="Type message..." />
+        <button mat-raised-button type="submit">Send</button>
+      </form>
+    </div>
+  \`
+})
+export class LiveChatComponent implements OnInit, OnDestroy {
+  private ws = inject(WebSocketService);
+  private destroyRef = inject(DestroyRef);
+  
+  messages = signal<ChatMessage[]>([]);
+  messageText = '';
+  currentUserId = signal('user-123');
+  
+  ngOnInit() {
+    this.ws.connect('wss://api.example.com/chat')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(message => {
+        this.messages.update(msgs => [...msgs, message]);
+      });
+  }
+  
+  sendMessage() {
+    if (this.messageText.trim()) {
+      this.ws.send({
+        type: 'message',
+        text: this.messageText,
+        userId: this.currentUserId(),
+        timestamp: new Date()
+      });
+      this.messageText = '';
+    }
+  }
+  
+  ngOnDestroy() {
+    this.ws.disconnect();
+  }
+}`
+        }
+    ]);
+
+    readonly developmentTools = signal<DevelopmentTool[]>([
+        {
+            title: 'angular.developmentTools.schematics.title',
+            description: 'angular.developmentTools.schematics.description',
+            icon: 'auto_fix_high',
+            setup: `// Custom Schematic erstellen
+npm install -g @angular-devkit/schematics-cli
+schematics blank --name=my-schematics
+
+// In collection.json definieren
+{
+  "schematics": {
+    "my-component": {
+      "description": "Creates a new component",
+      "factory": "./my-component/index#myComponent"
+    }
+  }
+}`,
+            config: `// my-component/index.ts
+import { Rule, SchematicContext, Tree, apply, url, template, mergeWith } from '@angular-devkit/schematics';
+import { strings } from '@angular-devkit/core';
+
+export function myComponent(options: any): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const templateSource = apply(url('./files'), [
+      template({
+        ...strings,
+        ...options
+      })
+    ]);
+    
+    return mergeWith(templateSource);
+  };
+}
+
+// Verwendung
+ng generate my-schematics:my-component --name=feature`
+        },
+        {
+            title: 'angular.developmentTools.eslint.title',
+            description: 'angular.developmentTools.eslint.description',
+            icon: 'rule',
+            setup: `// Installation
+ng add @angular-eslint/schematics
+
+// ESLint ausführen
+ng lint
+
+// Auto-fix
+ng lint --fix`,
+            config: `// eslint.config.js (ESLint 9+)
+import angular from '@angular-eslint/eslint-plugin';
+import typescript from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+
+export default [
+  {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: './tsconfig.json'
+      }
+    },
+    plugins: {
+      '@angular-eslint': angular,
+      '@typescript-eslint': typescript
+    },
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        { type: 'attribute', prefix: 'app', style: 'camelCase' }
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        { type: 'element', prefix: 'app', style: 'kebab-case' }
+      ],
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'error',
+      'no-console': ['warn', { allow: ['warn', 'error'] }]
+    }
+  },
+  {
+    files: ['**/*.html'],
+    plugins: {
+      '@angular-eslint/template': angular.templates
+    },
+    rules: {
+      '@angular-eslint/template/accessibility-alt-text': 'error',
+      '@angular-eslint/template/accessibility-elements-content': 'error',
+      '@angular-eslint/template/no-duplicate-attributes': 'error'
+    }
+  }
+];`
+        },
+        {
+            title: 'angular.developmentTools.prettier.title',
+            description: 'angular.developmentTools.prettier.description',
+            icon: 'format_paint',
+            setup: `// Installation
+npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
+
+// Format all files
+npx prettier --write "src/**/*.{ts,html,scss,json}"
+
+// Check formatting
+npx prettier --check "src/**/*.{ts,html,scss,json}"`,
+            config: `// .prettierrc.json
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular"
+      }
+    },
+    {
+      "files": "*.component.html",
+      "options": {
+        "parser": "angular",
+        "printWidth": 120
+      }
+    }
+  ]
+}
+
+// .prettierignore
+dist
+node_modules
+coverage
+*.min.js
+*.bundle.js
+
+// package.json Scripts
+{
+  "scripts": {
+    "format": "prettier --write \\"src/**/*.{ts,html,scss,json}\\"",
+    "format:check": "prettier --check \\"src/**/*.{ts,html,scss,json}\\""
+  }
+}`
+        },
+        {
+            title: 'angular.developmentTools.husky.title',
+            description: 'angular.developmentTools.husky.description',
+            icon: 'pets',
+            setup: `// Installation
+npm install --save-dev husky lint-staged
+
+// Husky initialisieren
+npx husky init
+
+// Pre-commit hook erstellen
+echo "npx lint-staged" > .husky/pre-commit
+
+// Pre-push hook
+echo "npm run test:ci" > .husky/pre-push`,
+            config: `// package.json
+{
+  "scripts": {
+    "prepare": "husky",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.html": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.scss": [
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}
+
+// .husky/pre-commit
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Lint staged files
+npx lint-staged
+
+# Type check
+npm run type-check || {
+  echo "❌ Type check failed"
+  exit 1
+}
+
+echo "✅ Pre-commit checks passed"
+
+// .husky/commit-msg
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Validate commit message format
+npx --no -- commitlint --edit $1`
+        },
+        {
+            title: 'angular.developmentTools.conventionalCommits.title',
+            description: 'angular.developmentTools.conventionalCommits.description',
+            icon: 'commit',
+            setup: `// Installation
+npm install --save-dev @commitlint/cli @commitlint/config-conventional
+
+// Commitizen für interaktive Commits
+npm install --save-dev commitizen cz-conventional-changelog
+
+// Commitizen initialisieren
+npx commitizen init cz-conventional-changelog --save-dev --save-exact`,
+            config: `// commitlint.config.js
+export default {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      [
+        'feat',     // Neue Features
+        'fix',      // Bug Fixes
+        'docs',     // Dokumentation
+        'style',    // Code-Formatierung
+        'refactor', // Code-Refactoring
+        'perf',     // Performance-Verbesserungen
+        'test',     // Tests
+        'build',    // Build-System
+        'ci',       // CI/CD
+        'chore',    // Wartung
+        'revert'    // Revert
+      ]
+    ],
+    'type-case': [2, 'always', 'lower-case'],
+    'subject-case': [2, 'never', ['upper-case']],
+    'subject-empty': [2, 'never'],
+    'subject-full-stop': [2, 'never', '.'],
+    'header-max-length': [2, 'always', 100],
+    'body-leading-blank': [2, 'always'],
+    'footer-leading-blank': [2, 'always']
+  }
+};
+
+// package.json
+{
+  "scripts": {
+    "commit": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+
+// Commit Message Beispiele:
+// feat(auth): add JWT authentication
+// fix(api): resolve null pointer exception
+// docs(readme): update installation instructions
+// style(components): format code with prettier
+// refactor(services): simplify data fetching logic
+// perf(rendering): optimize virtual scrolling
+// test(auth): add unit tests for login component
+// build(deps): upgrade Angular to v20
+// ci(github): add automated deployment workflow
+
+// Mit Scope und Breaking Change:
+// feat(api)!: change authentication endpoint
+
+// BREAKING CHANGE: The /auth endpoint has been replaced
+// with /api/v2/authenticate. Update all API calls accordingly.`
+        }
+    ]);
+
+    readonly deploymentStrategies = signal<DeploymentStrategy[]>([
+        {
+            title: 'angular.deploymentStrategies.docker.title',
+            description: 'angular.deploymentStrategies.docker.description',
+            icon: 'sailing',
+            steps: [
+                'angular.deploymentStrategies.docker.step1',
+                'angular.deploymentStrategies.docker.step2',
+                'angular.deploymentStrategies.docker.step3',
+                'angular.deploymentStrategies.docker.step4',
+                'angular.deploymentStrategies.docker.step5'
+            ],
+            code: `# Multi-stage Dockerfile für Angular
+# Stage 1: Build
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Dependencies installieren
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Source kopieren und builden
+COPY . .
+RUN npm run build -- --configuration=production
+
+# Stage 2: Production
+FROM nginx:alpine
+
+# Nginx Konfiguration kopieren
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Build Artefakte kopieren
+COPY --from=builder /app/dist/my-app/browser /usr/share/nginx/html
+
+# Port exposen
+EXPOSE 80
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\
+  CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]
+
+# nginx.conf
+worker_processes auto;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  gzip on;
+  gzip_vary on;
+  gzip_min_length 1024;
+  gzip_types text/plain text/css text/xml text/javascript 
+             application/json application/javascript application/xml+rss;
+
+  server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+    # Cache static assets
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf)$ {
+      expires 1y;
+      add_header Cache-Control "public, immutable";
+    }
+
+    # Angular routing
+    location / {
+      try_files $uri $uri/ /index.html;
+    }
+  }
+}
+
+# docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+# .dockerignore
+node_modules
+dist
+.git
+.angular
+coverage
+*.md
+.vscode`
+        },
+        {
+            title: 'angular.deploymentStrategies.cicd.title',
+            description: 'angular.deploymentStrategies.cicd.description',
+            icon: 'factory',
+            steps: [
+                'angular.deploymentStrategies.cicd.step1',
+                'angular.deploymentStrategies.cicd.step2',
+                'angular.deploymentStrategies.cicd.step3',
+                'angular.deploymentStrategies.cicd.step4',
+                'angular.deploymentStrategies.cicd.step5'
+            ],
+            code: `# .github/workflows/deploy.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ESLint
+        run: npm run lint
+      
+      - name: Check code formatting
+        run: npm run format:check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run unit tests
+        run: npm run test:ci
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build application
+        run: npm run build -- --configuration=production
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: \${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/my-app/browser
+          cname: www.example.com
+
+# GitLab CI (.gitlab-ci.yml)
+stages:
+  - install
+  - test
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: "20"
+
+cache:
+  paths:
+    - node_modules/
+
+install:
+  stage: install
+  image: node:20
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+lint:
+  stage: test
+  image: node:20
+  script:
+    - npm run lint
+    - npm run format:check
+
+test:
+  stage: test
+  image: node:20
+  script:
+    - npm run test:ci
+  coverage: '/Statements\\s+:\\s+(\\d+\\.\\d+)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+
+build:
+  stage: build
+  image: node:20
+  script:
+    - npm run build -- --configuration=production
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+deploy:prod:
+  stage: deploy
+  image: node:20
+  script:
+    - npm install -g firebase-tools
+    - firebase deploy --token \$FIREBASE_TOKEN
+  only:
+    - main
+  environment:
+    name: production
+    url: https://app.example.com`
+        },
+        {
+            title: 'angular.deploymentStrategies.envVariables.title',
+            description: 'angular.deploymentStrategies.envVariables.description',
+            icon: 'settings',
+            steps: [
+                'angular.deploymentStrategies.envVariables.step1',
+                'angular.deploymentStrategies.envVariables.step2',
+                'angular.deploymentStrategies.envVariables.step3',
+                'angular.deploymentStrategies.envVariables.step4'
+            ],
+            code: `// src/environments/environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000/api',
+  apiKey: 'dev-api-key',
+  enableDebug: true,
+  version: '1.0.0-dev',
+  features: {
+    analytics: false,
+    newFeature: true
+  }
+};
+
+// src/environments/environment.prod.ts
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.example.com',
+  apiKey: process.env['NG_APP_API_KEY'] || '',
+  enableDebug: false,
+  version: '1.0.0',
+  features: {
+    analytics: true,
+    newFeature: false
+  }
+};
+
+// angular.json - File replacements
+{
+  "configurations": {
+    "production": {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.prod.ts"
+        }
+      ]
+    },
+    "staging": {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.staging.ts"
+        }
+      ]
+    }
+  }
+}
+
+// Environment Service für runtime configuration
+@Injectable({ providedIn: 'root' })
+export class EnvironmentService {
+  private config = signal<Config | null>(null);
+  private http = inject(HttpClient);
+
+  async loadConfig(): Promise<void> {
+    try {
+      const config = await firstValueFrom(
+        this.http.get<Config>('/assets/config.json')
+      );
+      this.config.set(config);
+    } catch (error) {
+      console.error('Failed to load config:', error);
+    }
+  }
+
+  get apiUrl(): string {
+    return this.config()?.apiUrl || environment.apiUrl;
+  }
+
+  get features(): Record<string, boolean> {
+    return this.config()?.features || environment.features;
+  }
+}
+
+// APP_INITIALIZER für runtime config
+export const appConfig: ApplicationConfig = {
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (envService: EnvironmentService) => () => envService.loadConfig(),
+      deps: [EnvironmentService],
+      multi: true
+    }
+  ]
+};
+
+// Docker runtime environment variables
+# entrypoint.sh
+#!/bin/sh
+
+# Generate config.json from environment variables
+cat > /usr/share/nginx/html/assets/config.json << EOF
+{
+  "apiUrl": "$API_URL",
+  "apiKey": "$API_KEY",
+  "features": {
+    "analytics": $ENABLE_ANALYTICS,
+    "newFeature": $ENABLE_NEW_FEATURE
+  }
+}
+EOF
+
+nginx -g "daemon off;"`
+        },
+        {
+            title: 'angular.deploymentStrategies.featureFlags.title',
+            description: 'angular.deploymentStrategies.featureFlags.description',
+            icon: 'flag',
+            steps: [
+                'angular.deploymentStrategies.featureFlags.step1',
+                'angular.deploymentStrategies.featureFlags.step2',
+                'angular.deploymentStrategies.featureFlags.step3',
+                'angular.deploymentStrategies.featureFlags.step4'
+            ],
+            code: `// Feature Flag Service
+@Injectable({ providedIn: 'root' })
+export class FeatureFlagService {
+  private http = inject(HttpClient);
+  private flags = signal<Record<string, boolean>>({});
+  
+  async loadFlags(): Promise<void> {
+    try {
+      const flags = await firstValueFrom(
+        this.http.get<Record<string, boolean>>('/api/feature-flags')
+      );
+      this.flags.set(flags);
+    } catch (error) {
+      console.error('Failed to load feature flags:', error);
+      // Fallback zu lokalen defaults
+      this.flags.set({
+        newDashboard: false,
+        betaFeatures: false,
+        advancedAnalytics: false
+      });
+    }
+  }
+  
+  isEnabled(flag: string): boolean {
+    return this.flags()[flag] ?? false;
+  }
+  
+  // Computed signals für specific features
+  readonly newDashboardEnabled = computed(() => this.isEnabled('newDashboard'));
+  readonly betaFeaturesEnabled = computed(() => this.isEnabled('betaFeatures'));
+}
+
+// Feature Flag Directive
+@Directive({
+  selector: '[appFeatureFlag]',
+  standalone: true
+})
+export class FeatureFlagDirective implements OnInit {
+  private templateRef = inject(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
+  private featureFlags = inject(FeatureFlagService);
+  
+  @Input({ required: true }) appFeatureFlag!: string;
+  @Input() appFeatureFlagElse?: TemplateRef<any>;
+  
+  ngOnInit() {
+    effect(() => {
+      const isEnabled = this.featureFlags.isEnabled(this.appFeatureFlag);
+      
+      this.viewContainer.clear();
+      
+      if (isEnabled) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else if (this.appFeatureFlagElse) {
+        this.viewContainer.createEmbeddedView(this.appFeatureFlagElse);
+      }
+    });
+  }
+}
+
+// Usage in templates
+@Component({
+  template: \`
+    <!-- Simple feature flag -->
+    <div *appFeatureFlag="'newDashboard'">
+      <app-new-dashboard />
+    </div>
+    
+    <!-- With else template -->
+    <ng-container *appFeatureFlag="'betaFeatures'; else oldVersion">
+      <app-beta-component />
+    </ng-container>
+    
+    <ng-template #oldVersion>
+      <app-stable-component />
+    </ng-template>
+    
+    <!-- Control flow syntax -->
+    @if (featureFlags.newDashboardEnabled()) {
+      <app-new-dashboard />
+    } @else {
+      <app-old-dashboard />
+    }
+  \`,
+  imports: [FeatureFlagDirective]
+})
+export class AppComponent {
+  featureFlags = inject(FeatureFlagService);
+}
+
+// LaunchDarkly Integration
+@Injectable({ providedIn: 'root' })
+export class LaunchDarklyService {
+  private client!: LDClient;
+  private flags = signal<LDFlagSet>({});
+  
+  async initialize(clientId: string, context: LDContext): Promise<void> {
+    this.client = initialize(clientId, context);
+    
+    await this.client.waitForInitialization();
+    
+    const allFlags = this.client.allFlags();
+    this.flags.set(allFlags);
+    
+    // Listen for flag changes
+    this.client.on('change', (settings) => {
+      this.flags.update(current => ({...current, ...settings}));
+    });
+  }
+  
+  variation(key: string, defaultValue: any = false): any {
+    return this.flags()[key] ?? defaultValue;
+  }
+}`
+        },
+        {
+            title: 'angular.deploymentStrategies.monitoring.title',
+            description: 'angular.deploymentStrategies.monitoring.description',
+            icon: 'monitoring',
+            steps: [
+                'angular.deploymentStrategies.monitoring.step1',
+                'angular.deploymentStrategies.monitoring.step2',
+                'angular.deploymentStrategies.monitoring.step3',
+                'angular.deploymentStrategies.monitoring.step4',
+                'angular.deploymentStrategies.monitoring.step5'
+            ],
+            code: `// Sentry Error Tracking
+import * as Sentry from '@sentry/angular';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: false,
+        logErrors: true
+      })
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router]
+    },
+    provideRouter(routes, 
+      withInMemoryScrolling(),
+      withNavigationErrorHandler(error => {
+        Sentry.captureException(error);
+      })
+    )
+  ]
+};
+
+// main.ts
+Sentry.init({
+  dsn: environment.sentryDsn,
+  environment: environment.production ? 'production' : 'development',
+  tracesSampleRate: 1.0,
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.replayIntegration({
+      maskAllText: false,
+      blockAllMedia: false
+    })
+  ],
+  beforeSend(event, hint) {
+    // Filter oder modify events
+    if (event.exception) {
+      console.error('Sending error to Sentry:', event);
+    }
+    return event;
+  }
+});
+
+// Google Analytics 4
+@Injectable({ providedIn: 'root' })
+export class AnalyticsService {
+  private router = inject(Router);
+  
+  initialize(measurementId: string) {
+    // Load gtag script
+    const script = document.createElement('script');
+    script.src = \`https://www.googletagmanager.com/gtag/js?id=\${measurementId}\`;
+    script.async = true;
+    document.head.appendChild(script);
+    
+    // Initialize gtag
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    function gtag(...args: any[]) {
+      (window as any).dataLayer.push(args);
+    }
+    gtag('js', new Date());
+    gtag('config', measurementId);
+    
+    // Track page views
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      gtag('config', measurementId, {
+        page_path: event.urlAfterRedirects
+      });
+    });
+  }
+  
+  trackEvent(action: string, category: string, label?: string, value?: number) {
+    (window as any).gtag('event', action, {
+      event_category: category,
+      event_label: label,
+      value: value
+    });
+  }
+  
+  setUserId(userId: string) {
+    (window as any).gtag('config', environment.gaId, {
+      user_id: userId
+    });
+  }
+}
+
+// Performance Monitoring
+@Injectable({ providedIn: 'root' })
+export class PerformanceMonitoringService {
+  
+  trackPageLoad() {
+    if ('performance' in window) {
+      const perfData = window.performance.timing;
+      const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+      const connectTime = perfData.responseEnd - perfData.requestStart;
+      const renderTime = perfData.domComplete - perfData.domLoading;
+      
+      console.log('Performance Metrics:', {
+        pageLoadTime,
+        connectTime,
+        renderTime
+      });
+      
+      // Send to analytics
+      this.sendMetric('page_load', pageLoadTime);
+    }
+  }
+  
+  measureComponentLoad(componentName: string) {
+    return {
+      start: () => performance.mark(\`\${componentName}-start\`),
+      end: () => {
+        performance.mark(\`\${componentName}-end\`);
+        performance.measure(
+          componentName,
+          \`\${componentName}-start\`,
+          \`\${componentName}-end\`
+        );
+        
+        const measure = performance.getEntriesByName(componentName)[0];
+        console.log(\`\${componentName} took \${measure.duration}ms\`);
+        this.sendMetric(\`component_\${componentName}\`, measure.duration);
+      }
+    };
+  }
+  
+  private sendMetric(name: string, value: number) {
+    // Send to your analytics service
+    (window as any).gtag('event', 'timing_complete', {
+      name: name,
+      value: Math.round(value),
+      event_category: 'Performance'
+    });
+  }
+}
+
+// Custom Logger Service
+@Injectable({ providedIn: 'root' })
+export class LoggerService {
+  private http = inject(HttpClient);
+  
+  log(level: 'info' | 'warn' | 'error', message: string, data?: any) {
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      level,
+      message,
+      data,
+      userAgent: navigator.userAgent,
+      url: window.location.href
+    };
+    
+    // Console log
+    console[level](message, data);
+    
+    // Send to backend
+    if (environment.production && level === 'error') {
+      this.http.post('/api/logs', logEntry)
+        .subscribe({
+          error: err => console.error('Failed to send log:', err)
+        });
+    }
+  }
+  
+  error(message: string, error?: any) {
+    this.log('error', message, error);
+    Sentry.captureMessage(message, {
+      level: 'error',
+      extra: { error }
+    });
+  }
+}`
+        }
+    ]);
+
+    readonly accessibilityPatterns = signal<AccessibilityPattern[]>([
+        {
+            title: 'angular.accessibility.ariaLabels.title',
+            description: 'angular.accessibility.ariaLabels.description',
+            icon: 'label',
+            tips: [
+                'angular.accessibility.ariaLabels.tip1',
+                'angular.accessibility.ariaLabels.tip2',
+                'angular.accessibility.ariaLabels.tip3',
+                'angular.accessibility.ariaLabels.tip4'
+            ],
+            example: `<!-- ARIA Labels für Buttons und Links -->
+<button 
+  aria-label="Schließen" 
+  (click)="close()">
+  <mat-icon>close</mat-icon>
+</button>
+
+<a 
+  href="/profile" 
+  aria-label="Zum Benutzerprofil navigieren">
+  <mat-icon>person</mat-icon>
+</a>
+
+<!-- ARIA Describedby für zusätzliche Informationen -->
+<input 
+  type="email" 
+  id="email" 
+  aria-describedby="email-hint"
+  [(ngModel)]="email">
+<span id="email-hint" class="hint">
+  Wir werden Ihre E-Mail niemals weitergeben
+</span>
+
+<!-- ARIA Live Regions für dynamische Inhalte -->
+<div 
+  role="status" 
+  aria-live="polite" 
+  aria-atomic="true">
+  @if (successMessage()) {
+    {{ successMessage() }}
+  }
+</div>
+
+<!-- ARIA Expanded für Accordions -->
+<button
+  [attr.aria-expanded]="isExpanded()"
+  [attr.aria-controls]="'panel-' + id"
+  (click)="toggle()">
+  {{ title() }}
+  <mat-icon>{{ isExpanded() ? 'expand_less' : 'expand_more' }}</mat-icon>
+</button>
+
+<div 
+  [id]="'panel-' + id"
+  [hidden]="!isExpanded()"
+  role="region"
+  [attr.aria-labelledby]="'heading-' + id">
+  <ng-content />
+</div>
+
+// Component
+@Component({
+  selector: 'app-accessible-accordion',
+  template: '...'
+})
+export class AccessibleAccordionComponent {
+  id = signal(crypto.randomUUID());
+  isExpanded = signal(false);
+  title = input.required<string>();
+  
+  toggle() {
+    this.isExpanded.update(v => !v);
+  }
+}`
+        },
+        {
+            title: 'angular.accessibility.keyboardNav.title',
+            description: 'angular.accessibility.keyboardNav.description',
+            icon: 'keyboard',
+            tips: [
+                'angular.accessibility.keyboardNav.tip1',
+                'angular.accessibility.keyboardNav.tip2',
+                'angular.accessibility.keyboardNav.tip3',
+                'angular.accessibility.keyboardNav.tip4',
+                'angular.accessibility.keyboardNav.tip5'
+            ],
+            example: `// Keyboard Navigation Directive
+@Directive({
+  selector: '[appKeyboardNav]',
+  standalone: true,
+  host: {
+    '(keydown)': 'onKeyDown($event)',
+    '[tabindex]': '0'
+  }
+})
+export class KeyboardNavDirective {
+  @Output() escapePressed = new EventEmitter<void>();
+  @Output() enterPressed = new EventEmitter<void>();
+  @Output() arrowUp = new EventEmitter<void>();
+  @Output() arrowDown = new EventEmitter<void>();
+  
+  onKeyDown(event: KeyboardEvent) {
+    switch(event.key) {
+      case 'Escape':
+        this.escapePressed.emit();
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this.enterPressed.emit();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.arrowUp.emit();
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.arrowDown.emit();
+        break;
+    }
+  }
+}
+
+// List Navigation Component
+@Component({
+  selector: 'app-keyboard-list',
+  template: \`
+    <ul role="listbox" [attr.aria-activedescendant]="activeId()">
+      @for (item of items(); track item.id; let i = $index) {
+        <li
+          [id]="'item-' + item.id"
+          role="option"
+          [class.active]="activeIndex() === i"
+          [attr.aria-selected]="activeIndex() === i"
+          (click)="selectItem(i)"
+          (keydown)="handleKeyDown($event, i)">
+          {{ item.label }}
+        </li>
+      }
+    </ul>
+  \`,
+  host: {
+    '(keydown)': 'handleListKeyDown($event)'
+  }
+})
+export class KeyboardListComponent {
+  items = input.required<ListItem[]>();
+  activeIndex = signal(0);
+  
+  activeId = computed(() => 
+    'item-' + this.items()[this.activeIndex()]?.id
+  );
+  
+  handleListKeyDown(event: KeyboardEvent) {
+    switch(event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        this.moveDown();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.moveUp();
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.activeIndex.set(0);
+        break;
+      case 'End':
+        event.preventDefault();
+        this.activeIndex.set(this.items().length - 1);
+        break;
+      case 'Enter':
+        event.preventDefault();
+        this.selectItem(this.activeIndex());
+        break;
+    }
+  }
+  
+  private moveDown() {
+    this.activeIndex.update(i => 
+      Math.min(i + 1, this.items().length - 1)
+    );
+  }
+  
+  private moveUp() {
+    this.activeIndex.update(i => Math.max(i - 1, 0));
+  }
+  
+  selectItem(index: number) {
+    console.log('Selected:', this.items()[index]);
+  }
+}`
+        },
+        {
+            title: 'angular.accessibility.focusManagement.title',
+            description: 'angular.accessibility.focusManagement.description',
+            icon: 'highlight',
+            tips: [
+                'angular.accessibility.focusManagement.tip1',
+                'angular.accessibility.focusManagement.tip2',
+                'angular.accessibility.focusManagement.tip3',
+                'angular.accessibility.focusManagement.tip4'
+            ],
+            example: `// Focus Trap Directive für Modals
+@Directive({
+  selector: '[appFocusTrap]',
+  standalone: true
+})
+export class FocusTrapDirective implements AfterViewInit, OnDestroy {
+  private elementRef = inject(ElementRef);
+  private focusableElements: HTMLElement[] = [];
+  private firstFocusable?: HTMLElement;
+  private lastFocusable?: HTMLElement;
+  
+  ngAfterViewInit() {
+    this.updateFocusableElements();
+    this.firstFocusable?.focus();
+    
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+  
+  private updateFocusableElements() {
+    const selectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+    
+    this.focusableElements = Array.from(
+      this.elementRef.nativeElement.querySelectorAll(selectors)
+    );
+    
+    this.firstFocusable = this.focusableElements[0];
+    this.lastFocusable = this.focusableElements[
+      this.focusableElements.length - 1
+    ];
+  }
+  
+  private handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Tab') return;
+    
+    const activeElement = document.activeElement as HTMLElement;
+    
+    if (event.shiftKey) {
+      // Shift + Tab
+      if (activeElement === this.firstFocusable) {
+        event.preventDefault();
+        this.lastFocusable?.focus();
+      }
+    } else {
+      // Tab
+      if (activeElement === this.lastFocusable) {
+        event.preventDefault();
+        this.firstFocusable?.focus();
+      }
+    }
+  };
+  
+  ngOnDestroy() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+}
+
+// Auto Focus Directive
+@Directive({
+  selector: '[appAutoFocus]',
+  standalone: true
+})
+export class AutoFocusDirective implements AfterViewInit {
+  private elementRef = inject(ElementRef);
+  
+  @Input() appAutoFocus = true;
+  @Input() focusDelay = 0;
+  
+  ngAfterViewInit() {
+    if (this.appAutoFocus) {
+      setTimeout(() => {
+        this.elementRef.nativeElement.focus();
+      }, this.focusDelay);
+    }
+  }
+}
+
+// Focus Management Service
+@Injectable({ providedIn: 'root' })
+export class FocusManagerService {
+  private previousFocus?: HTMLElement;
+  
+  saveFocus() {
+    this.previousFocus = document.activeElement as HTMLElement;
+  }
+  
+  restoreFocus() {
+    if (this.previousFocus) {
+      this.previousFocus.focus();
+      this.previousFocus = undefined;
+    }
+  }
+  
+  focusFirst(container: HTMLElement) {
+    const firstFocusable = container.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    firstFocusable?.focus();
+  }
+}
+
+// Modal Component mit Focus Management
+@Component({
+  selector: 'app-modal',
+  template: \`
+    @if (isOpen()) {
+      <div class="modal-backdrop" (click)="close()">
+        <div 
+          class="modal-content" 
+          appFocusTrap
+          role="dialog"
+          [attr.aria-labelledby]="'modal-title-' + id"
+          [attr.aria-modal]="true"
+          (click)="$event.stopPropagation()">
+          <h2 [id]="'modal-title-' + id">{{ title() }}</h2>
+          <ng-content />
+          <button 
+            appAutoFocus
+            (click)="close()">
+            Schließen
+          </button>
+        </div>
+      </div>
+    }
+  \`,
+  imports: [FocusTrapDirective, AutoFocusDirective]
+})
+export class ModalComponent {
+  private focusManager = inject(FocusManagerService);
+  
+  id = crypto.randomUUID();
+  isOpen = signal(false);
+  title = input.required<string>();
+  
+  open() {
+    this.focusManager.saveFocus();
+    this.isOpen.set(true);
+  }
+  
+  close() {
+    this.isOpen.set(false);
+    this.focusManager.restoreFocus();
+  }
+}`
+        },
+        {
+            title: 'angular.accessibility.screenReader.title',
+            description: 'angular.accessibility.screenReader.description',
+            icon: 'record_voice_over',
+            tips: [
+                'angular.accessibility.screenReader.tip1',
+                'angular.accessibility.screenReader.tip2',
+                'angular.accessibility.screenReader.tip3',
+                'angular.accessibility.screenReader.tip4',
+                'angular.accessibility.screenReader.tip5'
+            ],
+            example: `// Screen Reader Only CSS
+/* styles.scss */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Live Announcer Service
+@Injectable({ providedIn: 'root' })
+export class LiveAnnouncerService {
+  private liveRegion?: HTMLElement;
+  
+  constructor() {
+    this.createLiveRegion();
+  }
+  
+  private createLiveRegion() {
+    this.liveRegion = document.createElement('div');
+    this.liveRegion.setAttribute('role', 'status');
+    this.liveRegion.setAttribute('aria-live', 'polite');
+    this.liveRegion.setAttribute('aria-atomic', 'true');
+    this.liveRegion.className = 'sr-only';
+    document.body.appendChild(this.liveRegion);
+  }
+  
+  announce(message: string, politeness: 'polite' | 'assertive' = 'polite') {
+    if (!this.liveRegion) return;
+    
+    this.liveRegion.setAttribute('aria-live', politeness);
+    this.liveRegion.textContent = '';
+    
+    setTimeout(() => {
+      if (this.liveRegion) {
+        this.liveRegion.textContent = message;
+      }
+    }, 100);
+  }
+}
+
+// Component mit Screen Reader Unterstützung
+@Component({
+  selector: 'app-form-validation',
+  template: \`
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-field">
+        <label for="email">E-Mail</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email"
+          [attr.aria-invalid]="emailInvalid()"
+          [attr.aria-describedby]="emailInvalid() ? 'email-error' : null">
+        
+        @if (emailInvalid()) {
+          <span 
+            id="email-error" 
+            class="error" 
+            role="alert">
+            {{ emailError() }}
+          </span>
+        }
+      </div>
+      
+      <button 
+        type="submit"
+        [disabled]="form.invalid"
+        [attr.aria-disabled]="form.invalid">
+        Absenden
+      </button>
+      
+      <!-- Screen Reader Fortschrittsanzeige -->
+      <div 
+        role="progressbar"
+        [attr.aria-valuenow]="progress()"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [attr.aria-label]="'Upload Fortschritt: ' + progress() + '%'">
+        <span class="sr-only">
+          Upload {{ progress() }}% abgeschlossen
+        </span>
+      </div>
+    </form>
+  \`
+})
+export class FormValidationComponent {
+  private announcer = inject(LiveAnnouncerService);
+  private fb = inject(FormBuilder);
+  
+  form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]]
+  });
+  
+  progress = signal(0);
+  
+  emailInvalid = computed(() => {
+    const control = this.form.get('email');
+    return control?.invalid && control?.touched;
+  });
+  
+  emailError = computed(() => {
+    const control = this.form.get('email');
+    if (control?.hasError('required')) {
+      return 'E-Mail ist erforderlich';
+    }
+    if (control?.hasError('email')) {
+      return 'Ungültige E-Mail Adresse';
+    }
+    return '';
+  });
+  
+  submit() {
+    if (this.form.valid) {
+      this.announcer.announce('Formular erfolgreich gesendet', 'polite');
+    } else {
+      this.announcer.announce(
+        'Formular enthält Fehler. Bitte korrigieren Sie die markierten Felder.',
+        'assertive'
+      );
+    }
+  }
+}`
+        }
+    ]);
+
+    readonly commonPitfalls = signal<CommonPitfall[]>([
+        {
+            title: 'angular.pitfalls.memoryLeaks.title',
+            description: 'angular.pitfalls.memoryLeaks.description',
+            icon: 'memory',
+            problem: `// ❌ FALSCH - Memory Leak durch nicht abgemeldete Subscription
+@Component({...})
+export class LeakyComponent implements OnInit {
+  private http = inject(HttpClient);
+  
+  ngOnInit() {
+    // Subscription wird nie abgemeldet!
+    this.http.get('/api/data').subscribe(data => {
+      console.log(data);
+    });
+    
+    // Interval läuft weiter nach Component Destroy
+    setInterval(() => {
+      console.log('Tick');
+    }, 1000);
+  }
+}
+
+// ❌ FALSCH - Event Listener nicht entfernt
+@Component({...})
+export class EventLeakComponent implements OnInit {
+  ngOnInit() {
+    window.addEventListener('resize', this.onResize);
+  }
+  
+  onResize() {
+    console.log('Window resized');
+  }
+}`,
+            solution: `// ✅ RICHTIG - Mit takeUntilDestroyed
+@Component({...})
+export class CleanComponent implements OnInit {
+  private http = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
+  
+  ngOnInit() {
+    // Automatisch abgemeldet bei Component Destroy
+    this.http.get('/api/data')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(data => {
+        console.log(data);
+      });
+    
+    // Mit Signal und effect (automatisch aufgeräumt)
+    effect(() => {
+      const intervalId = setInterval(() => {
+        console.log('Tick:', this.counter());
+      }, 1000);
+      
+      // Cleanup bei effect destroy
+      return () => clearInterval(intervalId);
+    });
+  }
+  
+  counter = signal(0);
+}
+
+// ✅ RICHTIG - Event Listener cleanup
+@Component({
+  host: {
+    '(window:resize)': 'onResize()'
+  }
+})
+export class EventComponent {
+  // Host binding räumt automatisch auf
+  onResize() {
+    console.log('Window resized');
+  }
+}
+
+// ✅ RICHTIG - Oder mit DestroyRef
+@Component({...})
+export class ManualCleanupComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  
+  ngOnInit() {
+    const handler = () => console.log('Resize');
+    window.addEventListener('resize', handler);
+    
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener('resize', handler);
+    });
+  }
+}`
+        },
+        {
+            title: 'angular.pitfalls.changeDetection.title',
+            description: 'angular.pitfalls.changeDetection.description',
+            icon: 'update',
+            problem: `// ❌ FALSCH - OnPush mit mutierten Arrays
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class BrokenOnPushComponent {
+  items = signal<Item[]>([]);
+  
+  addItem(item: Item) {
+    // Mutation erkennt OnPush nicht!
+    this.items().push(item);
+  }
+  
+  updateItem(index: number, newItem: Item) {
+    // Auch das ist eine Mutation!
+    this.items()[index] = newItem;
+  }
+}
+
+// ❌ FALSCH - Objekt-Mutation in Signals
+@Component({...})
+export class ObjectMutationComponent {
+  user = signal({ name: 'John', age: 30 });
+  
+  updateAge() {
+    // Mutation wird nicht erkannt!
+    this.user().age = 31;
+  }
+}
+
+// ❌ FALSCH - Method calls in templates
+@Component({
+  template: \`
+    <!-- Diese Methode wird bei jeder Change Detection aufgerufen! -->
+    @for (item of getFilteredItems(); track item.id) {
+      <div>{{ item.name }}</div>
+    }
+  \`
+})
+export class ExpensiveMethodComponent {
+  items = signal<Item[]>([]);
+  filter = signal('');
+  
+  getFilteredItems() {
+    console.log('Filtering...'); // Wird sehr oft aufgerufen!
+    return this.items().filter(item => 
+      item.name.includes(this.filter())
+    );
+  }
+}`,
+            solution: `// ✅ RICHTIG - Immutable Updates mit Signals
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class CorrectOnPushComponent {
+  items = signal<Item[]>([]);
+  
+  addItem(item: Item) {
+    // Neues Array erstellen
+    this.items.update(current => [...current, item]);
+  }
+  
+  updateItem(index: number, newItem: Item) {
+    this.items.update(current => 
+      current.map((item, i) => i === index ? newItem : item)
+    );
+  }
+  
+  removeItem(id: string) {
+    this.items.update(current => 
+      current.filter(item => item.id !== id)
+    );
+  }
+}
+
+// ✅ RICHTIG - Immutable Objekt-Updates
+@Component({...})
+export class ImmutableObjectComponent {
+  user = signal({ name: 'John', age: 30 });
+  
+  updateAge() {
+    // Neues Objekt erstellen
+    this.user.update(current => ({
+      ...current,
+      age: 31
+    }));
+  }
+  
+  updateName(name: string) {
+    this.user.update(current => ({ ...current, name }));
+  }
+}
+
+// ✅ RICHTIG - Computed für teure Berechnungen
+@Component({
+  template: \`
+    <!-- Computed cached das Ergebnis! -->
+    @for (item of filteredItems(); track item.id) {
+      <div>{{ item.name }}</div>
+    }
+  \`
+})
+export class OptimizedComponent {
+  items = signal<Item[]>([]);
+  filter = signal('');
+  
+  // Wird nur neu berechnet wenn items oder filter sich ändert
+  filteredItems = computed(() => {
+    console.log('Filtering...'); // Nur bei Änderungen!
+    return this.items().filter(item => 
+      item.name.includes(this.filter())
+    );
+  });
+}`
+        },
+        {
+            title: 'angular.pitfalls.zoneJs.title',
+            description: 'angular.pitfalls.zoneJs.description',
+            icon: 'animation',
+            problem: `// ❌ FALSCH - Zu viele Change Detection Durchläufe
+@Component({...})
+export class FrequentUpdatesComponent implements OnInit {
+  position = { x: 0, y: 0 };
+  
+  ngOnInit() {
+    // Triggert Change Detection bei jeder Mausbewegung!
+    document.addEventListener('mousemove', (e) => {
+      this.position = { x: e.clientX, y: e.clientY };
+    });
+  }
+}
+
+// ❌ FALSCH - setInterval triggert unnötige CD
+@Component({...})
+export class TimerComponent implements OnInit {
+  time = new Date();
+  
+  ngOnInit() {
+    // Change Detection jede Sekunde, auch wenn nicht sichtbar!
+    setInterval(() => {
+      this.time = new Date();
+    }, 1000);
+  }
+}`,
+            solution: `// ✅ RICHTIG - Zone.js umgehen mit runOutsideAngular
+@Component({...})
+export class OptimizedEventsComponent implements OnInit {
+  private ngZone = inject(NgZone);
+  position = signal({ x: 0, y: 0 });
+  
+  ngOnInit() {
+    // Läuft außerhalb von Zone.js
+    this.ngZone.runOutsideAngular(() => {
+      document.addEventListener('mousemove', (e) => {
+        // Nur bei Bedarf Change Detection triggern
+        if (this.shouldUpdate(e)) {
+          this.ngZone.run(() => {
+            this.position.set({ x: e.clientX, y: e.clientY });
+          });
+        }
+      });
+    });
+  }
+  
+  private shouldUpdate(e: MouseEvent): boolean {
+    const current = this.position();
+    return Math.abs(e.clientX - current.x) > 10 ||
+           Math.abs(e.clientY - current.y) > 10;
+  }
+}
+
+// ✅ RICHTIG - RxJS throttle für häufige Updates
+@Component({...})
+export class ThrottledComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  position = signal({ x: 0, y: 0 });
+  
+  ngOnInit() {
+    fromEvent<MouseEvent>(document, 'mousemove')
+      .pipe(
+        throttleTime(100), // Nur alle 100ms
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(e => {
+        this.position.set({ x: e.clientX, y: e.clientY });
+      });
+  }
+}
+
+// ✅ RICHTIG - Zoneless Angular (experimentell in v20)
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideExperimentalZonelessChangeDetection()
+  ]
+};
+
+@Component({
+  selector: 'app-zoneless',
+  template: \`
+    <!-- Signals funktionieren perfekt ohne Zone.js -->
+    <p>Count: {{ count() }}</p>
+    <button (click)="increment()">+</button>
+  \`
+})
+export class ZonelessComponent {
+  count = signal(0);
+  
+  increment() {
+    this.count.update(c => c + 1);
+  }
+}`
+        },
+        {
+            title: 'angular.pitfalls.antiPatterns.title',
+            description: 'angular.pitfalls.antiPatterns.description',
+            icon: 'warning',
+            problem: `// ❌ FALSCH - Logic in Templates
+@Component({
+  template: \`
+    <div *ngIf="user && user.role === 'admin' && user.permissions.includes('edit')">
+      Admin Content
+    </div>
+  \`
+})
+
+// ❌ FALSCH - Zu viele Abhängigkeiten
+@Component({...})
+export class GodComponent {
+  private service1 = inject(Service1);
+  private service2 = inject(Service2);
+  private service3 = inject(Service3);
+  private service4 = inject(Service4);
+  private service5 = inject(Service5);
+  // ... 20 weitere Services
+}
+
+// ❌ FALSCH - Direct DOM Manipulation
+@Component({...})
+export class DirectDomComponent {
+  ngAfterViewInit() {
+    document.getElementById('myElement')!.style.color = 'red';
+    document.querySelector('.my-class')!.innerHTML = 'New content';
+  }
+}
+
+// ❌ FALSCH - Business Logic in Component
+@Component({...})
+export class BusinessLogicComponent {
+  calculatePrice(item: Item) {
+    let price = item.basePrice;
+    if (item.category === 'electronics') {
+      price *= 1.2;
+    }
+    if (item.inStock) {
+      price *= 0.95;
+    }
+    return price * (1 + this.taxRate);
+  }
+}`,
+            solution: `// ✅ RICHTIG - Computed Properties
+@Component({
+  template: \`
+    @if (isAdmin()) {
+      <div>Admin Content</div>
+    }
+  \`
+})
+export class CleanTemplateComponent {
+  user = input.required<User>();
+  
+  isAdmin = computed(() => {
+    const u = this.user();
+    return u?.role === 'admin' && 
+           u?.permissions.includes('edit');
+  });
+}
+
+// ✅ RICHTIG - Facade Pattern
+@Injectable({ providedIn: 'root' })
+export class UserFacadeService {
+  private authService = inject(AuthService);
+  private profileService = inject(ProfileService);
+  private settingsService = inject(SettingsService);
+  
+  // Kombinierte API
+  getUserData() {
+    return combineLatest([
+      this.authService.currentUser$,
+      this.profileService.profile$,
+      this.settingsService.settings$
+    ]);
+  }
+}
+
+@Component({...})
+export class SimplifiedComponent {
+  private facade = inject(UserFacadeService);
+  userData$ = this.facade.getUserData();
+}
+
+// ✅ RICHTIG - Renderer2 für DOM Manipulation
+@Component({...})
+export class SafeDomComponent implements AfterViewInit {
+  private renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+  
+  ngAfterViewInit() {
+    const element = this.elementRef.nativeElement;
+    this.renderer.setStyle(element, 'color', 'red');
+    this.renderer.setProperty(element, 'textContent', 'New content');
+  }
+}
+
+// ✅ RICHTIG - Business Logic in Service
+@Injectable({ providedIn: 'root' })
+export class PricingService {
+  private readonly TAX_RATE = 0.19;
+  private readonly CATEGORY_MULTIPLIERS = {
+    electronics: 1.2,
+    clothing: 1.1,
+    food: 1.0
+  };
+  
+  calculatePrice(item: Item): number {
+    let price = item.basePrice;
+    
+    price *= this.CATEGORY_MULTIPLIERS[item.category] ?? 1.0;
+    
+    if (item.inStock) {
+      price *= 0.95; // 5% Rabatt
+    }
+    
+    return price * (1 + this.TAX_RATE);
+  }
+}
+
+@Component({...})
+export class CleanComponent {
+  private pricingService = inject(PricingService);
+  
+  item = input.required<Item>();
+  
+  price = computed(() => 
+    this.pricingService.calculatePrice(this.item())
+  );
+}`
+        }
+    ]);
+
+    readonly resources = signal<Resource[]>([
+        {
+            title: 'angular.resources.official.title',
+            description: 'angular.resources.official.description',
+            icon: 'book',
+            links: [
+                { name: 'Angular.dev', url: 'https://angular.dev' },
+                { name: 'Angular GitHub', url: 'https://github.com/angular/angular' },
+                { name: 'Angular Material', url: 'https://material.angular.io' },
+                { name: 'Angular CLI', url: 'https://angular.dev/tools/cli' },
+                { name: 'Angular Blog', url: 'https://blog.angular.dev' }
+            ]
+        },
+        {
+            title: 'angular.resources.community.title',
+            description: 'angular.resources.community.description',
+            icon: 'groups',
+            links: [
+                { name: 'Angular Community', url: 'https://community.angular.io' },
+                { name: 'r/Angular Reddit', url: 'https://reddit.com/r/angular' },
+                { name: 'Angular Discord', url: 'https://discord.gg/angular' },
+                { name: 'Stack Overflow', url: 'https://stackoverflow.com/questions/tagged/angular' },
+                { name: 'Angular Meetups', url: 'https://www.meetup.com/topics/angularjs/' }
+            ]
+        },
+        {
+            title: 'angular.resources.learning.title',
+            description: 'angular.resources.learning.description',
+            icon: 'school',
+            links: [
+                { name: 'Angular University', url: 'https://angular-university.io' },
+                { name: 'Ultimate Angular', url: 'https://ultimatecourses.com/angular' },
+                { name: 'Pluralsight Angular Path', url: 'https://www.pluralsight.com/paths/angular' },
+                { name: 'Udemy Angular Courses', url: 'https://www.udemy.com/topic/angular/' },
+                { name: 'egghead.io Angular', url: 'https://egghead.io/q/angular' }
+            ]
+        },
+        {
+            title: 'angular.resources.youtube.title',
+            description: 'angular.resources.youtube.description',
+            icon: 'play_circle',
+            links: [
+                { name: 'Angular YouTube Channel', url: 'https://www.youtube.com/@Angular' },
+                { name: 'Fireship Angular', url: 'https://www.youtube.com/@Fireship' },
+                { name: 'Decoded Frontend', url: 'https://www.youtube.com/@DecodedFrontend' },
+                { name: 'Joshua Morony', url: 'https://www.youtube.com/@JoshuaMorony' },
+                { name: 'Tomas Trajan', url: 'https://www.youtube.com/@TomasTrajan' }
+            ]
+        },
+        {
+            title: 'angular.resources.blogs.title',
+            description: 'angular.resources.blogs.description',
+            icon: 'article',
+            links: [
+                { name: 'Angular Blog', url: 'https://blog.angular.dev' },
+                { name: 'This is Angular', url: 'https://dev.to/t/angular' },
+                { name: 'Angular Experts', url: 'https://angularexperts.io/blog' },
+                { name: 'Ninja Squad Blog', url: 'https://blog.ninja-squad.com' },
+                { name: 'Netanel Basal Medium', url: 'https://netbasal.medium.com' }
+            ]
+        },
+        {
+            title: 'angular.resources.tools.title',
+            description: 'angular.resources.tools.description',
+            icon: 'build',
+            links: [
+                { name: 'Angular DevTools', url: 'https://angular.dev/tools/devtools' },
+                { name: 'StackBlitz', url: 'https://stackblitz.com' },
+                { name: 'CodeSandbox', url: 'https://codesandbox.io' },
+                { name: 'Angular Playground', url: 'https://angularplayground.it' },
+                { name: 'Compodoc', url: 'https://compodoc.app' }
+            ]
+        },
+        {
+            title: 'angular.resources.libraries.title',
+            description: 'angular.resources.libraries.description',
+            icon: 'widgets',
+            links: [
+                { name: 'NgRx', url: 'https://ngrx.io' },
+                { name: 'RxJS', url: 'https://rxjs.dev' },
+                { name: 'Transloco', url: 'https://ngneat.github.io/transloco/' },
+                { name: 'Taiga UI', url: 'https://taiga-ui.dev' },
+                { name: 'PrimeNG', url: 'https://primeng.org' },
+                { name: 'Nebular', url: 'https://akveo.github.io/nebular/' },
+                { name: 'NG-ZORRO', url: 'https://ng.ant.design' }
+            ]
+        },
+        {
+            title: 'angular.resources.newsletters.title',
+            description: 'angular.resources.newsletters.description',
+            icon: 'mail',
+            links: [
+                { name: 'Angular Weekly', url: 'https://www.angularweekly.com' },
+                { name: 'This Week in Angular', url: 'https://thisweekinangular.com' },
+                { name: 'ng-newsletter', url: 'https://www.ng-newsletter.com' }
+            ]
         }
     ]);
 
