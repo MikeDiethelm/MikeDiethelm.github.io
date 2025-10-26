@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -6,8 +6,8 @@ import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-language-switcher',
-  standalone: true,
   imports: [MatButtonModule, MatIconModule, MatMenuModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button mat-icon-button [matMenuTriggerFor]="languageMenu">
       <mat-icon>translate</mat-icon>
@@ -35,11 +35,11 @@ import { TranslationService } from '../../services/translation.service';
   `]
 })
 export class LanguageSwitcherComponent {
-  private translationService = inject(TranslationService);
+  private readonly translationService = inject(TranslationService);
 
-  currentLang = this.translationService.getCurrentLang;
+  protected readonly currentLang = this.translationService.getCurrentLang;
 
-  switchLanguage(lang: 'de' | 'en' | 'fr' | 'it') {
+  protected switchLanguage(lang: 'de' | 'en' | 'fr' | 'it'): void {
     this.translationService.setLanguage(lang);
   }
 }

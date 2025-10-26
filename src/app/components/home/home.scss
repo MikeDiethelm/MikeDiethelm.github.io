@@ -696,6 +696,11 @@
           color: #000000;
         }
 
+        &.angular {
+          background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+          color: #000000;
+        }
+
         mat-icon {
           font-size: 2rem; // Material 3: 32px icon
           width: 2rem;

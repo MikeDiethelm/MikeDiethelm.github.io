@@ -194,6 +194,28 @@
             </div>
           </div>
         </div>
+
+        <div class="project-card" (click)="navigateToProject('/angular')"
+          (keydown.enter)="navigateToProject('/angular')" (keydown.space)="navigateToProject('/angular')" role="button"
+          tabindex="0" [attr.aria-label]="'View ' + ('home.features.angular.title' | translate) + ' project'">
+          <div class="project-image">
+            <div class="project-icon angular" aria-hidden="true">
+              <mat-icon>settings_input_component</mat-icon>
+            </div>
+          </div>
+          <div class="project-content">
+            <h3>{{ 'home.features.angular.title' | translate }}</h3>
+            <p>{{ 'home.features.angular.description' | translate }}</p>
+            <div class="project-tech" role="list" aria-label="Technologies used">
+              <span class="tech-tag" role="listitem">{{ 'tech.angular' | translate }} 20</span>
+              <span class="tech-tag" role="listitem">Signals</span>
+              <span class="tech-tag" role="listitem">Best Practices</span>
+            </div>
+            <div class="project-action" aria-hidden="true">
+              <mat-icon>arrow_forward</mat-icon>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="projects-footer">

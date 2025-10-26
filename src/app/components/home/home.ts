@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { NgIf, NgForOf } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -17,43 +17,54 @@ interface Stat {
   selector: 'app-home',
   imports: [MatCardModule, MatButtonModule, MatIconModule, MatGridListModule, TranslatePipe, NgIf, NgForOf],
   templateUrl: './home.html',
-  styleUrl: './home.scss'
+  styleUrl: './home.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-  imageError = false;
+  protected imageError = false;
 
-  stats: Stat[] = [
+  protected readonly stats: Stat[] = [
     { number: '5+', label: 'home.stats.yearsExperience' },
     { number: '20+', label: 'home.stats.projects' },
     { number: '15+', label: 'home.stats.technologies' },
     { number: '100%', label: 'home.stats.engagement' }
   ];
 
-  private translationService = inject(TranslationService);
-  private router = inject(Router);
+  private readonly translationService = inject(TranslationService);
+  private readonly router = inject(Router);
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.initializeLanguage();
+  }
+
+  protected viewPortfolio(): void {
+    this.scrollToProjects();
+  }
+
+  protected openContact(): void {
+    this.openEmailClient();
+  }
+
+  protected navigateToProject(route: string): void {
+    this.router.navigate([route]);
+  }
+
+  private initializeLanguage(): void {
     this.translationService.initializeLanguage();
   }
 
-  viewPortfolio() {
-    // Scroll to projects section
+  private scrollToProjects(): void {
     const projectsSection = document.getElementById('projects');
     if (projectsSection) {
       projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
-  openContact() {
-    // Open email client or navigate to contact form
+  private openEmailClient(): void {
     const email = 'mike_diethelm@bluewin.ch';
     const subject = 'Kontakt über Portfolio Website';
     const body = 'Hallo Mike,\n\nIch habe Ihr Portfolio besucht und würde gerne mit Ihnen in Kontakt treten.\n\nMit freundlichen Grüßen';
 
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }
-
-  navigateToProject(route: string) {
-    this.router.navigate([route]);
   }
 }

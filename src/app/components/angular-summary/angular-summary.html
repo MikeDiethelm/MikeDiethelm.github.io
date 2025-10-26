@@ -1,0 +1,291 @@
+<div class="angular-summary-container">
+    <!-- Header Section -->
+    <section class="summary-header">
+        <div class="header-content">
+            <button mat-icon-button (click)="navigateHome()" class="back-button"
+                [matTooltip]="'angular.backToHome' | translate" aria-label="Back to home">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <div class="header-text">
+                <div class="angular-badge">
+                    <mat-icon class="angular-icon">whatshot</mat-icon>
+                    <span>Angular v{{ version() }}</span>
+                </div>
+                <h1 class="header-title">
+                    <span class="highlight">{{ 'angular.header.title' | translate }}</span>
+                </h1>
+                <p class="header-subtitle">{{ 'angular.header.subtitle' | translate }}</p>
+            </div>
+
+            <div class="header-logo">
+                <mat-icon class="logo-icon">settings_input_component</mat-icon>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Section -->
+    <section class="features-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.coreFeatures' | translate }}</h2>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="features-grid">
+            @for (feature of coreFeatures(); track feature.title) {
+            <mat-card class="feature-card" [class.primary-card]="feature.color === 'primary'">
+                <mat-card-header>
+                    <div mat-card-avatar class="feature-avatar" [class.primary-avatar]="feature.color === 'primary'">
+                        <mat-icon>{{ feature.icon }}</mat-icon>
+                    </div>
+                    <mat-card-title>{{ feature.title | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p class="feature-description">{{ feature.description | translate }}</p>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </section>
+
+    <!-- Best Practices Section -->
+    <section class="best-practices-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.bestPractices' | translate }}</h2>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="practices-grid">
+            @for (practice of bestPractices(); track practice.category) {
+            <mat-card class="practice-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="practice-avatar">
+                        <mat-icon>{{ practice.icon }}</mat-icon>
+                    </div>
+                    <mat-card-title>{{ practice.category | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul class="practice-list">
+                        @for (item of practice.items; track item) {
+                        <li class="practice-item">
+                            <mat-icon class="item-icon">check_circle</mat-icon>
+                            <span>{{ item | translate }}</span>
+                        </li>
+                        }
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </section>
+
+    <!-- Advanced Topics Section -->
+    <section class="advanced-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.advanced' | translate }}</h2>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="advanced-grid">
+            @for (topic of advancedTopics(); track topic.title) {
+            <mat-card class="advanced-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="advanced-avatar">
+                        <mat-icon>{{ topic.icon }}</mat-icon>
+                    </div>
+                    <mat-card-title>{{ topic.title | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p class="advanced-description">{{ topic.description | translate }}</p>
+                    <ul class="advanced-list">
+                        @for (item of topic.topics; track item) {
+                        <li class="advanced-item">
+                            <mat-icon class="item-icon">arrow_right</mat-icon>
+                            <span>{{ item | translate }}</span>
+                        </li>
+                        }
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </section>
+
+    <!-- Architecture Patterns Section -->
+    <!-- Architecture Patterns Section -->
+    <section class="architecture-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.architecture' | translate }}</h2>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="architecture-grid">
+            @for (pattern of architecturePatterns(); track pattern.title) {
+            <mat-card class="architecture-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="architecture-avatar">
+                        <mat-icon>{{ pattern.icon }}</mat-icon>
+                    </div>
+                    <mat-card-title>{{ pattern.title | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ pattern.description | translate }}</p>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </section>
+
+    <!-- Detailed Code Examples Section -->
+    <section class="detailed-examples-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.detailedExamples' | translate }}</h2>
+            <p class="section-description">{{ 'angular.sections.detailedExamplesDesc' | translate }}</p>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="detailed-examples-grid">
+            @for (example of detailedCodeExamples(); track example.title) {
+            <mat-card class="detailed-example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="detailed-example-avatar">
+                        <mat-icon>{{ example.icon }}</mat-icon>
+                    </div>
+                    <mat-card-title>{{ example.title | translate }}</mat-card-title>
+                    <mat-card-subtitle>{{ example.subtitle | translate }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p class="example-description">{{ example.description | translate }}</p>
+                    <div class="detailed-code-block">
+                        <div class="code-header">
+                            <mat-icon class="language-icon">code</mat-icon>
+                            <span class="language-label">{{ example.language }}</span>
+                        </div>
+                        <pre class="code-content"><code>{{ example.code }}</code></pre>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </section>
+
+    <!-- Footer Actions -->
+
+    <!-- CLI & DevTools Section -->
+    <section class="tools-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.tools' | translate }}</h2>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="tools-grid">
+            <mat-card class="tool-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="tool-avatar cli-avatar">
+                        <mat-icon>terminal</mat-icon>
+                    </div>
+                    <mat-card-title>{{ 'angular.tools.cli.title' | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ 'angular.tools.cli.description' | translate }}</p>
+                    <div class="code-example">
+                        <code>
+                            <span class="comment"># Neues Projekt erstellen</span><br>
+                            ng new my-app<br><br>
+                            <span class="comment"># Development Server</span><br>
+                            ng serve<br><br>
+                            <span class="comment"># Komponente generieren</span><br>
+                            ng generate component my-component
+                        </code>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="tool-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="tool-avatar devtools-avatar">
+                        <mat-icon>build_circle</mat-icon>
+                    </div>
+                    <mat-card-title>{{ 'angular.tools.devtools.title' | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ 'angular.tools.devtools.description' | translate }}</p>
+                    <ul class="tool-list">
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.devtools.feature1' | translate }}</li>
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.devtools.feature2' | translate }}</li>
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.devtools.feature3' | translate }}</li>
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.devtools.feature4' | translate }}</li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="tool-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="tool-avatar build-avatar">
+                        <mat-icon>construction</mat-icon>
+                    </div>
+                    <mat-card-title>{{ 'angular.tools.build.title' | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ 'angular.tools.build.description' | translate }}</p>
+                    <ul class="tool-list">
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.build.feature1' | translate }}</li>
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.build.feature2' | translate }}</li>
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.build.feature3' | translate }}</li>
+                        <li><mat-icon>check_circle</mat-icon> {{ 'angular.tools.build.feature4' | translate }}</li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="technologies-section">
+        <div class="section-header">
+            <h2>{{ 'angular.sections.technologies' | translate }}</h2>
+            <mat-divider></mat-divider>
+        </div>
+
+        <div class="technologies-content">
+            <mat-card class="technologies-card">
+                <mat-card-content>
+                    <div class="tech-chips">
+                        @for (tech of technologiesUsed(); track tech) {
+                        <mat-chip-set>
+                            <mat-chip class="tech-chip" highlighted>
+                                <mat-icon matChipAvatar>code</mat-icon>
+                                {{ tech }}
+                            </mat-chip>
+                        </mat-chip-set>
+                        }
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </section>
+
+    <!-- Footer Actions -->
+    <section class="actions-section">
+        <mat-card class="actions-card">
+            <mat-card-content>
+                <div class="actions-content">
+                    <div class="actions-text">
+                        <h3>{{ 'angular.actions.title' | translate }}</h3>
+                        <p>{{ 'angular.actions.description' | translate }}</p>
+                    </div>
+                    <div class="actions-buttons">
+                        <button mat-raised-button color="primary" (click)="navigateHome()" class="primary-action">
+                            <mat-icon>home</mat-icon>
+                            <span>{{ 'angular.actions.backHome' | translate }}</span>
+                        </button>
+                        <a href="https://angular.dev" target="_blank" rel="noopener noreferrer" mat-stroked-button
+                            class="secondary-action">
+                            <mat-icon>open_in_new</mat-icon>
+                            <span>{{ 'angular.actions.learnMore' | translate }}</span>
+                        </a>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </section>
+</div>

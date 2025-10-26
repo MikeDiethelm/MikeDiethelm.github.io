@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,8 @@ import { MatDividerModule } from '@angular/material/divider';
         TranslatePipe
     ],
     templateUrl: './footer.html',
-    styleUrl: './footer.scss'
+    styleUrl: './footer.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
 

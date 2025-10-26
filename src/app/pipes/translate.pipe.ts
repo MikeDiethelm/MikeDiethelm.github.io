@@ -1,20 +1,32 @@
-import { Pipe, PipeTransform, inject, computed } from '@angular/core';
+import { Pipe, PipeTransform, inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TranslationService } from '../services/translation.service';
+import { effect, Injector, EffectRef } from '@angular/core';
 
 @Pipe({
   name: 'translate',
-  pure: false,
-  standalone: true
+  pure: true
 })
-export class TranslatePipe implements PipeTransform {
-  private translationService = inject(TranslationService);
-  
-  // Use computed for reactive updates
-  private currentLang = this.translationService.getCurrentLang;
+export class TranslatePipe implements PipeTransform, OnDestroy {
+  private readonly translationService = inject(TranslationService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly injector = inject(Injector);
+  private effectRef?: EffectRef;
+
+  constructor() {
+    // Use effect to mark component for check when language changes
+    this.effectRef = effect(() => {
+      // Track language changes
+      this.translationService.getCurrentLang();
+      // Mark for check when language changes
+      this.cdr.markForCheck();
+    }, { injector: this.injector, allowSignalWrites: true });
+  }
 
   transform(key: string): string {
-    // Access current language to trigger reactivity
-    this.currentLang();
     return this.translationService.translate(key);
+  }
+
+  ngOnDestroy(): void {
+    this.effectRef?.destroy();
   }
 }
