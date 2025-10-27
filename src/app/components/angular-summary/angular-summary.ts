@@ -11,138 +11,160 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { FeatureDetailDialogComponent } from './feature-detail-dialog/feature-detail-dialog';
 import { BestPracticeDialogComponent } from './best-practice-dialog/best-practice-dialog';
+import { AdvancedTopicDialogComponent } from './advanced-topic-dialog/advanced-topic-dialog';
+import { ArchitecturePatternDialogComponent } from './architecture-pattern-dialog/architecture-pattern-dialog';
 
 interface BestPractice {
-    category: string;
-    icon: string;
-    items: string[];
-    color?: string;
-    detailTitle?: string;
-    explanation?: string;
-    codeExample?: string;
-    detailedItems?: Array<{
-        title: string;
-        description: string;
-        example?: string;
-    }>;
-    benefits?: string[];
-    antiPatterns?: string[];
+  category: string;
+  description?: string;
+  icon: string;
+  items: string[];
+  color?: string;
+  detailTitle?: string;
+  explanation?: string;
+  codeExample?: string;
+  detailedItems?: Array<{
+    title: string;
+    description: string;
+    example?: string;
+  }>;
+  benefits?: string[];
+  antiPatterns?: string[];
 }
 
 interface AngularFeature {
-    title: string;
-    description: string;
-    icon: string;
-    color: string;
-    detailTitle?: string;
-    explanation?: string;
-    codeExample?: string;
-    useCases?: string[];
-    benefits?: string[];
+  title: string;
+  description: string;
+  topics?: string[];
+  icon: string;
+  color: string;
+  detailTitle?: string;
+  explanation?: string;
+  codeExample?: string;
+  useCases?: string[];
+  benefits?: string[];
 }
 
 interface AdvancedTopic {
+  title: string;
+  description: string;
+  icon: string;
+  topics: string[];
+  color?: string;
+  detailTitle?: string;
+  explanation?: string;
+  codeExample?: string;
+  detailedItems?: Array<{
     title: string;
     description: string;
-    icon: string;
-    topics: string[];
+    example?: string;
+  }>;
+  benefits?: string[];
+  antiPatterns?: string[];
 }
 
 interface ArchitecturePattern {
-    title: string;
-    description: string;
-    icon: string;
+  title: string;
+  description: string;
+  icon: string;
+  detailTitle?: string;
+  explanation?: string;
+  codeExample?: string;
+  benefits?: string[];
+  useCases?: string[];
+  implementation?: string[];
+  challenges?: string[];
 }
 
 interface CodeExample {
-    title: string;
-    subtitle: string;
-    description: string;
-    code: string;
-    icon: string;
-    language: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  code: string;
+  icon: string;
+  language: string;
 }
 
 interface RealWorldPattern {
-    title: string;
-    description: string;
-    code: string;
-    icon: string;
-    useCases: string[];
+  title: string;
+  description: string;
+  code: string;
+  icon: string;
+  useCases: string[];
 }
 
 interface DevelopmentTool {
-    title: string;
-    description: string;
-    icon: string;
-    setup: string;
-    config?: string;
+  title: string;
+  description: string;
+  icon: string;
+  setup: string;
+  config?: string;
 }
 
 interface DeploymentStrategy {
-    title: string;
-    description: string;
-    icon: string;
-    steps: string[];
-    code?: string;
+  title: string;
+  description: string;
+  icon: string;
+  steps: string[];
+  code?: string;
 }
 
 interface AccessibilityPattern {
-    title: string;
-    description: string;
-    icon: string;
-    example: string;
-    tips: string[];
+  title: string;
+  description: string;
+  icon: string;
+  example: string;
+  tips: string[];
 }
 
 interface CommonPitfall {
-    title: string;
-    description: string;
-    icon: string;
-    problem: string;
-    solution: string;
+  title: string;
+  description: string;
+  icon: string;
+  problem: string;
+  solution: string;
 }
 
 interface Resource {
-    title: string;
-    description: string;
-    icon: string;
-    links: { name: string; url: string; }[];
+  title: string;
+  description: string;
+  icon: string;
+  links: { name: string; url: string; }[];
 }
 
 @Component({
-    selector: 'app-angular-summary',
-    imports: [
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatChipsModule,
-        MatTooltipModule,
-        MatDividerModule,
-        MatExpansionModule,
-        MatDialogModule,
-        TranslatePipe
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './angular-summary.html',
-    styleUrl: './angular-summary.scss'
+  selector: 'app-angular-summary',
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    MatTooltipModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatDialogModule,
+    TranslatePipe
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './angular-summary.html',
+  styleUrl: './angular-summary.scss'
 })
 export class AngularSummaryComponent {
-    private router = inject(Router);
-    private dialog = inject(MatDialog);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
 
-    readonly version = signal('20');
-    readonly panelOpenState = signal(false);
+  readonly version = signal('20');
+  readonly panelOpenState = signal(false);
 
-    readonly coreFeatures = signal<AngularFeature[]>([
-        {
-            title: 'angular.features.signals.title',
-            description: 'angular.features.signals.description',
-            icon: 'sensors',
-            color: 'primary',
-            detailTitle: 'angular.features.signals.detailTitle',
-            explanation: 'angular.features.signals.explanation',
-            codeExample: `// Signal erstellen
+  readonly coreFeatures = signal<AngularFeature[]>([
+    {
+      title: 'angular.features.signals.title',
+      description: 'angular.features.signals.description',
+      icon: 'sensors',
+      color: 'primary',
+      detailTitle: 'angular.features.signals.detailTitle',
+      explanation: 'angular.features.signals.explanation',
+      codeExample: `// Signal erstellen
 const count = signal(0);
 const doubled = computed(() => count() * 2);
 
@@ -155,25 +177,25 @@ effect(() => {
   console.log('Count:', count());
   console.log('Doubled:', doubled());
 });`,
-            benefits: [
-                'angular.features.signals.benefit1',
-                'angular.features.signals.benefit2',
-                'angular.features.signals.benefit3'
-            ],
-            useCases: [
-                'angular.features.signals.useCase1',
-                'angular.features.signals.useCase2',
-                'angular.features.signals.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.standalone.title',
-            description: 'angular.features.standalone.description',
-            icon: 'widgets',
-            color: 'accent',
-            detailTitle: 'angular.features.standalone.detailTitle',
-            explanation: 'angular.features.standalone.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.signals.benefit1',
+        'angular.features.signals.benefit2',
+        'angular.features.signals.benefit3'
+      ],
+      useCases: [
+        'angular.features.signals.useCase1',
+        'angular.features.signals.useCase2',
+        'angular.features.signals.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.standalone.title',
+      description: 'angular.features.standalone.description',
+      icon: 'widgets',
+      color: 'accent',
+      detailTitle: 'angular.features.standalone.detailTitle',
+      explanation: 'angular.features.standalone.explanation',
+      codeExample: `@Component({
   selector: 'app-my-component',
   standalone: true,  // Standalone Component
   imports: [CommonModule, MatButtonModule],
@@ -190,25 +212,25 @@ bootstrapApplication(AppComponent, {
     provideHttpClient()
   ]
 });`,
-            benefits: [
-                'angular.features.standalone.benefit1',
-                'angular.features.standalone.benefit2',
-                'angular.features.standalone.benefit3'
-            ],
-            useCases: [
-                'angular.features.standalone.useCase1',
-                'angular.features.standalone.useCase2',
-                'angular.features.standalone.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.inject.title',
-            description: 'angular.features.inject.description',
-            icon: 'input',
-            color: 'primary',
-            detailTitle: 'angular.features.inject.detailTitle',
-            explanation: 'angular.features.inject.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.standalone.benefit1',
+        'angular.features.standalone.benefit2',
+        'angular.features.standalone.benefit3'
+      ],
+      useCases: [
+        'angular.features.standalone.useCase1',
+        'angular.features.standalone.useCase2',
+        'angular.features.standalone.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.inject.title',
+      description: 'angular.features.inject.description',
+      icon: 'input',
+      color: 'primary',
+      detailTitle: 'angular.features.inject.detailTitle',
+      explanation: 'angular.features.inject.explanation',
+      codeExample: `@Component({
   selector: 'app-user-profile',
   standalone: true
 })
@@ -228,25 +250,25 @@ export class UserProfileComponent {
     self: true 
   });
 }`,
-            benefits: [
-                'angular.features.inject.benefit1',
-                'angular.features.inject.benefit2',
-                'angular.features.inject.benefit3'
-            ],
-            useCases: [
-                'angular.features.inject.useCase1',
-                'angular.features.inject.useCase2',
-                'angular.features.inject.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.controlFlow.title',
-            description: 'angular.features.controlFlow.description',
-            icon: 'alt_route',
-            color: 'accent',
-            detailTitle: 'angular.features.controlFlow.detailTitle',
-            explanation: 'angular.features.controlFlow.explanation',
-            codeExample: `<!-- @if - Konditionelles Rendering -->
+      benefits: [
+        'angular.features.inject.benefit1',
+        'angular.features.inject.benefit2',
+        'angular.features.inject.benefit3'
+      ],
+      useCases: [
+        'angular.features.inject.useCase1',
+        'angular.features.inject.useCase2',
+        'angular.features.inject.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.controlFlow.title',
+      description: 'angular.features.controlFlow.description',
+      icon: 'alt_route',
+      color: 'accent',
+      detailTitle: 'angular.features.controlFlow.detailTitle',
+      explanation: 'angular.features.controlFlow.explanation',
+      codeExample: `<!-- @if - Konditionelles Rendering -->
 @if (user(); as u) {
   <p>Hallo {{ u.name }}</p>
 } @else if (loading()) {
@@ -269,25 +291,25 @@ export class UserProfileComponent {
   @case ('success') { <data/> }
   @default { <empty/> }
 }`,
-            benefits: [
-                'angular.features.controlFlow.benefit1',
-                'angular.features.controlFlow.benefit2',
-                'angular.features.controlFlow.benefit3'
-            ],
-            useCases: [
-                'angular.features.controlFlow.useCase1',
-                'angular.features.controlFlow.useCase2',
-                'angular.features.controlFlow.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.deferrable.title',
-            description: 'angular.features.deferrable.description',
-            icon: 'hourglass_empty',
-            color: 'primary',
-            detailTitle: 'angular.features.deferrable.detailTitle',
-            explanation: 'angular.features.deferrable.explanation',
-            codeExample: `<!-- Lazy Loading bei Sichtbarkeit -->
+      benefits: [
+        'angular.features.controlFlow.benefit1',
+        'angular.features.controlFlow.benefit2',
+        'angular.features.controlFlow.benefit3'
+      ],
+      useCases: [
+        'angular.features.controlFlow.useCase1',
+        'angular.features.controlFlow.useCase2',
+        'angular.features.controlFlow.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.deferrable.title',
+      description: 'angular.features.deferrable.description',
+      icon: 'hourglass_empty',
+      color: 'primary',
+      detailTitle: 'angular.features.deferrable.detailTitle',
+      explanation: 'angular.features.deferrable.explanation',
+      codeExample: `<!-- Lazy Loading bei Sichtbarkeit -->
 @defer (on viewport) {
   <heavy-component />
 } @placeholder {
@@ -312,25 +334,25 @@ export class UserProfileComponent {
 @defer (on idle) {
   <newsletter-signup />
 }`,
-            benefits: [
-                'angular.features.deferrable.benefit1',
-                'angular.features.deferrable.benefit2',
-                'angular.features.deferrable.benefit3'
-            ],
-            useCases: [
-                'angular.features.deferrable.useCase1',
-                'angular.features.deferrable.useCase2',
-                'angular.features.deferrable.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.inputOutput.title',
-            description: 'angular.features.inputOutput.description',
-            icon: 'swap_horiz',
-            color: 'accent',
-            detailTitle: 'angular.features.inputOutput.detailTitle',
-            explanation: 'angular.features.inputOutput.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.deferrable.benefit1',
+        'angular.features.deferrable.benefit2',
+        'angular.features.deferrable.benefit3'
+      ],
+      useCases: [
+        'angular.features.deferrable.useCase1',
+        'angular.features.deferrable.useCase2',
+        'angular.features.deferrable.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.inputOutput.title',
+      description: 'angular.features.inputOutput.description',
+      icon: 'swap_horiz',
+      color: 'accent',
+      detailTitle: 'angular.features.inputOutput.detailTitle',
+      explanation: 'angular.features.inputOutput.explanation',
+      codeExample: `@Component({
   selector: 'app-counter',
   standalone: true,
   template: \`
@@ -360,25 +382,25 @@ export class CounterComponent {
     this.countChange.emit(this.count() + 1);
   }
 }`,
-            benefits: [
-                'angular.features.inputOutput.benefit1',
-                'angular.features.inputOutput.benefit2',
-                'angular.features.inputOutput.benefit3'
-            ],
-            useCases: [
-                'angular.features.inputOutput.useCase1',
-                'angular.features.inputOutput.useCase2',
-                'angular.features.inputOutput.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.viewQueries.title',
-            description: 'angular.features.viewQueries.description',
-            icon: 'pageview',
-            color: 'primary',
-            detailTitle: 'angular.features.viewQueries.detailTitle',
-            explanation: 'angular.features.viewQueries.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.inputOutput.benefit1',
+        'angular.features.inputOutput.benefit2',
+        'angular.features.inputOutput.benefit3'
+      ],
+      useCases: [
+        'angular.features.inputOutput.useCase1',
+        'angular.features.inputOutput.useCase2',
+        'angular.features.inputOutput.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.viewQueries.title',
+      description: 'angular.features.viewQueries.description',
+      icon: 'pageview',
+      color: 'primary',
+      detailTitle: 'angular.features.viewQueries.detailTitle',
+      explanation: 'angular.features.viewQueries.explanation',
+      codeExample: `@Component({
   selector: 'app-parent',
   standalone: true,
   template: \`
@@ -406,25 +428,25 @@ export class ParentComponent {
     this.requiredChild().doSomething();
   }
 }`,
-            benefits: [
-                'angular.features.viewQueries.benefit1',
-                'angular.features.viewQueries.benefit2',
-                'angular.features.viewQueries.benefit3'
-            ],
-            useCases: [
-                'angular.features.viewQueries.useCase1',
-                'angular.features.viewQueries.useCase2',
-                'angular.features.viewQueries.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.model.title',
-            description: 'angular.features.model.description',
-            icon: 'sync_alt',
-            color: 'accent',
-            detailTitle: 'angular.features.model.detailTitle',
-            explanation: 'angular.features.model.explanation',
-            codeExample: `// Child Component
+      benefits: [
+        'angular.features.viewQueries.benefit1',
+        'angular.features.viewQueries.benefit2',
+        'angular.features.viewQueries.benefit3'
+      ],
+      useCases: [
+        'angular.features.viewQueries.useCase1',
+        'angular.features.viewQueries.useCase2',
+        'angular.features.viewQueries.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.model.title',
+      description: 'angular.features.model.description',
+      icon: 'sync_alt',
+      color: 'accent',
+      detailTitle: 'angular.features.model.detailTitle',
+      explanation: 'angular.features.model.explanation',
+      codeExample: `// Child Component
 @Component({
   selector: 'app-counter',
   standalone: true,
@@ -449,25 +471,25 @@ export class CounterComponent {
 
 // Parent Template
 <app-counter [(value)]="count" />`,
-            benefits: [
-                'angular.features.model.benefit1',
-                'angular.features.model.benefit2',
-                'angular.features.model.benefit3'
-            ],
-            useCases: [
-                'angular.features.model.useCase1',
-                'angular.features.model.useCase2',
-                'angular.features.model.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.onPush.title',
-            description: 'angular.features.onPush.description',
-            icon: 'update',
-            color: 'primary',
-            detailTitle: 'angular.features.onPush.detailTitle',
-            explanation: 'angular.features.onPush.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.model.benefit1',
+        'angular.features.model.benefit2',
+        'angular.features.model.benefit3'
+      ],
+      useCases: [
+        'angular.features.model.useCase1',
+        'angular.features.model.useCase2',
+        'angular.features.model.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.onPush.title',
+      description: 'angular.features.onPush.description',
+      icon: 'update',
+      color: 'primary',
+      detailTitle: 'angular.features.onPush.detailTitle',
+      explanation: 'angular.features.onPush.explanation',
+      codeExample: `@Component({
   selector: 'app-user-list',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -493,25 +515,25 @@ export class UserListComponent {
     });
   }
 }`,
-            benefits: [
-                'angular.features.onPush.benefit1',
-                'angular.features.onPush.benefit2',
-                'angular.features.onPush.benefit3'
-            ],
-            useCases: [
-                'angular.features.onPush.useCase1',
-                'angular.features.onPush.useCase2',
-                'angular.features.onPush.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.httpClient.title',
-            description: 'angular.features.httpClient.description',
-            icon: 'cloud',
-            color: 'accent',
-            detailTitle: 'angular.features.httpClient.detailTitle',
-            explanation: 'angular.features.httpClient.explanation',
-            codeExample: `@Injectable({ providedIn: 'root' })
+      benefits: [
+        'angular.features.onPush.benefit1',
+        'angular.features.onPush.benefit2',
+        'angular.features.onPush.benefit3'
+      ],
+      useCases: [
+        'angular.features.onPush.useCase1',
+        'angular.features.onPush.useCase2',
+        'angular.features.onPush.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.httpClient.title',
+      description: 'angular.features.httpClient.description',
+      icon: 'cloud',
+      color: 'accent',
+      detailTitle: 'angular.features.httpClient.detailTitle',
+      explanation: 'angular.features.httpClient.explanation',
+      codeExample: `@Injectable({ providedIn: 'root' })
 export class UserService {
   private http = inject(HttpClient);
   private baseUrl = 'https://api.example.com';
@@ -535,25 +557,25 @@ export class UserService {
     );
   }
 }`,
-            benefits: [
-                'angular.features.httpClient.benefit1',
-                'angular.features.httpClient.benefit2',
-                'angular.features.httpClient.benefit3'
-            ],
-            useCases: [
-                'angular.features.httpClient.useCase1',
-                'angular.features.httpClient.useCase2',
-                'angular.features.httpClient.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.resource.title',
-            description: 'angular.features.resource.description',
-            icon: 'inventory',
-            color: 'primary',
-            detailTitle: 'angular.features.resource.detailTitle',
-            explanation: 'angular.features.resource.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.httpClient.benefit1',
+        'angular.features.httpClient.benefit2',
+        'angular.features.httpClient.benefit3'
+      ],
+      useCases: [
+        'angular.features.httpClient.useCase1',
+        'angular.features.httpClient.useCase2',
+        'angular.features.httpClient.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.resource.title',
+      description: 'angular.features.resource.description',
+      icon: 'inventory',
+      color: 'primary',
+      detailTitle: 'angular.features.resource.detailTitle',
+      explanation: 'angular.features.resource.explanation',
+      codeExample: `@Component({
   selector: 'app-user-profile',
   standalone: true,
   template: \`
@@ -581,25 +603,25 @@ export class UserProfileComponent {
     this.userId.set(newId);
   }
 }`,
-            benefits: [
-                'angular.features.resource.benefit1',
-                'angular.features.resource.benefit2',
-                'angular.features.resource.benefit3'
-            ],
-            useCases: [
-                'angular.features.resource.useCase1',
-                'angular.features.resource.useCase2',
-                'angular.features.resource.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.forms.title',
-            description: 'angular.features.forms.description',
-            icon: 'article',
-            color: 'accent',
-            detailTitle: 'angular.features.forms.detailTitle',
-            explanation: 'angular.features.forms.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.resource.benefit1',
+        'angular.features.resource.benefit2',
+        'angular.features.resource.benefit3'
+      ],
+      useCases: [
+        'angular.features.resource.useCase1',
+        'angular.features.resource.useCase2',
+        'angular.features.resource.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.forms.title',
+      description: 'angular.features.forms.description',
+      icon: 'article',
+      color: 'accent',
+      detailTitle: 'angular.features.forms.detailTitle',
+      explanation: 'angular.features.forms.explanation',
+      codeExample: `@Component({
   selector: 'app-user-form',
   standalone: true,
   imports: [ReactiveFormsModule],
@@ -632,25 +654,25 @@ export class UserFormComponent {
     }
   }
 }`,
-            benefits: [
-                'angular.features.forms.benefit1',
-                'angular.features.forms.benefit2',
-                'angular.features.forms.benefit3'
-            ],
-            useCases: [
-                'angular.features.forms.useCase1',
-                'angular.features.forms.useCase2',
-                'angular.features.forms.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.router.title',
-            description: 'angular.features.router.description',
-            icon: 'route',
-            color: 'primary',
-            detailTitle: 'angular.features.router.detailTitle',
-            explanation: 'angular.features.router.explanation',
-            codeExample: `// Routes Definition
+      benefits: [
+        'angular.features.forms.benefit1',
+        'angular.features.forms.benefit2',
+        'angular.features.forms.benefit3'
+      ],
+      useCases: [
+        'angular.features.forms.useCase1',
+        'angular.features.forms.useCase2',
+        'angular.features.forms.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.router.title',
+      description: 'angular.features.router.description',
+      icon: 'route',
+      color: 'primary',
+      detailTitle: 'angular.features.router.detailTitle',
+      explanation: 'angular.features.router.explanation',
+      codeExample: `// Routes Definition
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { 
@@ -684,25 +706,25 @@ export class UserDetailComponent {
     this.router.navigate(['/users']);
   }
 }`,
-            benefits: [
-                'angular.features.router.benefit1',
-                'angular.features.router.benefit2',
-                'angular.features.router.benefit3'
-            ],
-            useCases: [
-                'angular.features.router.useCase1',
-                'angular.features.router.useCase2',
-                'angular.features.router.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.material.title',
-            description: 'angular.features.material.description',
-            icon: 'palette',
-            color: 'accent',
-            detailTitle: 'angular.features.material.detailTitle',
-            explanation: 'angular.features.material.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.features.router.benefit1',
+        'angular.features.router.benefit2',
+        'angular.features.router.benefit3'
+      ],
+      useCases: [
+        'angular.features.router.useCase1',
+        'angular.features.router.useCase2',
+        'angular.features.router.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.material.title',
+      description: 'angular.features.material.description',
+      icon: 'palette',
+      color: 'accent',
+      detailTitle: 'angular.features.material.detailTitle',
+      explanation: 'angular.features.material.explanation',
+      codeExample: `@Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
@@ -735,25 +757,25 @@ export class UserDetailComponent {
 export class DashboardComponent {
   userCount = signal(0);
 }`,
-            benefits: [
-                'angular.features.material.benefit1',
-                'angular.features.material.benefit2',
-                'angular.features.material.benefit3'
-            ],
-            useCases: [
-                'angular.features.material.useCase1',
-                'angular.features.material.useCase2',
-                'angular.features.material.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.devtools.title',
-            description: 'angular.features.devtools.description',
-            icon: 'bug_report',
-            color: 'primary',
-            detailTitle: 'angular.features.devtools.detailTitle',
-            explanation: 'angular.features.devtools.explanation',
-            codeExample: `// Installieren
+      benefits: [
+        'angular.features.material.benefit1',
+        'angular.features.material.benefit2',
+        'angular.features.material.benefit3'
+      ],
+      useCases: [
+        'angular.features.material.useCase1',
+        'angular.features.material.useCase2',
+        'angular.features.material.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.devtools.title',
+      description: 'angular.features.devtools.description',
+      icon: 'bug_report',
+      color: 'primary',
+      detailTitle: 'angular.features.devtools.detailTitle',
+      explanation: 'angular.features.devtools.explanation',
+      codeExample: `// Installieren
 // Chrome Extension: Angular DevTools
 
 // Features:
@@ -777,25 +799,25 @@ export class DashboardComponent {
 
 // Debug-Modus aktivieren
 enableDebugTools(rootComponent);`,
-            benefits: [
-                'angular.features.devtools.benefit1',
-                'angular.features.devtools.benefit2',
-                'angular.features.devtools.benefit3'
-            ],
-            useCases: [
-                'angular.features.devtools.useCase1',
-                'angular.features.devtools.useCase2',
-                'angular.features.devtools.useCase3'
-            ]
-        },
-        {
-            title: 'angular.features.vite.title',
-            description: 'angular.features.vite.description',
-            icon: 'flash_on',
-            color: 'accent',
-            detailTitle: 'angular.features.vite.detailTitle',
-            explanation: 'angular.features.vite.explanation',
-            codeExample: `// angular.json (Standard ab Angular 17+)
+      benefits: [
+        'angular.features.devtools.benefit1',
+        'angular.features.devtools.benefit2',
+        'angular.features.devtools.benefit3'
+      ],
+      useCases: [
+        'angular.features.devtools.useCase1',
+        'angular.features.devtools.useCase2',
+        'angular.features.devtools.useCase3'
+      ]
+    },
+    {
+      title: 'angular.features.vite.title',
+      description: 'angular.features.vite.description',
+      icon: 'flash_on',
+      color: 'accent',
+      detailTitle: 'angular.features.vite.detailTitle',
+      explanation: 'angular.features.vite.explanation',
+      codeExample: `// angular.json (Standard ab Angular 17+)
 {
   "projects": {
     "my-app": {
@@ -821,37 +843,37 @@ enableDebugTools(rootComponent);`,
 // - Schnelle Dev Server Starts
 // - ESBuild für Production
 // - Optimierte Bundle-Größen`,
-            benefits: [
-                'angular.features.vite.benefit1',
-                'angular.features.vite.benefit2',
-                'angular.features.vite.benefit3'
-            ],
-            useCases: [
-                'angular.features.vite.useCase1',
-                'angular.features.vite.useCase2',
-                'angular.features.vite.useCase3'
-            ]
-        }
-    ]);
+      benefits: [
+        'angular.features.vite.benefit1',
+        'angular.features.vite.benefit2',
+        'angular.features.vite.benefit3'
+      ],
+      useCases: [
+        'angular.features.vite.useCase1',
+        'angular.features.vite.useCase2',
+        'angular.features.vite.useCase3'
+      ]
+    }
+  ]);
 
-    readonly bestPractices = signal<BestPractice[]>([
-        {
-            category: 'angular.bestPractices.components.title',
-            icon: 'view_module',
-            color: 'primary',
-            items: [
-                'angular.bestPractices.components.item1',
-                'angular.bestPractices.components.item2',
-                'angular.bestPractices.components.item3',
-                'angular.bestPractices.components.item4',
-                'angular.bestPractices.components.item5',
-                'angular.bestPractices.components.item6',
-                'angular.bestPractices.components.item7',
-                'angular.bestPractices.components.item8'
-            ],
-            detailTitle: 'angular.bestPractices.components.detailTitle',
-            explanation: 'angular.bestPractices.components.explanation',
-            codeExample: `@Component({
+  readonly bestPractices = signal<BestPractice[]>([
+    {
+      category: 'angular.bestPractices.components.title',
+      icon: 'view_module',
+      color: 'primary',
+      items: [
+        'angular.bestPractices.components.item1',
+        'angular.bestPractices.components.item2',
+        'angular.bestPractices.components.item3',
+        'angular.bestPractices.components.item4',
+        'angular.bestPractices.components.item5',
+        'angular.bestPractices.components.item6',
+        'angular.bestPractices.components.item7',
+        'angular.bestPractices.components.item8'
+      ],
+      detailTitle: 'angular.bestPractices.components.detailTitle',
+      explanation: 'angular.bestPractices.components.explanation',
+      codeExample: `@Component({
   selector: 'app-user-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -875,32 +897,32 @@ export class UserCardComponent {
     \`\${this.user().firstName} \${this.user().lastName}\`
   );
 }`,
-            benefits: [
-                'angular.bestPractices.components.benefit1',
-                'angular.bestPractices.components.benefit2',
-                'angular.bestPractices.components.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.components.antiPattern1',
-                'angular.bestPractices.components.antiPattern2',
-                'angular.bestPractices.components.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.state.title',
-            icon: 'storage',
-            color: 'accent',
-            items: [
-                'angular.bestPractices.state.item1',
-                'angular.bestPractices.state.item2',
-                'angular.bestPractices.state.item3',
-                'angular.bestPractices.state.item4',
-                'angular.bestPractices.state.item5',
-                'angular.bestPractices.state.item6'
-            ],
-            detailTitle: 'angular.bestPractices.state.detailTitle',
-            explanation: 'angular.bestPractices.state.explanation',
-            codeExample: `// Service für State Management
+      benefits: [
+        'angular.bestPractices.components.benefit1',
+        'angular.bestPractices.components.benefit2',
+        'angular.bestPractices.components.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.components.antiPattern1',
+        'angular.bestPractices.components.antiPattern2',
+        'angular.bestPractices.components.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.state.title',
+      icon: 'storage',
+      color: 'accent',
+      items: [
+        'angular.bestPractices.state.item1',
+        'angular.bestPractices.state.item2',
+        'angular.bestPractices.state.item3',
+        'angular.bestPractices.state.item4',
+        'angular.bestPractices.state.item5',
+        'angular.bestPractices.state.item6'
+      ],
+      detailTitle: 'angular.bestPractices.state.detailTitle',
+      explanation: 'angular.bestPractices.state.explanation',
+      codeExample: `// Service für State Management
 @Injectable({ providedIn: 'root' })
 export class UserStateService {
   // Private Signal für internen State
@@ -935,31 +957,31 @@ export class UserStateService {
     );
   }
 }`,
-            benefits: [
-                'angular.bestPractices.state.benefit1',
-                'angular.bestPractices.state.benefit2',
-                'angular.bestPractices.state.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.state.antiPattern1',
-                'angular.bestPractices.state.antiPattern2',
-                'angular.bestPractices.state.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.templates.title',
-            icon: 'code',
-            color: 'primary',
-            items: [
-                'angular.bestPractices.templates.item1',
-                'angular.bestPractices.templates.item2',
-                'angular.bestPractices.templates.item3',
-                'angular.bestPractices.templates.item4',
-                'angular.bestPractices.templates.item5'
-            ],
-            detailTitle: 'angular.bestPractices.templates.detailTitle',
-            explanation: 'angular.bestPractices.templates.explanation',
-            codeExample: `<!-- Neue Control Flow Syntax verwenden -->
+      benefits: [
+        'angular.bestPractices.state.benefit1',
+        'angular.bestPractices.state.benefit2',
+        'angular.bestPractices.state.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.state.antiPattern1',
+        'angular.bestPractices.state.antiPattern2',
+        'angular.bestPractices.state.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.templates.title',
+      icon: 'code',
+      color: 'primary',
+      items: [
+        'angular.bestPractices.templates.item1',
+        'angular.bestPractices.templates.item2',
+        'angular.bestPractices.templates.item3',
+        'angular.bestPractices.templates.item4',
+        'angular.bestPractices.templates.item5'
+      ],
+      detailTitle: 'angular.bestPractices.templates.detailTitle',
+      explanation: 'angular.bestPractices.templates.explanation',
+      codeExample: `<!-- Neue Control Flow Syntax verwenden -->
 @if (user(); as u) {
   <div class="user-info">
     <h3>{{ u.name }}</h3>
@@ -991,31 +1013,31 @@ export class UserStateService {
 } @placeholder {
   <loading-spinner />
 }`,
-            benefits: [
-                'angular.bestPractices.templates.benefit1',
-                'angular.bestPractices.templates.benefit2',
-                'angular.bestPractices.templates.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.templates.antiPattern1',
-                'angular.bestPractices.templates.antiPattern2',
-                'angular.bestPractices.templates.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.services.title',
-            icon: 'business_center',
-            color: 'accent',
-            items: [
-                'angular.bestPractices.services.item1',
-                'angular.bestPractices.services.item2',
-                'angular.bestPractices.services.item3',
-                'angular.bestPractices.services.item4',
-                'angular.bestPractices.services.item5'
-            ],
-            detailTitle: 'angular.bestPractices.services.detailTitle',
-            explanation: 'angular.bestPractices.services.explanation',
-            codeExample: `@Injectable({ providedIn: 'root' })
+      benefits: [
+        'angular.bestPractices.templates.benefit1',
+        'angular.bestPractices.templates.benefit2',
+        'angular.bestPractices.templates.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.templates.antiPattern1',
+        'angular.bestPractices.templates.antiPattern2',
+        'angular.bestPractices.templates.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.services.title',
+      icon: 'business_center',
+      color: 'accent',
+      items: [
+        'angular.bestPractices.services.item1',
+        'angular.bestPractices.services.item2',
+        'angular.bestPractices.services.item3',
+        'angular.bestPractices.services.item4',
+        'angular.bestPractices.services.item5'
+      ],
+      detailTitle: 'angular.bestPractices.services.detailTitle',
+      explanation: 'angular.bestPractices.services.explanation',
+      codeExample: `@Injectable({ providedIn: 'root' })
 export class DataService {
   private http = inject(HttpClient);
   private apiUrl = 'https://api.example.com';
@@ -1055,33 +1077,33 @@ export class DataService {
     );
   }
 }`,
-            benefits: [
-                'angular.bestPractices.services.benefit1',
-                'angular.bestPractices.services.benefit2',
-                'angular.bestPractices.services.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.services.antiPattern1',
-                'angular.bestPractices.services.antiPattern2',
-                'angular.bestPractices.services.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.performance.title',
-            icon: 'speed',
-            color: 'primary',
-            items: [
-                'angular.bestPractices.performance.item1',
-                'angular.bestPractices.performance.item2',
-                'angular.bestPractices.performance.item3',
-                'angular.bestPractices.performance.item4',
-                'angular.bestPractices.performance.item5',
-                'angular.bestPractices.performance.item6',
-                'angular.bestPractices.performance.item7'
-            ],
-            detailTitle: 'angular.bestPractices.performance.detailTitle',
-            explanation: 'angular.bestPractices.performance.explanation',
-            codeExample: `@Component({
+      benefits: [
+        'angular.bestPractices.services.benefit1',
+        'angular.bestPractices.services.benefit2',
+        'angular.bestPractices.services.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.services.antiPattern1',
+        'angular.bestPractices.services.antiPattern2',
+        'angular.bestPractices.services.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.performance.title',
+      icon: 'speed',
+      color: 'primary',
+      items: [
+        'angular.bestPractices.performance.item1',
+        'angular.bestPractices.performance.item2',
+        'angular.bestPractices.performance.item3',
+        'angular.bestPractices.performance.item4',
+        'angular.bestPractices.performance.item5',
+        'angular.bestPractices.performance.item6',
+        'angular.bestPractices.performance.item7'
+      ],
+      detailTitle: 'angular.bestPractices.performance.detailTitle',
+      explanation: 'angular.bestPractices.performance.explanation',
+      codeExample: `@Component({
   selector: 'app-high-performance',
   standalone: true,
   // OnPush für optimale Performance
@@ -1118,32 +1140,32 @@ export class HighPerformanceComponent {
   @ViewChild(CdkVirtualScrollViewport)
   viewport!: CdkVirtualScrollViewport;
 }`,
-            benefits: [
-                'angular.bestPractices.performance.benefit1',
-                'angular.bestPractices.performance.benefit2',
-                'angular.bestPractices.performance.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.performance.antiPattern1',
-                'angular.bestPractices.performance.antiPattern2',
-                'angular.bestPractices.performance.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.typescript.title',
-            icon: 'code_blocks',
-            color: 'accent',
-            items: [
-                'angular.bestPractices.typescript.item1',
-                'angular.bestPractices.typescript.item2',
-                'angular.bestPractices.typescript.item3',
-                'angular.bestPractices.typescript.item4',
-                'angular.bestPractices.typescript.item5',
-                'angular.bestPractices.typescript.item6'
-            ],
-            detailTitle: 'angular.bestPractices.typescript.detailTitle',
-            explanation: 'angular.bestPractices.typescript.explanation',
-            codeExample: `// Strikte TypeScript Konfiguration
+      benefits: [
+        'angular.bestPractices.performance.benefit1',
+        'angular.bestPractices.performance.benefit2',
+        'angular.bestPractices.performance.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.performance.antiPattern1',
+        'angular.bestPractices.performance.antiPattern2',
+        'angular.bestPractices.performance.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.typescript.title',
+      icon: 'code_blocks',
+      color: 'accent',
+      items: [
+        'angular.bestPractices.typescript.item1',
+        'angular.bestPractices.typescript.item2',
+        'angular.bestPractices.typescript.item3',
+        'angular.bestPractices.typescript.item4',
+        'angular.bestPractices.typescript.item5',
+        'angular.bestPractices.typescript.item6'
+      ],
+      detailTitle: 'angular.bestPractices.typescript.detailTitle',
+      explanation: 'angular.bestPractices.typescript.explanation',
+      codeExample: `// Strikte TypeScript Konfiguration
 // tsconfig.json
 {
   "compilerOptions": {
@@ -1184,31 +1206,31 @@ function isUser(obj: unknown): obj is User {
 
 // Readonly Arrays
 readonly users: readonly User[] = [];`,
-            benefits: [
-                'angular.bestPractices.typescript.benefit1',
-                'angular.bestPractices.typescript.benefit2',
-                'angular.bestPractices.typescript.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.typescript.antiPattern1',
-                'angular.bestPractices.typescript.antiPattern2',
-                'angular.bestPractices.typescript.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.accessibility.title',
-            icon: 'accessibility',
-            color: 'primary',
-            items: [
-                'angular.bestPractices.accessibility.item1',
-                'angular.bestPractices.accessibility.item2',
-                'angular.bestPractices.accessibility.item3',
-                'angular.bestPractices.accessibility.item4',
-                'angular.bestPractices.accessibility.item5'
-            ],
-            detailTitle: 'angular.bestPractices.accessibility.detailTitle',
-            explanation: 'angular.bestPractices.accessibility.explanation',
-            codeExample: `<!-- Semantic HTML verwenden -->
+      benefits: [
+        'angular.bestPractices.typescript.benefit1',
+        'angular.bestPractices.typescript.benefit2',
+        'angular.bestPractices.typescript.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.typescript.antiPattern1',
+        'angular.bestPractices.typescript.antiPattern2',
+        'angular.bestPractices.typescript.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.accessibility.title',
+      icon: 'accessibility',
+      color: 'primary',
+      items: [
+        'angular.bestPractices.accessibility.item1',
+        'angular.bestPractices.accessibility.item2',
+        'angular.bestPractices.accessibility.item3',
+        'angular.bestPractices.accessibility.item4',
+        'angular.bestPractices.accessibility.item5'
+      ],
+      detailTitle: 'angular.bestPractices.accessibility.detailTitle',
+      explanation: 'angular.bestPractices.accessibility.explanation',
+      codeExample: `<!-- Semantic HTML verwenden -->
 <button 
   type="button"
   [attr.aria-label]="'Benutzer löschen: ' + user().name"
@@ -1252,31 +1274,31 @@ readonly users: readonly User[] = [];`,
   (keydown.space)="handleClick()">
   Klickbar
 </div>`,
-            benefits: [
-                'angular.bestPractices.accessibility.benefit1',
-                'angular.bestPractices.accessibility.benefit2',
-                'angular.bestPractices.accessibility.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.accessibility.antiPattern1',
-                'angular.bestPractices.accessibility.antiPattern2',
-                'angular.bestPractices.accessibility.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.testing.title',
-            icon: 'science',
-            color: 'accent',
-            items: [
-                'angular.bestPractices.testing.item1',
-                'angular.bestPractices.testing.item2',
-                'angular.bestPractices.testing.item3',
-                'angular.bestPractices.testing.item4',
-                'angular.bestPractices.testing.item5'
-            ],
-            detailTitle: 'angular.bestPractices.testing.detailTitle',
-            explanation: 'angular.bestPractices.testing.explanation',
-            codeExample: `describe('UserComponent', () => {
+      benefits: [
+        'angular.bestPractices.accessibility.benefit1',
+        'angular.bestPractices.accessibility.benefit2',
+        'angular.bestPractices.accessibility.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.accessibility.antiPattern1',
+        'angular.bestPractices.accessibility.antiPattern2',
+        'angular.bestPractices.accessibility.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.testing.title',
+      icon: 'science',
+      color: 'accent',
+      items: [
+        'angular.bestPractices.testing.item1',
+        'angular.bestPractices.testing.item2',
+        'angular.bestPractices.testing.item3',
+        'angular.bestPractices.testing.item4',
+        'angular.bestPractices.testing.item5'
+      ],
+      detailTitle: 'angular.bestPractices.testing.detailTitle',
+      explanation: 'angular.bestPractices.testing.explanation',
+      codeExample: `describe('UserComponent', () => {
   let component: UserComponent;
   let fixture: ComponentFixture<UserComponent>;
   
@@ -1338,30 +1360,30 @@ describe('UserService', () => {
     expect(service.users().length).toBe(1);
   });
 });`,
-            benefits: [
-                'angular.bestPractices.testing.benefit1',
-                'angular.bestPractices.testing.benefit2',
-                'angular.bestPractices.testing.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.testing.antiPattern1',
-                'angular.bestPractices.testing.antiPattern2',
-                'angular.bestPractices.testing.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.errorHandling.title',
-            icon: 'error_outline',
-            color: 'primary',
-            items: [
-                'angular.bestPractices.errorHandling.item1',
-                'angular.bestPractices.errorHandling.item2',
-                'angular.bestPractices.errorHandling.item3',
-                'angular.bestPractices.errorHandling.item4'
-            ],
-            detailTitle: 'angular.bestPractices.errorHandling.detailTitle',
-            explanation: 'angular.bestPractices.errorHandling.explanation',
-            codeExample: `// Global Error Handler
+      benefits: [
+        'angular.bestPractices.testing.benefit1',
+        'angular.bestPractices.testing.benefit2',
+        'angular.bestPractices.testing.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.testing.antiPattern1',
+        'angular.bestPractices.testing.antiPattern2',
+        'angular.bestPractices.testing.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.errorHandling.title',
+      icon: 'error_outline',
+      color: 'primary',
+      items: [
+        'angular.bestPractices.errorHandling.item1',
+        'angular.bestPractices.errorHandling.item2',
+        'angular.bestPractices.errorHandling.item3',
+        'angular.bestPractices.errorHandling.item4'
+      ],
+      detailTitle: 'angular.bestPractices.errorHandling.detailTitle',
+      explanation: 'angular.bestPractices.errorHandling.explanation',
+      codeExample: `// Global Error Handler
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   private logger = inject(LoggerService);
@@ -1424,31 +1446,31 @@ export class ErrorBoundaryComponent {
     this.error.set(null);
   }
 }`,
-            benefits: [
-                'angular.bestPractices.errorHandling.benefit1',
-                'angular.bestPractices.errorHandling.benefit2',
-                'angular.bestPractices.errorHandling.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.errorHandling.antiPattern1',
-                'angular.bestPractices.errorHandling.antiPattern2',
-                'angular.bestPractices.errorHandling.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.security.title',
-            icon: 'shield',
-            color: 'accent',
-            items: [
-                'angular.bestPractices.security.item1',
-                'angular.bestPractices.security.item2',
-                'angular.bestPractices.security.item3',
-                'angular.bestPractices.security.item4',
-                'angular.bestPractices.security.item5'
-            ],
-            detailTitle: 'angular.bestPractices.security.detailTitle',
-            explanation: 'angular.bestPractices.security.explanation',
-            codeExample: `// DomSanitizer für sichere HTML-Inhalte
+      benefits: [
+        'angular.bestPractices.errorHandling.benefit1',
+        'angular.bestPractices.errorHandling.benefit2',
+        'angular.bestPractices.errorHandling.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.errorHandling.antiPattern1',
+        'angular.bestPractices.errorHandling.antiPattern2',
+        'angular.bestPractices.errorHandling.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.security.title',
+      icon: 'shield',
+      color: 'accent',
+      items: [
+        'angular.bestPractices.security.item1',
+        'angular.bestPractices.security.item2',
+        'angular.bestPractices.security.item3',
+        'angular.bestPractices.security.item4',
+        'angular.bestPractices.security.item5'
+      ],
+      detailTitle: 'angular.bestPractices.security.detailTitle',
+      explanation: 'angular.bestPractices.security.explanation',
+      codeExample: `// DomSanitizer für sichere HTML-Inhalte
 @Component({
   selector: 'app-safe-content',
   template: \`<div [innerHTML]="safeHtml()"></div>\`
@@ -1510,31 +1532,31 @@ export class AuthService {
       ?.split('=')[1] || '';
   }
 }`,
-            benefits: [
-                'angular.bestPractices.security.benefit1',
-                'angular.bestPractices.security.benefit2',
-                'angular.bestPractices.security.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.security.antiPattern1',
-                'angular.bestPractices.security.antiPattern2',
-                'angular.bestPractices.security.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.codeOrganization.title',
-            icon: 'folder_open',
-            color: 'primary',
-            items: [
-                'angular.bestPractices.codeOrganization.item1',
-                'angular.bestPractices.codeOrganization.item2',
-                'angular.bestPractices.codeOrganization.item3',
-                'angular.bestPractices.codeOrganization.item4',
-                'angular.bestPractices.codeOrganization.item5'
-            ],
-            detailTitle: 'angular.bestPractices.codeOrganization.detailTitle',
-            explanation: 'angular.bestPractices.codeOrganization.explanation',
-            codeExample: `// Projektstruktur
+      benefits: [
+        'angular.bestPractices.security.benefit1',
+        'angular.bestPractices.security.benefit2',
+        'angular.bestPractices.security.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.security.antiPattern1',
+        'angular.bestPractices.security.antiPattern2',
+        'angular.bestPractices.security.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.codeOrganization.title',
+      icon: 'folder_open',
+      color: 'primary',
+      items: [
+        'angular.bestPractices.codeOrganization.item1',
+        'angular.bestPractices.codeOrganization.item2',
+        'angular.bestPractices.codeOrganization.item3',
+        'angular.bestPractices.codeOrganization.item4',
+        'angular.bestPractices.codeOrganization.item5'
+      ],
+      detailTitle: 'angular.bestPractices.codeOrganization.detailTitle',
+      explanation: 'angular.bestPractices.codeOrganization.explanation',
+      codeExample: `// Projektstruktur
 src/
   app/
     core/              // Singleton Services
@@ -1580,30 +1602,30 @@ src/
 export * from './components/button.component';
 export * from './pipes/format-date.pipe';
 export * from './models/user.model';`,
-            benefits: [
-                'angular.bestPractices.codeOrganization.benefit1',
-                'angular.bestPractices.codeOrganization.benefit2',
-                'angular.bestPractices.codeOrganization.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.codeOrganization.antiPattern1',
-                'angular.bestPractices.codeOrganization.antiPattern2',
-                'angular.bestPractices.codeOrganization.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.dependency.title',
-            icon: 'account_tree',
-            color: 'accent',
-            items: [
-                'angular.bestPractices.dependency.item1',
-                'angular.bestPractices.dependency.item2',
-                'angular.bestPractices.dependency.item3',
-                'angular.bestPractices.dependency.item4'
-            ],
-            detailTitle: 'angular.bestPractices.dependency.detailTitle',
-            explanation: 'angular.bestPractices.dependency.explanation',
-            codeExample: `// inject() statt Constructor Injection
+      benefits: [
+        'angular.bestPractices.codeOrganization.benefit1',
+        'angular.bestPractices.codeOrganization.benefit2',
+        'angular.bestPractices.codeOrganization.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.codeOrganization.antiPattern1',
+        'angular.bestPractices.codeOrganization.antiPattern2',
+        'angular.bestPractices.codeOrganization.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.dependency.title',
+      icon: 'account_tree',
+      color: 'accent',
+      items: [
+        'angular.bestPractices.dependency.item1',
+        'angular.bestPractices.dependency.item2',
+        'angular.bestPractices.dependency.item3',
+        'angular.bestPractices.dependency.item4'
+      ],
+      detailTitle: 'angular.bestPractices.dependency.detailTitle',
+      explanation: 'angular.bestPractices.dependency.explanation',
+      codeExample: `// inject() statt Constructor Injection
 @Component({
   selector: 'app-user-list',
   standalone: true
@@ -1650,31 +1672,31 @@ export const CONFIG_PROVIDER = {
   deps: [HttpClient],
   multi: true
 };`,
-            benefits: [
-                'angular.bestPractices.dependency.benefit1',
-                'angular.bestPractices.dependency.benefit2',
-                'angular.bestPractices.dependency.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.dependency.antiPattern1',
-                'angular.bestPractices.dependency.antiPattern2',
-                'angular.bestPractices.dependency.antiPattern3'
-            ]
-        },
-        {
-            category: 'angular.bestPractices.buildDeploy.title',
-            icon: 'rocket_launch',
-            color: 'primary',
-            items: [
-                'angular.bestPractices.buildDeploy.item1',
-                'angular.bestPractices.buildDeploy.item2',
-                'angular.bestPractices.buildDeploy.item3',
-                'angular.bestPractices.buildDeploy.item4',
-                'angular.bestPractices.buildDeploy.item5'
-            ],
-            detailTitle: 'angular.bestPractices.buildDeploy.detailTitle',
-            explanation: 'angular.bestPractices.buildDeploy.explanation',
-            codeExample: `// angular.json - Production Build Konfiguration
+      benefits: [
+        'angular.bestPractices.dependency.benefit1',
+        'angular.bestPractices.dependency.benefit2',
+        'angular.bestPractices.dependency.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.dependency.antiPattern1',
+        'angular.bestPractices.dependency.antiPattern2',
+        'angular.bestPractices.dependency.antiPattern3'
+      ]
+    },
+    {
+      category: 'angular.bestPractices.buildDeploy.title',
+      icon: 'rocket_launch',
+      color: 'primary',
+      items: [
+        'angular.bestPractices.buildDeploy.item1',
+        'angular.bestPractices.buildDeploy.item2',
+        'angular.bestPractices.buildDeploy.item3',
+        'angular.bestPractices.buildDeploy.item4',
+        'angular.bestPractices.buildDeploy.item5'
+      ],
+      detailTitle: 'angular.bestPractices.buildDeploy.detailTitle',
+      explanation: 'angular.bestPractices.buildDeploy.explanation',
+      codeExample: `// angular.json - Production Build Konfiguration
 {
   "projects": {
     "my-app": {
@@ -1751,333 +1773,3585 @@ FROM nginx:alpine
 COPY --from=build /app/dist/my-app/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80`,
-            benefits: [
-                'angular.bestPractices.buildDeploy.benefit1',
-                'angular.bestPractices.buildDeploy.benefit2',
-                'angular.bestPractices.buildDeploy.benefit3'
-            ],
-            antiPatterns: [
-                'angular.bestPractices.buildDeploy.antiPattern1',
-                'angular.bestPractices.buildDeploy.antiPattern2',
-                'angular.bestPractices.buildDeploy.antiPattern3'
-            ]
+      benefits: [
+        'angular.bestPractices.buildDeploy.benefit1',
+        'angular.bestPractices.buildDeploy.benefit2',
+        'angular.bestPractices.buildDeploy.benefit3'
+      ],
+      antiPatterns: [
+        'angular.bestPractices.buildDeploy.antiPattern1',
+        'angular.bestPractices.buildDeploy.antiPattern2',
+        'angular.bestPractices.buildDeploy.antiPattern3'
+      ]
+    }
+  ]);
+
+  readonly technologiesUsed = signal<string[]>([
+    'Angular 20',
+    'TypeScript 5.9',
+    'Signals',
+    'Standalone Components',
+    'Material Design 3',
+    'RxJS 7.8',
+    'SCSS',
+    'Dependency Injection',
+    'OnPush Change Detection',
+    'HttpClient',
+    'Router',
+    'Vite & ESBuild'
+  ]);
+
+  readonly advancedTopics = signal<AdvancedTopic[]>([
+    {
+      title: 'angular.advanced.routing.title',
+      description: 'angular.advanced.routing.description',
+      icon: 'alt_route',
+      topics: [
+        'angular.advanced.routing.topic1',
+        'angular.advanced.routing.topic2',
+        'angular.advanced.routing.topic3',
+        'angular.advanced.routing.topic4',
+        'angular.advanced.routing.topic5',
+        'angular.advanced.routing.topic6'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.routing.detailTitle',
+      explanation: 'angular.advanced.routing.explanation',
+      codeExample: `// Advanced Routing Configuration
+export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    title: 'Home'
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.routes'),
+    canActivate: [authGuard],
+    canMatch: [roleGuard('admin')]
+  },
+  {
+    path: 'user/:id',
+    component: UserDetailComponent,
+    resolve: { user: userResolver },
+    canDeactivate: [unsavedChangesGuard]
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
+];
+
+// Functional Guard
+export const authGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  
+  if (authService.isAuthenticated()) {
+    return true;
+  }
+  
+  return router.createUrlTree(['/login'], {
+    queryParams: { returnUrl: state.url }
+  });
+};
+
+// Resolver
+export const userResolver: ResolveFn<User> = (route) => {
+  const userService = inject(UserService);
+  return userService.getUser(route.params['id']);
+};`,
+      benefits: [
+        'angular.advanced.routing.benefit1',
+        'angular.advanced.routing.benefit2',
+        'angular.advanced.routing.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.routing.antiPattern1',
+        'angular.advanced.routing.antiPattern2',
+        'angular.advanced.routing.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.forms.title',
+      description: 'angular.advanced.forms.description',
+      icon: 'description',
+      topics: [
+        'angular.advanced.forms.topic1',
+        'angular.advanced.forms.topic2',
+        'angular.advanced.forms.topic3',
+        'angular.advanced.forms.topic4',
+        'angular.advanced.forms.topic5',
+        'angular.advanced.forms.topic6'
+      ],
+      color: 'teal',
+      detailTitle: 'angular.advanced.forms.detailTitle',
+      explanation: 'angular.advanced.forms.explanation',
+      codeExample: `// Reactive Forms with Typed Forms
+interface UserForm {
+  name: FormControl<string>;
+  email: FormControl<string>;
+  age: FormControl<number>;
+  address: FormGroup<AddressForm>;
+}
+
+@Component({
+  selector: 'app-user-form',
+  template: \`
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input formControlName="name" />
+      @if (form.controls.name.errors?.['required']) {
+        <span>Name is required</span>
+      }
+      
+      <div formGroupName="address">
+        <input formControlName="street" />
+        <input formControlName="city" />
+      </div>
+      
+      <button type="submit" [disabled]="form.invalid">Submit</button>
+    </form>
+  \`
+})
+export class UserFormComponent {
+  form = new FormGroup<UserForm>({
+    name: new FormControl('', { 
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+      asyncValidators: [emailExistsValidator()]
+    }),
+    age: new FormControl(0, { nonNullable: true }),
+    address: new FormGroup<AddressForm>({
+      street: new FormControl('', { nonNullable: true }),
+      city: new FormControl('', { nonNullable: true })
+    })
+  });
+  
+  onSubmit() {
+    if (this.form.valid) {
+      const value = this.form.getRawValue(); // Fully typed!
+      console.log(value);
+    }
+  }
+}
+
+// Custom Async Validator
+function emailExistsValidator(): AsyncValidatorFn {
+  return (control: AbstractControl) => {
+    const http = inject(HttpClient);
+    return http.get(\`/api/check-email?email=\${control.value}\`)
+      .pipe(
+        map(exists => exists ? { emailTaken: true } : null),
+        catchError(() => of(null))
+      );
+  };
+}`,
+      benefits: [
+        'angular.advanced.forms.benefit1',
+        'angular.advanced.forms.benefit2',
+        'angular.advanced.forms.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.forms.antiPattern1',
+        'angular.advanced.forms.antiPattern2',
+        'angular.advanced.forms.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.rxjs.title',
+      description: 'angular.advanced.rxjs.description',
+      icon: 'stream',
+      topics: [
+        'angular.advanced.rxjs.topic1',
+        'angular.advanced.rxjs.topic2',
+        'angular.advanced.rxjs.topic3',
+        'angular.advanced.rxjs.topic4',
+        'angular.advanced.rxjs.topic5',
+        'angular.advanced.rxjs.topic6'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.rxjs.detailTitle',
+      explanation: 'angular.advanced.rxjs.explanation',
+      codeExample: `// Advanced RxJS Patterns
+@Injectable({ providedIn: 'root' })
+export class DataService {
+  private destroy$ = new Subject<void>();
+  private refreshTrigger$ = new Subject<void>();
+  
+  // Hot Observable with shareReplay
+  readonly users$ = this.refreshTrigger$.pipe(
+    startWith(null),
+    switchMap(() => this.http.get<User[]>('/api/users')),
+    shareReplay({ bufferSize: 1, refCount: true }),
+    catchError(error => {
+      console.error(error);
+      return of([]);
+    })
+  );
+  
+  // Combining Streams
+  readonly searchResults$ = combineLatest([
+    this.searchTerm$,
+    this.filters$
+  ]).pipe(
+    debounceTime(300),
+    distinctUntilChanged((prev, curr) => 
+      JSON.stringify(prev) === JSON.stringify(curr)
+    ),
+    switchMap(([term, filters]) => 
+      this.search(term, filters)
+    ),
+    takeUntil(this.destroy$)
+  );
+  
+  // Error Handling with retry
+  loadData() {
+    return this.http.get('/api/data').pipe(
+      retry({
+        count: 3,
+        delay: (error, retryCount) => 
+          timer(retryCount * 1000)
+      }),
+      catchError(error => {
+        this.errorHandler.handle(error);
+        return throwError(() => error);
+      })
+    );
+  }
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}`,
+      benefits: [
+        'angular.advanced.rxjs.benefit1',
+        'angular.advanced.rxjs.benefit2',
+        'angular.advanced.rxjs.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.rxjs.antiPattern1',
+        'angular.advanced.rxjs.antiPattern2',
+        'angular.advanced.rxjs.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.changeDetection.title',
+      description: 'angular.advanced.changeDetection.description',
+      icon: 'update',
+      topics: [
+        'angular.advanced.changeDetection.topic1',
+        'angular.advanced.changeDetection.topic2',
+        'angular.advanced.changeDetection.topic3',
+        'angular.advanced.changeDetection.topic4',
+        'angular.advanced.changeDetection.topic5'
+      ],
+      color: 'teal',
+      detailTitle: 'angular.advanced.changeDetection.detailTitle',
+      explanation: 'angular.advanced.changeDetection.explanation',
+      codeExample: `// Advanced Change Detection
+@Component({
+  selector: 'app-optimized',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: \`
+    <h2>{{ title() }}</h2>
+    <p>Count: {{ count() }}</p>
+    
+    @for (item of items(); track item.id) {
+      <app-item [data]="item" />
+    }
+  \`
+})
+export class OptimizedComponent {
+  // Signals trigger change detection automatically
+  title = signal('Optimized Component');
+  count = signal(0);
+  items = signal<Item[]>([]);
+  
+  private cdr = inject(ChangeDetectorRef);
+  
+  // Manual change detection when needed
+  loadData() {
+    this.http.get<Item[]>('/api/items')
+      .subscribe(data => {
+        this.items.set(data); // Signals auto-detect
+      });
+  }
+  
+  // Detach/Reattach for complex scenarios
+  runExpensiveOperation() {
+    this.cdr.detach();
+    
+    // Heavy computation
+    const result = this.compute();
+    
+    this.count.set(result);
+    this.cdr.reattach();
+    this.cdr.markForCheck();
+  }
+}
+
+// Zone-less with Signals
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideExperimentalZonelessChangeDetection()
+  ]
+};`,
+      benefits: [
+        'angular.advanced.changeDetection.benefit1',
+        'angular.advanced.changeDetection.benefit2',
+        'angular.advanced.changeDetection.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.changeDetection.antiPattern1',
+        'angular.advanced.changeDetection.antiPattern2',
+        'angular.advanced.changeDetection.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.animations.title',
+      description: 'angular.advanced.animations.description',
+      icon: 'animation',
+      topics: [
+        'angular.advanced.animations.topic1',
+        'angular.advanced.animations.topic2',
+        'angular.advanced.animations.topic3',
+        'angular.advanced.animations.topic4',
+        'angular.advanced.animations.topic5'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.animations.detailTitle',
+      explanation: 'angular.advanced.animations.explanation',
+      codeExample: `// Advanced Animations
+import { trigger, state, style, transition, animate, query, stagger } from '@angular/animations';
+
+@Component({
+  selector: 'app-animated',
+  animations: [
+    // Route Transitions
+    trigger('routeAnimation', [
+      transition('* <=> *', [
+        query(':enter, :leave', [
+          style({ position: 'absolute', width: '100%' })
+        ], { optional: true }),
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateX(100%)' })
+        ], { optional: true }),
+        query(':leave', [
+          animate('300ms ease-out', 
+            style({ opacity: 0, transform: 'translateX(-100%)' })
+          )
+        ], { optional: true }),
+        query(':enter', [
+          animate('300ms ease-in',
+            style({ opacity: 1, transform: 'translateX(0)' })
+          )
+        ], { optional: true })
+      ])
+    ]),
+    
+    // List Animations with Stagger
+    trigger('listAnimation', [
+      transition('* => *', [
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateY(20px)' }),
+          stagger('50ms', [
+            animate('300ms ease-out',
+              style({ opacity: 1, transform: 'translateY(0)' })
+            )
+          ])
+        ], { optional: true })
+      ])
+    ]),
+    
+    // State-based Animation
+    trigger('expandCollapse', [
+      state('collapsed', style({
+        height: '0',
+        opacity: 0,
+        overflow: 'hidden'
+      })),
+      state('expanded', style({
+        height: '*',
+        opacity: 1
+      })),
+      transition('collapsed <=> expanded', 
+        animate('250ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      )
+    ])
+  ]
+})
+export class AnimatedComponent {
+  isExpanded = signal(false);
+  items = signal<string[]>([]);
+}`,
+      benefits: [
+        'angular.advanced.animations.benefit1',
+        'angular.advanced.animations.benefit2',
+        'angular.advanced.animations.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.animations.antiPattern1',
+        'angular.advanced.animations.antiPattern2',
+        'angular.advanced.animations.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.testing.title',
+      description: 'angular.advanced.testing.description',
+      icon: 'bug_report',
+      topics: [
+        'angular.advanced.testing.topic1',
+        'angular.advanced.testing.topic2',
+        'angular.advanced.testing.topic3',
+        'angular.advanced.testing.topic4',
+        'angular.advanced.testing.topic5',
+        'angular.advanced.testing.topic6'
+      ],
+      color: 'teal',
+      detailTitle: 'angular.advanced.testing.detailTitle',
+      explanation: 'angular.advanced.testing.explanation',
+      codeExample: `// Advanced Testing Patterns
+describe('UserComponent', () => {
+  let component: UserComponent;
+  let fixture: ComponentFixture<UserComponent>;
+  let userService: jasmine.SpyObj<UserService>;
+  
+  beforeEach(async () => {
+    const spy = jasmine.createSpyObj('UserService', ['getUsers']);
+    
+    await TestBed.configureTestingModule({
+      imports: [UserComponent],
+      providers: [
+        { provide: UserService, useValue: spy }
+      ]
+    }).compileComponents();
+    
+    fixture = TestBed.createComponent(UserComponent);
+    component = fixture.componentInstance;
+    userService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
+  });
+  
+  it('should load users on init', fakeAsync(() => {
+    const mockUsers = [{ id: 1, name: 'John' }];
+    userService.getUsers.and.returnValue(of(mockUsers));
+    
+    component.ngOnInit();
+    tick();
+    
+    expect(component.users()).toEqual(mockUsers);
+  }));
+  
+  it('should handle errors', () => {
+    const error = new Error('Failed');
+    userService.getUsers.and.returnValue(throwError(() => error));
+    
+    component.loadUsers();
+    
+    expect(component.error()).toBe(error.message);
+  });
+});
+
+// HTTP Testing
+describe('ApiService', () => {
+  let service: ApiService;
+  let httpMock: HttpTestingController;
+  
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [provideHttpClientTesting()]
+    });
+    service = TestBed.inject(ApiService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+  
+  it('should fetch data', () => {
+    service.getData().subscribe(data => {
+      expect(data).toEqual({ id: 1 });
+    });
+    
+    const req = httpMock.expectOne('/api/data');
+    expect(req.request.method).toBe('GET');
+    req.flush({ id: 1 });
+  });
+  
+  afterEach(() => {
+    httpMock.verify();
+  });
+});`,
+      benefits: [
+        'angular.advanced.testing.benefit1',
+        'angular.advanced.testing.benefit2',
+        'angular.advanced.testing.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.testing.antiPattern1',
+        'angular.advanced.testing.antiPattern2',
+        'angular.advanced.testing.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.ssr.title',
+      description: 'angular.advanced.ssr.description',
+      icon: 'dns',
+      topics: [
+        'angular.advanced.ssr.topic1',
+        'angular.advanced.ssr.topic2',
+        'angular.advanced.ssr.topic3',
+        'angular.advanced.ssr.topic4',
+        'angular.advanced.ssr.topic5',
+        'angular.advanced.ssr.topic6'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.ssr.detailTitle',
+      explanation: 'angular.advanced.ssr.explanation',
+      codeExample: `// Server-Side Rendering Setup
+// app.config.server.ts
+export const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering()
+  ]
+};
+
+// Platform-aware Code
+@Component({
+  selector: 'app-data',
+  template: \`
+    @if (isPlatformBrowser) {
+      <div>{{ data() }}</div>
+    } @else {
+      <div>Loading...</div>
+    }
+  \`
+})
+export class DataComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+  isPlatformBrowser = isPlatformBrowser(this.platformId);
+  data = signal<string>('');
+  
+  ngOnInit() {
+    if (this.isPlatformBrowser) {
+      // Browser-only code
+      this.loadFromLocalStorage();
+    }
+  }
+  
+  loadFromLocalStorage() {
+    const stored = localStorage.getItem('data');
+    this.data.set(stored || '');
+  }
+}
+
+// Transfer State
+@Injectable({ providedIn: 'root' })
+export class DataService {
+  private transferState = inject(TransferState);
+  private platformId = inject(PLATFORM_ID);
+  private http = inject(HttpClient);
+  
+  private readonly DATA_KEY = makeStateKey<Data>('data');
+  
+  loadData() {
+    // Check if data exists in transfer state
+    const stored = this.transferState.get(this.DATA_KEY, null);
+    
+    if (stored) {
+      // Use transferred data
+      return of(stored);
+    }
+    
+    // Fetch from server
+    return this.http.get<Data>('/api/data').pipe(
+      tap(data => {
+        if (isPlatformServer(this.platformId)) {
+          // Store for transfer to browser
+          this.transferState.set(this.DATA_KEY, data);
         }
-    ]);
+      })
+    );
+  }
+}`,
+      benefits: [
+        'angular.advanced.ssr.benefit1',
+        'angular.advanced.ssr.benefit2',
+        'angular.advanced.ssr.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.ssr.antiPattern1',
+        'angular.advanced.ssr.antiPattern2',
+        'angular.advanced.ssr.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.i18n.title',
+      description: 'angular.advanced.i18n.description',
+      icon: 'language',
+      topics: [
+        'angular.advanced.i18n.topic1',
+        'angular.advanced.i18n.topic2',
+        'angular.advanced.i18n.topic3',
+        'angular.advanced.i18n.topic4',
+        'angular.advanced.i18n.topic5'
+      ],
+      color: 'teal',
+      detailTitle: 'angular.advanced.i18n.detailTitle',
+      explanation: 'angular.advanced.i18n.explanation',
+      codeExample: `// Runtime i18n with Signal-based Service
+@Injectable({ providedIn: 'root' })
+export class TranslationService {
+  private currentLang = signal<'de' | 'en' | 'fr' | 'it'>('de');
+  
+  private translations = {
+    de: () => import('./translations/de'),
+    en: () => import('./translations/en'),
+    fr: () => import('./translations/fr'),
+    it: () => import('./translations/it')
+  };
+  
+  private currentTranslations = signal<Record<string, string>>({});
+  
+  readonly lang = this.currentLang.asReadonly();
+  
+  constructor() {
+    this.loadTranslations(this.currentLang());
+  }
+  
+  async setLanguage(lang: typeof this.currentLang) {
+    this.currentLang.set(lang);
+    await this.loadTranslations(lang);
+  }
+  
+  private async loadTranslations(lang: string) {
+    const module = await this.translations[lang]();
+    this.currentTranslations.set(module.default);
+  }
+  
+  translate(key: string): string {
+    return this.currentTranslations()[key] || key;
+  }
+}
 
-    readonly technologiesUsed = signal<string[]>([
-        'Angular 20',
-        'TypeScript 5.9',
-        'Signals',
-        'Standalone Components',
-        'Material Design 3',
-        'RxJS 7.8',
-        'SCSS',
-        'Dependency Injection',
-        'OnPush Change Detection',
-        'HttpClient',
-        'Router',
-        'Vite & ESBuild'
-    ]);
+// Translation Pipe
+@Pipe({ 
+  name: 'translate',
+  standalone: true,
+  pure: true
+})
+export class TranslatePipe implements PipeTransform {
+  private service = inject(TranslationService);
+  
+  transform(key: string): string {
+    return this.service.translate(key);
+  }
+}
 
-    readonly advancedTopics = signal<AdvancedTopic[]>([
-        {
-            title: 'angular.advanced.routing.title',
-            description: 'angular.advanced.routing.description',
-            icon: 'alt_route',
-            topics: [
-                'angular.advanced.routing.topic1',
-                'angular.advanced.routing.topic2',
-                'angular.advanced.routing.topic3',
-                'angular.advanced.routing.topic4',
-                'angular.advanced.routing.topic5',
-                'angular.advanced.routing.topic6'
-            ]
-        },
-        {
-            title: 'angular.advanced.forms.title',
-            description: 'angular.advanced.forms.description',
-            icon: 'description',
-            topics: [
-                'angular.advanced.forms.topic1',
-                'angular.advanced.forms.topic2',
-                'angular.advanced.forms.topic3',
-                'angular.advanced.forms.topic4',
-                'angular.advanced.forms.topic5',
-                'angular.advanced.forms.topic6'
-            ]
-        },
-        {
-            title: 'angular.advanced.rxjs.title',
-            description: 'angular.advanced.rxjs.description',
-            icon: 'stream',
-            topics: [
-                'angular.advanced.rxjs.topic1',
-                'angular.advanced.rxjs.topic2',
-                'angular.advanced.rxjs.topic3',
-                'angular.advanced.rxjs.topic4',
-                'angular.advanced.rxjs.topic5',
-                'angular.advanced.rxjs.topic6'
-            ]
-        },
-        {
-            title: 'angular.advanced.changeDetection.title',
-            description: 'angular.advanced.changeDetection.description',
-            icon: 'update',
-            topics: [
-                'angular.advanced.changeDetection.topic1',
-                'angular.advanced.changeDetection.topic2',
-                'angular.advanced.changeDetection.topic3',
-                'angular.advanced.changeDetection.topic4',
-                'angular.advanced.changeDetection.topic5'
-            ]
-        },
-        {
-            title: 'angular.advanced.animations.title',
-            description: 'angular.advanced.animations.description',
-            icon: 'animation',
-            topics: [
-                'angular.advanced.animations.topic1',
-                'angular.advanced.animations.topic2',
-                'angular.advanced.animations.topic3',
-                'angular.advanced.animations.topic4',
-                'angular.advanced.animations.topic5'
-            ]
-        },
-        {
-            title: 'angular.advanced.testing.title',
-            description: 'angular.advanced.testing.description',
-            icon: 'bug_report',
-            topics: [
-                'angular.advanced.testing.topic1',
-                'angular.advanced.testing.topic2',
-                'angular.advanced.testing.topic3',
-                'angular.advanced.testing.topic4',
-                'angular.advanced.testing.topic5',
-                'angular.advanced.testing.topic6'
-            ]
-        },
-        {
-            title: 'angular.advanced.ssr.title',
-            description: 'angular.advanced.ssr.description',
-            icon: 'dns',
-            topics: [
-                'angular.advanced.ssr.topic1',
-                'angular.advanced.ssr.topic2',
-                'angular.advanced.ssr.topic3',
-                'angular.advanced.ssr.topic4',
-                'angular.advanced.ssr.topic5',
-                'angular.advanced.ssr.topic6'
-            ]
-        },
-        {
-            title: 'angular.advanced.i18n.title',
-            description: 'angular.advanced.i18n.description',
-            icon: 'language',
-            topics: [
-                'angular.advanced.i18n.topic1',
-                'angular.advanced.i18n.topic2',
-                'angular.advanced.i18n.topic3',
-                'angular.advanced.i18n.topic4',
-                'angular.advanced.i18n.topic5'
-            ]
-        },
-        {
-            title: 'angular.advanced.security.title',
-            description: 'angular.advanced.security.description',
-            icon: 'security',
-            topics: [
-                'angular.advanced.security.topic1',
-                'angular.advanced.security.topic2',
-                'angular.advanced.security.topic3',
-                'angular.advanced.security.topic4',
-                'angular.advanced.security.topic5',
-                'angular.advanced.security.topic6'
-            ]
-        },
-        {
-            title: 'angular.advanced.directives.title',
-            description: 'angular.advanced.directives.description',
-            icon: 'extension',
-            topics: [
-                'angular.advanced.directives.topic1',
-                'angular.advanced.directives.topic2',
-                'angular.advanced.directives.topic3',
-                'angular.advanced.directives.topic4',
-                'angular.advanced.directives.topic5'
-            ]
-        },
-        {
-            title: 'angular.advanced.pipes.title',
-            description: 'angular.advanced.pipes.description',
-            icon: 'transform',
-            topics: [
-                'angular.advanced.pipes.topic1',
-                'angular.advanced.pipes.topic2',
-                'angular.advanced.pipes.topic3',
-                'angular.advanced.pipes.topic4',
-                'angular.advanced.pipes.topic5'
-            ]
-        },
-        {
-            title: 'angular.advanced.httpInterceptors.title',
-            description: 'angular.advanced.httpInterceptors.description',
-            icon: 'sync_alt',
-            topics: [
-                'angular.advanced.httpInterceptors.topic1',
-                'angular.advanced.httpInterceptors.topic2',
-                'angular.advanced.httpInterceptors.topic3',
-                'angular.advanced.httpInterceptors.topic4',
-                'angular.advanced.httpInterceptors.topic5'
-            ]
-        },
-        {
-            title: 'angular.advanced.stateManagement.title',
-            description: 'angular.advanced.stateManagement.description',
-            icon: 'inventory_2',
-            topics: [
-                'angular.advanced.stateManagement.topic1',
-                'angular.advanced.stateManagement.topic2',
-                'angular.advanced.stateManagement.topic3',
-                'angular.advanced.stateManagement.topic4',
-                'angular.advanced.stateManagement.topic5'
-            ]
-        },
-        {
-            title: 'angular.advanced.moduleFederation.title',
-            description: 'angular.advanced.moduleFederation.description',
-            icon: 'hub',
-            topics: [
-                'angular.advanced.moduleFederation.topic1',
-                'angular.advanced.moduleFederation.topic2',
-                'angular.advanced.moduleFederation.topic3',
-                'angular.advanced.moduleFederation.topic4'
-            ]
-        },
-        {
-            title: 'angular.advanced.pwa.title',
-            description: 'angular.advanced.pwa.description',
-            icon: 'install_mobile',
-            topics: [
-                'angular.advanced.pwa.topic1',
-                'angular.advanced.pwa.topic2',
-                'angular.advanced.pwa.topic3',
-                'angular.advanced.pwa.topic4',
-                'angular.advanced.pwa.topic5'
-            ]
+// Usage
+@Component({
+  template: \`
+    <h1>{{ 'welcome.title' | translate }}</h1>
+    <button (click)="switchLang()">
+      {{ 'change.language' | translate }}
+    </button>
+  \`
+})
+export class AppComponent {
+  private translationService = inject(TranslationService);
+  
+  switchLang() {
+    const current = this.translationService.lang();
+    const next = current === 'de' ? 'en' : 'de';
+    this.translationService.setLanguage(next);
+  }
+}`,
+      benefits: [
+        'angular.advanced.i18n.benefit1',
+        'angular.advanced.i18n.benefit2',
+        'angular.advanced.i18n.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.i18n.antiPattern1',
+        'angular.advanced.i18n.antiPattern2',
+        'angular.advanced.i18n.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.security.title',
+      description: 'angular.advanced.security.description',
+      icon: 'security',
+      topics: [
+        'angular.advanced.security.topic1',
+        'angular.advanced.security.topic2',
+        'angular.advanced.security.topic3',
+        'angular.advanced.security.topic4',
+        'angular.advanced.security.topic5',
+        'angular.advanced.security.topic6'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.security.detailTitle',
+      explanation: 'angular.advanced.security.explanation',
+      codeExample: `// Security Best Practices
+@Component({
+  selector: 'app-secure',
+  template: \`
+    <!-- Safe: Angular auto-escapes -->
+    <div>{{ userInput }}</div>
+    
+    <!-- Sanitize when needed -->
+    <div [innerHTML]="sanitizedHtml"></div>
+    
+    <!-- Safe binding -->
+    <a [href]="sanitizedUrl">Link</a>
+    
+    <!-- NEVER do this -->
+    <!-- <div [innerHTML]="unsafeHtml"></div> -->
+  \`
+})
+export class SecureComponent {
+  private sanitizer = inject(DomSanitizer);
+  
+  userInput = signal('');
+  rawHtml = signal('<p>Content</p>');
+  
+  sanitizedHtml = computed(() => 
+    this.sanitizer.sanitize(
+      SecurityContext.HTML,
+      this.rawHtml()
+    )
+  );
+  
+  sanitizedUrl = computed(() => 
+    this.sanitizer.sanitize(
+      SecurityContext.URL,
+      this.externalUrl()
+    )
+  );
+}
+
+// HTTP Security - CSRF Protection
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withInterceptors([csrfInterceptor]),
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN'
+      })
+    )
+  ]
+};
+
+// Content Security Policy (index.html)
+<meta http-equiv="Content-Security-Policy" 
+  content="default-src 'self'; 
+    script-src 'self'; 
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:">
+
+// Secure Storage
+class SecureStorageService {
+  // NEVER store sensitive data in localStorage
+  // Use sessionStorage for temporary data
+  // Use HttpOnly cookies for tokens
+  
+  storeToken(token: string) {
+    // Send to backend to set HttpOnly cookie
+    this.http.post('/api/auth/token', { token })
+      .subscribe();
+  }
+}`,
+      benefits: [
+        'angular.advanced.security.benefit1',
+        'angular.advanced.security.benefit2',
+        'angular.advanced.security.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.security.antiPattern1',
+        'angular.advanced.security.antiPattern2',
+        'angular.advanced.security.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.directives.title',
+      description: 'angular.advanced.directives.description',
+      icon: 'extension',
+      topics: [
+        'angular.advanced.directives.topic1',
+        'angular.advanced.directives.topic2',
+        'angular.advanced.directives.topic3',
+        'angular.advanced.directives.topic4',
+        'angular.advanced.directives.topic5'
+      ],
+      color: 'teal',
+      detailTitle: 'angular.advanced.directives.detailTitle',
+      explanation: 'angular.advanced.directives.explanation',
+      codeExample: `// Advanced Custom Directives
+// Structural Directive
+@Directive({
+  selector: '[appPermission]',
+  standalone: true
+})
+export class PermissionDirective {
+  private viewContainer = inject(ViewContainerRef);
+  private templateRef = inject(TemplateRef);
+  private authService = inject(AuthService);
+  
+  @Input() set appPermission(role: string) {
+    this.viewContainer.clear();
+    
+    if (this.authService.hasRole(role)) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    }
+  }
+}
+
+// Attribute Directive with Host Binding
+@Directive({
+  selector: '[appHighlight]',
+  standalone: true,
+  host: {
+    '[style.background-color]': 'backgroundColor',
+    '(mouseenter)': 'onMouseEnter()',
+    '(mouseleave)': 'onMouseLeave()'
+  }
+})
+export class HighlightDirective {
+  @Input() appHighlight = 'yellow';
+  backgroundColor = '';
+  
+  onMouseEnter() {
+    this.backgroundColor = this.appHighlight;
+  }
+  
+  onMouseLeave() {
+    this.backgroundColor = '';
+  }
+}
+
+// Directive Composition
+@Directive({
+  selector: '[appTooltip]',
+  standalone: true,
+  hostDirectives: [
+    {
+      directive: CdkTooltip,
+      inputs: ['cdkTooltip: appTooltip']
+    }
+  ]
+})
+export class TooltipDirective {}
+
+// Usage
+@Component({
+  template: \`
+    <div *appPermission="'admin'">Admin Only</div>
+    <p appHighlight="lightblue">Hover me</p>
+    <button appTooltip="Click here">Hover</button>
+  \`
+})`,
+      benefits: [
+        'angular.advanced.directives.benefit1',
+        'angular.advanced.directives.benefit2',
+        'angular.advanced.directives.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.directives.antiPattern1',
+        'angular.advanced.directives.antiPattern2',
+        'angular.advanced.directives.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.pipes.title',
+      description: 'angular.advanced.pipes.description',
+      icon: 'transform',
+      topics: [
+        'angular.advanced.pipes.topic1',
+        'angular.advanced.pipes.topic2',
+        'angular.advanced.pipes.topic3',
+        'angular.advanced.pipes.topic4',
+        'angular.advanced.pipes.topic5'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.pipes.detailTitle',
+      explanation: 'angular.advanced.pipes.explanation',
+      codeExample: `// Advanced Custom Pipes
+// Pure Pipe (cached)
+@Pipe({
+  name: 'fileSize',
+  standalone: true,
+  pure: true
+})
+export class FileSizePipe implements PipeTransform {
+  transform(bytes: number, decimals = 2): string {
+    if (bytes === 0) return '0 Bytes';
+    
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+    return \`\${parseFloat((bytes / Math.pow(k, i)).toFixed(decimals))} \${sizes[i]}\`;
+  }
+}
+
+// Impure Pipe (always recalculates)
+@Pipe({
+  name: 'sort',
+  standalone: true,
+  pure: false
+})
+export class SortPipe implements PipeTransform {
+  transform<T>(array: T[], key: keyof T): T[] {
+    if (!array) return [];
+    return [...array].sort((a, b) => 
+      a[key] > b[key] ? 1 : -1
+    );
+  }
+}
+
+// Async Pipe Alternative with Signals
+@Pipe({
+  name: 'async',
+  standalone: true,
+  pure: false
+})
+export class SignalAsyncPipe implements PipeTransform {
+  private subscription?: Subscription;
+  private value = signal<any>(null);
+  
+  transform<T>(observable: Observable<T>): T | null {
+    if (!this.subscription) {
+      this.subscription = observable.subscribe(
+        value => this.value.set(value)
+      );
+    }
+    return this.value();
+  }
+  
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+}
+
+// Usage
+@Component({
+  template: \`
+    <p>{{ 1048576 | fileSize }}</p>
+    <p>{{ users | sort:'name' }}</p>
+    <p>{{ data$ | async }}</p>
+  \`
+})`,
+      benefits: [
+        'angular.advanced.pipes.benefit1',
+        'angular.advanced.pipes.benefit2',
+        'angular.advanced.pipes.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.pipes.antiPattern1',
+        'angular.advanced.pipes.antiPattern2',
+        'angular.advanced.pipes.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.httpInterceptors.title',
+      description: 'angular.advanced.httpInterceptors.description',
+      icon: 'sync_alt',
+      topics: [
+        'angular.advanced.httpInterceptors.topic1',
+        'angular.advanced.httpInterceptors.topic2',
+        'angular.advanced.httpInterceptors.topic3',
+        'angular.advanced.httpInterceptors.topic4',
+        'angular.advanced.httpInterceptors.topic5'
+      ],
+      color: 'teal',
+      detailTitle: 'angular.advanced.httpInterceptors.detailTitle',
+      explanation: 'angular.advanced.httpInterceptors.explanation',
+      codeExample: `// Functional HTTP Interceptors
+// Auth Interceptor
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+  
+  if (token) {
+    req = req.clone({
+      setHeaders: {
+        Authorization: \`Bearer \${token}\`
+      }
+    });
+  }
+  
+  return next(req);
+};
+
+// Loading Interceptor
+export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
+  const loadingService = inject(LoadingService);
+  
+  loadingService.show();
+  
+  return next(req).pipe(
+    finalize(() => loadingService.hide())
+  );
+};
+
+// Error Handling Interceptor
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const errorHandler = inject(ErrorHandlerService);
+  const router = inject(Router);
+  
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        router.navigate(['/login']);
+      } else if (error.status === 500) {
+        errorHandler.handleError(error);
+      }
+      
+      return throwError(() => error);
+    })
+  );
+};
+
+// Retry Interceptor
+export const retryInterceptor: HttpInterceptorFn = (req, next) => {
+  const maxRetries = 3;
+  
+  return next(req).pipe(
+    retry({
+      count: maxRetries,
+      delay: (error, retryCount) => {
+        if (error.status === 500) {
+          return timer(retryCount * 1000);
         }
-    ]);
+        return throwError(() => error);
+      }
+    })
+  );
+};
 
-    readonly architecturePatterns = signal<ArchitecturePattern[]>([
-        {
-            title: 'angular.architecture.smartDumb.title',
-            description: 'angular.architecture.smartDumb.description',
-            icon: 'account_tree'
-        },
-        {
-            title: 'angular.architecture.facade.title',
-            description: 'angular.architecture.facade.description',
-            icon: 'layers'
-        },
-        {
-            title: 'angular.architecture.module.title',
-            description: 'angular.architecture.module.description',
-            icon: 'category'
-        },
-        {
-            title: 'angular.architecture.lazy.title',
-            description: 'angular.architecture.lazy.description',
-            icon: 'schedule'
-        },
-        {
-            title: 'angular.architecture.repository.title',
-            description: 'angular.architecture.repository.description',
-            icon: 'storage'
-        },
-        {
-            title: 'angular.architecture.observer.title',
-            description: 'angular.architecture.observer.description',
-            icon: 'visibility'
-        },
-        {
-            title: 'angular.architecture.singleton.title',
-            description: 'angular.architecture.singleton.description',
-            icon: 'filter_1'
-        },
-        {
-            title: 'angular.architecture.decorator.title',
-            description: 'angular.architecture.decorator.description',
-            icon: 'auto_awesome'
-        },
-        {
-            title: 'angular.architecture.strategy.title',
-            description: 'angular.architecture.strategy.description',
-            icon: 'psychology'
-        },
-        {
-            title: 'angular.architecture.adapter.title',
-            description: 'angular.architecture.adapter.description',
-            icon: 'settings_ethernet'
-        },
-        {
-            title: 'angular.architecture.featureSlice.title',
-            description: 'angular.architecture.featureSlice.description',
-            icon: 'view_module'
-        },
-        {
-            title: 'angular.architecture.cleanArchitecture.title',
-            description: 'angular.architecture.cleanArchitecture.description',
-            icon: 'architecture'
-        },
-        {
-            title: 'angular.architecture.cqrs.title',
-            description: 'angular.architecture.cqrs.description',
-            icon: 'call_split'
-        },
-        {
-            title: 'angular.architecture.eventDriven.title',
-            description: 'angular.architecture.eventDriven.description',
-            icon: 'event'
-        },
-        {
-            title: 'angular.architecture.microFrontends.title',
-            description: 'angular.architecture.microFrontends.description',
-            icon: 'dashboard'
-        },
-        {
-            title: 'angular.architecture.ddd.title',
-            description: 'angular.architecture.ddd.description',
-            icon: 'domain'
-        },
-        {
-            title: 'angular.architecture.hexagonal.title',
-            description: 'angular.architecture.hexagonal.description',
-            icon: 'hexagon'
-        },
-        {
-            title: 'angular.architecture.stateManagement.title',
-            description: 'angular.architecture.stateManagement.description',
-            icon: 'hub'
-        },
-        {
-            title: 'angular.architecture.onion.title',
-            description: 'angular.architecture.onion.description',
-            icon: 'contrast'
-        },
-        {
-            title: 'angular.architecture.mvvm.title',
-            description: 'angular.architecture.mvvm.description',
-            icon: 'view_in_ar'
+// Configuration
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withInterceptors([
+        authInterceptor,
+        loadingInterceptor,
+        errorInterceptor,
+        retryInterceptor
+      ])
+    )
+  ]
+};`,
+      benefits: [
+        'angular.advanced.httpInterceptors.benefit1',
+        'angular.advanced.httpInterceptors.benefit2',
+        'angular.advanced.httpInterceptors.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.httpInterceptors.antiPattern1',
+        'angular.advanced.httpInterceptors.antiPattern2',
+        'angular.advanced.httpInterceptors.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.stateManagement.title',
+      description: 'angular.advanced.stateManagement.description',
+      icon: 'inventory_2',
+      topics: [
+        'angular.advanced.stateManagement.topic1',
+        'angular.advanced.stateManagement.topic2',
+        'angular.advanced.stateManagement.topic3',
+        'angular.advanced.stateManagement.topic4',
+        'angular.advanced.stateManagement.topic5'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.stateManagement.detailTitle',
+      explanation: 'angular.advanced.stateManagement.explanation',
+      codeExample: `// Signal-based State Management
+@Injectable({ providedIn: 'root' })
+export class TodoStore {
+  // Private state
+  private readonly todos = signal<Todo[]>([]);
+  private readonly filter = signal<'all' | 'active' | 'completed'>('all');
+  
+  // Public readonly signals
+  readonly allTodos = this.todos.asReadonly();
+  readonly currentFilter = this.filter.asReadonly();
+  
+  // Computed signals
+  readonly filteredTodos = computed(() => {
+    const todos = this.todos();
+    const filter = this.filter();
+    
+    switch (filter) {
+      case 'active':
+        return todos.filter(t => !t.completed);
+      case 'completed':
+        return todos.filter(t => t.completed);
+      default:
+        return todos;
+    }
+  });
+  
+  readonly stats = computed(() => ({
+    total: this.todos().length,
+    active: this.todos().filter(t => !t.completed).length,
+    completed: this.todos().filter(t => t.completed).length
+  }));
+  
+  // Actions
+  addTodo(title: string) {
+    const newTodo: Todo = {
+      id: Date.now(),
+      title,
+      completed: false
+    };
+    this.todos.update(todos => [...todos, newTodo]);
+  }
+  
+  toggleTodo(id: number) {
+    this.todos.update(todos =>
+      todos.map(t => t.id === id 
+        ? { ...t, completed: !t.completed }
+        : t
+      )
+    );
+  }
+  
+  removeTodo(id: number) {
+    this.todos.update(todos => 
+      todos.filter(t => t.id !== id)
+    );
+  }
+  
+  setFilter(filter: typeof this.filter) {
+    this.filter.set(filter);
+  }
+}
+
+// Usage in Component
+@Component({
+  selector: 'app-todos',
+  template: \`
+    <div>Total: {{ store.stats().total }}</div>
+    <div>Active: {{ store.stats().active }}</div>
+    
+    @for (todo of store.filteredTodos(); track todo.id) {
+      <div>{{ todo.title }}</div>
+    }
+  \`
+})
+export class TodosComponent {
+  readonly store = inject(TodoStore);
+}`,
+      benefits: [
+        'angular.advanced.stateManagement.benefit1',
+        'angular.advanced.stateManagement.benefit2',
+        'angular.advanced.stateManagement.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.stateManagement.antiPattern1',
+        'angular.advanced.stateManagement.antiPattern2',
+        'angular.advanced.stateManagement.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.moduleFederation.title',
+      description: 'angular.advanced.moduleFederation.description',
+      icon: 'hub',
+      topics: [
+        'angular.advanced.moduleFederation.topic1',
+        'angular.advanced.moduleFederation.topic2',
+        'angular.advanced.moduleFederation.topic3',
+        'angular.advanced.moduleFederation.topic4'
+      ],
+      color: 'teal',
+      detailTitle: 'angular.advanced.moduleFederation.detailTitle',
+      explanation: 'angular.advanced.moduleFederation.explanation',
+      codeExample: `// Module Federation Configuration
+// Host App (angular.json)
+{
+  "moduleFederation": {
+    "remotes": {
+      "mfe1": "http://localhost:4201/remoteEntry.js",
+      "mfe2": "http://localhost:4202/remoteEntry.js"
+    }
+  }
+}
+
+// Remote App (angular.json)
+{
+  "moduleFederation": {
+    "name": "mfe1",
+    "filename": "remoteEntry.js",
+    "exposes": {
+      "./Component": "./src/app/my-component/my-component.ts",
+      "./Routes": "./src/app/my-routes.ts"
+    },
+    "shared": {
+      "@angular/core": { singleton: true, strictVersion: true },
+      "@angular/common": { singleton: true, strictVersion: true },
+      "@angular/router": { singleton: true, strictVersion: true }
+    }
+  }
+}
+
+// Loading Remote Module
+const routes: Routes = [
+  {
+    path: 'mfe1',
+    loadChildren: () => 
+      loadRemoteModule({
+        type: 'module',
+        remoteEntry: 'http://localhost:4201/remoteEntry.js',
+        exposedModule: './Routes'
+      })
+  }
+];
+
+// Loading Remote Component
+@Component({
+  selector: 'app-shell',
+  template: \`
+    <ng-container #remoteComponent></ng-container>
+  \`
+})
+export class ShellComponent implements OnInit {
+  @ViewChild('remoteComponent', { read: ViewContainerRef })
+  viewContainer!: ViewContainerRef;
+  
+  async ngOnInit() {
+    const component = await loadRemoteModule({
+      type: 'module',
+      remoteEntry: 'http://localhost:4201/remoteEntry.js',
+      exposedModule: './Component'
+    });
+    
+    this.viewContainer.createComponent(component);
+  }
+}`,
+      benefits: [
+        'angular.advanced.moduleFederation.benefit1',
+        'angular.advanced.moduleFederation.benefit2',
+        'angular.advanced.moduleFederation.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.moduleFederation.antiPattern1',
+        'angular.advanced.moduleFederation.antiPattern2',
+        'angular.advanced.moduleFederation.antiPattern3'
+      ]
+    },
+    {
+      title: 'angular.advanced.pwa.title',
+      description: 'angular.advanced.pwa.description',
+      icon: 'install_mobile',
+      topics: [
+        'angular.advanced.pwa.topic1',
+        'angular.advanced.pwa.topic2',
+        'angular.advanced.pwa.topic3',
+        'angular.advanced.pwa.topic4',
+        'angular.advanced.pwa.topic5'
+      ],
+      color: 'cyan',
+      detailTitle: 'angular.advanced.pwa.detailTitle',
+      explanation: 'angular.advanced.pwa.explanation',
+      codeExample: `// Progressive Web App Setup
+// ngsw-config.json
+{
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": ["/api/**"],
+      "cacheConfig": {
+        "maxSize": 100,
+        "maxAge": "1h",
+        "strategy": "freshness"
+      }
+    }
+  ]
+}
+
+// Service Worker Usage
+@Injectable({ providedIn: 'root' })
+export class PwaService {
+  private swUpdate = inject(SwUpdate);
+  
+  constructor() {
+    if (this.swUpdate.isEnabled) {
+      this.checkForUpdates();
+      this.handleUpdates();
+    }
+  }
+  
+  private checkForUpdates() {
+    interval(6 * 60 * 60 * 1000) // Check every 6 hours
+      .subscribe(() => this.swUpdate.checkForUpdate());
+  }
+  
+  private handleUpdates() {
+    this.swUpdate.versionUpdates
+      .pipe(
+        filter(evt => evt.type === 'VERSION_READY')
+      )
+      .subscribe(() => {
+        if (confirm('New version available. Load it?')) {
+          window.location.reload();
         }
-    ]);
+      });
+  }
+}
 
-    readonly detailedCodeExamples = signal<CodeExample[]>([
-        {
-            title: 'angular.codeExamples.signals.title',
-            subtitle: 'angular.codeExamples.signals.subtitle',
-            description: 'angular.codeExamples.signals.description',
-            icon: 'sensors',
-            language: 'typescript',
-            code: `// Signal erstellen
+// Push Notifications
+@Injectable({ providedIn: 'root' })
+export class PushService {
+  private swPush = inject(SwPush);
+  
+  subscribeToNotifications() {
+    this.swPush.requestSubscription({
+      serverPublicKey: environment.vapidPublicKey
+    })
+    .then(sub => {
+      // Send subscription to backend
+      this.http.post('/api/subscribe', sub).subscribe();
+    });
+  }
+  
+  listenToNotifications() {
+    this.swPush.messages.subscribe(message => {
+      console.log('Notification:', message);
+    });
+  }
+}`,
+      benefits: [
+        'angular.advanced.pwa.benefit1',
+        'angular.advanced.pwa.benefit2',
+        'angular.advanced.pwa.benefit3'
+      ],
+      antiPatterns: [
+        'angular.advanced.pwa.antiPattern1',
+        'angular.advanced.pwa.antiPattern2',
+        'angular.advanced.pwa.antiPattern3'
+      ]
+    }
+  ]);
+
+  readonly architecturePatterns = signal<ArchitecturePattern[]>([
+    {
+      title: 'angular.architecture.smartDumb.title',
+      description: 'angular.architecture.smartDumb.description',
+      icon: 'account_tree',
+      detailTitle: 'angular.architecture.smartDumb.detailTitle',
+      explanation: 'angular.architecture.smartDumb.explanation',
+      codeExample: `// Smart Component (Container)
+@Component({
+  selector: 'app-user-list-container',
+  template: \`
+    <app-user-list
+      [users]="users()"
+      [loading]="loading()"
+      (userSelected)="onUserSelected($event)"
+      (searchChanged)="onSearchChanged($event)">
+    </app-user-list>
+  \`
+})
+export class UserListContainerComponent {
+  private userService = inject(UserService);
+  users = signal<User[]>([]);
+  loading = signal(false);
+
+  ngOnInit() {
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.loading.set(true);
+    this.userService.getUsers().subscribe(users => {
+      this.users.set(users);
+      this.loading.set(false);
+    });
+  }
+
+  onUserSelected(user: User) {
+    this.router.navigate(['/users', user.id]);
+  }
+
+  onSearchChanged(query: string) {
+    // Business logic
+  }
+}
+
+// Dumb Component (Presentational)
+@Component({
+  selector: 'app-user-list',
+  template: \`
+    <div class="user-list">
+      @if (loading) {
+        <mat-spinner></mat-spinner>
+      } @else {
+        @for (user of users; track user.id) {
+          <mat-card (click)="userSelected.emit(user)">
+            <h3>{{ user.name }}</h3>
+            <p>{{ user.email }}</p>
+          </mat-card>
+        }
+      }
+    </div>
+  \`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class UserListComponent {
+  users = input.required<User[]>();
+  loading = input<boolean>(false);
+  userSelected = output<User>();
+  searchChanged = output<string>();
+}`,
+      benefits: [
+        'angular.architecture.smartDumb.benefit1',
+        'angular.architecture.smartDumb.benefit2',
+        'angular.architecture.smartDumb.benefit3',
+        'angular.architecture.smartDumb.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.smartDumb.useCase1',
+        'angular.architecture.smartDumb.useCase2',
+        'angular.architecture.smartDumb.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.smartDumb.implementation1',
+        'angular.architecture.smartDumb.implementation2',
+        'angular.architecture.smartDumb.implementation3',
+        'angular.architecture.smartDumb.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.smartDumb.challenge1',
+        'angular.architecture.smartDumb.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.facade.title',
+      description: 'angular.architecture.facade.description',
+      icon: 'layers',
+      detailTitle: 'angular.architecture.facade.detailTitle',
+      explanation: 'angular.architecture.facade.explanation',
+      codeExample: `// Facade Service
+@Injectable({ providedIn: 'root' })
+export class UserFacadeService {
+  private userApiService = inject(UserApiService);
+  private userStateService = inject(UserStateService);
+  private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
+
+  // Unified state
+  users$ = this.userStateService.users$;
+  loading$ = this.userStateService.loading$;
+  currentUser$ = this.authService.currentUser$;
+
+  // Unified actions
+  loadUsers(): Observable<User[]> {
+    this.userStateService.setLoading(true);
+    return this.userApiService.getUsers().pipe(
+      tap(users => {
+        this.userStateService.setUsers(users);
+        this.userStateService.setLoading(false);
+      }),
+      catchError(error => {
+        this.notificationService.showError('Failed to load users');
+        this.userStateService.setLoading(false);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  createUser(user: CreateUserDto): Observable<User> {
+    return this.userApiService.createUser(user).pipe(
+      tap(newUser => {
+        this.userStateService.addUser(newUser);
+        this.notificationService.showSuccess('User created');
+      })
+    );
+  }
+
+  updateUser(id: string, updates: Partial<User>): Observable<User> {
+    return this.userApiService.updateUser(id, updates).pipe(
+      tap(updated => {
+        this.userStateService.updateUser(updated);
+        this.notificationService.showSuccess('User updated');
+      })
+    );
+  }
+}
+
+// Component usage
+@Component({
+  selector: 'app-users',
+  template: \`
+    @if (facade.loading$ | async) {
+      <mat-spinner></mat-spinner>
+    }
+    @for (user of facade.users$ | async; track user.id) {
+      <app-user-card [user]="user"></app-user-card>
+    }
+  \`
+})
+export class UsersComponent {
+  facade = inject(UserFacadeService);
+
+  ngOnInit() {
+    this.facade.loadUsers().subscribe();
+  }
+}`,
+      benefits: [
+        'angular.architecture.facade.benefit1',
+        'angular.architecture.facade.benefit2',
+        'angular.architecture.facade.benefit3',
+        'angular.architecture.facade.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.facade.useCase1',
+        'angular.architecture.facade.useCase2',
+        'angular.architecture.facade.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.facade.implementation1',
+        'angular.architecture.facade.implementation2',
+        'angular.architecture.facade.implementation3',
+        'angular.architecture.facade.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.facade.challenge1',
+        'angular.architecture.facade.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.module.title',
+      description: 'angular.architecture.module.description',
+      icon: 'category',
+      detailTitle: 'angular.architecture.module.detailTitle',
+      explanation: 'angular.architecture.module.explanation',
+      codeExample: `// Feature Module Structure
+// feature/
+//   ├── components/
+//   ├── services/
+//   ├── models/
+//   ├── feature.routes.ts
+//   └── index.ts
+
+// Feature Module with Standalone Components
+export const FEATURE_ROUTES: Routes = [
+  {
+    path: '',
+    component: FeatureContainerComponent,
+    children: [
+      { path: 'list', component: FeatureListComponent },
+      { path: 'detail/:id', component: FeatureDetailComponent },
+      { path: 'create', component: FeatureCreateComponent }
+    ]
+  }
+];
+
+// Barrel Export (index.ts)
+export * from './components/feature-container.component';
+export * from './services/feature.service';
+export * from './models/feature.model';
+export { FEATURE_ROUTES } from './feature.routes';
+
+// Core Module (Traditional)
+@NgModule({
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    AuthService,
+    LoggingService,
+    StorageService
+  ]
+})
+export class CoreModule {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+    if (parentModule) {
+      throw new Error('CoreModule is already loaded. Import it in AppModule only');
+    }
+  }
+}
+
+// Shared Module
+@NgModule({
+  imports: [
+    CommonModule,
+    MaterialModule,
+    ReactiveFormsModule
+  ],
+  declarations: [
+    CustomPipe,
+    CustomDirective
+  ],
+  exports: [
+    CommonModule,
+    MaterialModule,
+    CustomPipe,
+    CustomDirective
+  ]
+})
+export class SharedModule {}`,
+      benefits: [
+        'angular.architecture.module.benefit1',
+        'angular.architecture.module.benefit2',
+        'angular.architecture.module.benefit3',
+        'angular.architecture.module.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.module.useCase1',
+        'angular.architecture.module.useCase2',
+        'angular.architecture.module.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.module.implementation1',
+        'angular.architecture.module.implementation2',
+        'angular.architecture.module.implementation3',
+        'angular.architecture.module.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.module.challenge1',
+        'angular.architecture.module.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.lazy.title',
+      description: 'angular.architecture.lazy.description',
+      icon: 'schedule',
+      detailTitle: 'angular.architecture.lazy.detailTitle',
+      explanation: 'angular.architecture.lazy.explanation',
+      codeExample: `// App Routes with Lazy Loading
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.routes')
+      .then(m => m.ADMIN_ROUTES),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'products',
+    loadChildren: () => import('./features/products/products.routes')
+      .then(m => m.PRODUCT_ROUTES)
+  },
+  {
+    path: 'user',
+    loadComponent: () => import('./features/user/user-profile.component')
+      .then(m => m.UserProfileComponent)
+  }
+];
+
+// Lazy Feature Routes
+// admin/admin.routes.ts
+export const ADMIN_ROUTES: Routes = [
+  {
+    path: '',
+    component: AdminLayoutComponent,
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'users', component: UserManagementComponent },
+      {
+        path: 'settings',
+        loadComponent: () => import('./settings/settings.component')
+          .then(m => m.SettingsComponent)
+      }
+    ]
+  }
+];
+
+// Preloading Strategy
+export class CustomPreloadingStrategy implements PreloadingStrategy {
+  preload(route: Route, load: () => Observable<any>): Observable<any> {
+    // Preload routes with data.preload = true
+    if (route.data?.['preload']) {
+      console.log('Preloading:', route.path);
+      return load();
+    }
+    return of(null);
+  }
+}
+
+// App Config
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(
+      routes,
+      withPreloading(CustomPreloadingStrategy)
+    )
+  ]
+};`,
+      benefits: [
+        'angular.architecture.lazy.benefit1',
+        'angular.architecture.lazy.benefit2',
+        'angular.architecture.lazy.benefit3',
+        'angular.architecture.lazy.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.lazy.useCase1',
+        'angular.architecture.lazy.useCase2',
+        'angular.architecture.lazy.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.lazy.implementation1',
+        'angular.architecture.lazy.implementation2',
+        'angular.architecture.lazy.implementation3',
+        'angular.architecture.lazy.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.lazy.challenge1',
+        'angular.architecture.lazy.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.repository.title',
+      description: 'angular.architecture.repository.description',
+      icon: 'storage',
+      detailTitle: 'angular.architecture.repository.detailTitle',
+      explanation: 'angular.architecture.repository.explanation',
+      codeExample: `// Base Repository Interface
+export interface Repository<T> {
+  getAll(): Observable<T[]>;
+  getById(id: string): Observable<T>;
+  create(entity: Partial<T>): Observable<T>;
+  update(id: string, entity: Partial<T>): Observable<T>;
+  delete(id: string): Observable<void>;
+}
+
+// Generic Repository Implementation
+@Injectable()
+export abstract class BaseRepository<T> implements Repository<T> {
+  protected http = inject(HttpClient);
+  protected abstract apiUrl: string;
+
+  getAll(): Observable<T[]> {
+    return this.http.get<T[]>(this.apiUrl).pipe(
+      retry(2),
+      catchError(this.handleError)
+    );
+  }
+
+  getById(id: string): Observable<T> {
+    return this.http.get<T>(\`\${this.apiUrl}/\${id}\`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  create(entity: Partial<T>): Observable<T> {
+    return this.http.post<T>(this.apiUrl, entity).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  update(id: string, entity: Partial<T>): Observable<T> {
+    return this.http.put<T>(\`\${this.apiUrl}/\${id}\`, entity).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(\`\${this.apiUrl}/\${id}\`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  protected handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('Repository error:', error);
+    return throwError(() => new Error('Repository operation failed'));
+  }
+}
+
+// Specific Repository
+@Injectable({ providedIn: 'root' })
+export class UserRepository extends BaseRepository<User> {
+  protected override apiUrl = '/api/users';
+
+  // Custom methods
+  searchByName(name: string): Observable<User[]> {
+    return this.http.get<User[]>(\`\${this.apiUrl}/search\`, {
+      params: { name }
+    });
+  }
+
+  getUserWithOrders(userId: string): Observable<UserWithOrders> {
+    return this.http.get<UserWithOrders>(\`\${this.apiUrl}/\${userId}/orders\`);
+  }
+}`,
+      benefits: [
+        'angular.architecture.repository.benefit1',
+        'angular.architecture.repository.benefit2',
+        'angular.architecture.repository.benefit3',
+        'angular.architecture.repository.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.repository.useCase1',
+        'angular.architecture.repository.useCase2',
+        'angular.architecture.repository.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.repository.implementation1',
+        'angular.architecture.repository.implementation2',
+        'angular.architecture.repository.implementation3',
+        'angular.architecture.repository.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.repository.challenge1',
+        'angular.architecture.repository.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.observer.title',
+      description: 'angular.architecture.observer.description',
+      icon: 'visibility',
+      detailTitle: 'angular.architecture.observer.detailTitle',
+      explanation: 'angular.architecture.observer.explanation',
+      codeExample: `// Subject-based State Management
+@Injectable({ providedIn: 'root' })
+export class NotificationService {
+  private notificationSubject = new Subject<Notification>();
+  notifications$ = this.notificationSubject.asObservable();
+
+  showSuccess(message: string) {
+    this.notificationSubject.next({ type: 'success', message });
+  }
+
+  showError(message: string) {
+    this.notificationSubject.next({ type: 'error', message });
+  }
+}
+
+// BehaviorSubject for State
+@Injectable({ providedIn: 'root' })
+export class ThemeService {
+  private themeSubject = new BehaviorSubject<Theme>('light');
+  theme$ = this.themeSubject.asObservable();
+
+  setTheme(theme: Theme) {
+    this.themeSubject.next(theme);
+    localStorage.setItem('theme', theme);
+  }
+
+  getCurrentTheme(): Theme {
+    return this.themeSubject.value;
+  }
+}
+
+// ReplaySubject for Caching
+@Injectable({ providedIn: 'root' })
+export class DataCacheService {
+  private cache = new Map<string, ReplaySubject<any>>();
+
+  getData<T>(key: string, fetcher: () => Observable<T>): Observable<T> {
+    if (!this.cache.has(key)) {
+      const subject = new ReplaySubject<T>(1);
+      this.cache.set(key, subject);
+      fetcher().subscribe(data => subject.next(data));
+    }
+    return this.cache.get(key)!.asObservable();
+  }
+}
+
+// Component Subscription
+@Component({
+  selector: 'app-notifications',
+  template: \`
+    @for (notification of notifications; track $index) {
+      <div [class]="notification.type">
+        {{ notification.message }}
+      </div>
+    }
+  \`
+})
+export class NotificationsComponent implements OnDestroy {
+  private notificationService = inject(NotificationService);
+  private destroy$ = new Subject<void>();
+  notifications: Notification[] = [];
+
+  ngOnInit() {
+    this.notificationService.notifications$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(notification => {
+        this.notifications.push(notification);
+        setTimeout(() => this.removeNotification(notification), 5000);
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}`,
+      benefits: [
+        'angular.architecture.observer.benefit1',
+        'angular.architecture.observer.benefit2',
+        'angular.architecture.observer.benefit3',
+        'angular.architecture.observer.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.observer.useCase1',
+        'angular.architecture.observer.useCase2',
+        'angular.architecture.observer.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.observer.implementation1',
+        'angular.architecture.observer.implementation2',
+        'angular.architecture.observer.implementation3',
+        'angular.architecture.observer.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.observer.challenge1',
+        'angular.architecture.observer.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.singleton.title',
+      description: 'angular.architecture.singleton.description',
+      icon: 'filter_1',
+      detailTitle: 'angular.architecture.singleton.detailTitle',
+      explanation: 'angular.architecture.singleton.explanation',
+      codeExample: `// Root Singleton Service
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
+
+  constructor() {
+    // Only initialized once
+    this.loadUserFromStorage();
+  }
+
+  private loadUserFromStorage() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.currentUserSubject.next(JSON.parse(user));
+    }
+  }
+
+  login(credentials: Credentials): Observable<User> {
+    return this.http.post<User>('/api/login', credentials).pipe(
+      tap(user => {
+        this.currentUserSubject.next(user);
+        localStorage.setItem('user', JSON.stringify(user));
+      })
+    );
+  }
+}
+
+// Manual Singleton (Legacy)
+@Injectable()
+export class LegacyConfigService {
+  private static instance: LegacyConfigService;
+
+  private constructor() {
+    // Private constructor prevents direct instantiation
+  }
+
+  static getInstance(): LegacyConfigService {
+    if (!LegacyConfigService.instance) {
+      LegacyConfigService.instance = new LegacyConfigService();
+    }
+    return LegacyConfigService.instance;
+  }
+}
+
+// Module-level Singleton
+@NgModule({
+  providers: [
+    // Only provided once in CoreModule
+    ConfigService,
+    LoggingService
+  ]
+})
+export class CoreModule {
+  constructor(@Optional() @SkipSelf() parent: CoreModule) {
+    if (parent) {
+      throw new Error('CoreModule already loaded');
+    }
+  }
+}
+
+// Standalone Component Singleton
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // App-wide singleton
+    { provide: AppConfigService, useClass: AppConfigService },
+    provideRouter(routes),
+    provideHttpClient()
+  ]
+};`,
+      benefits: [
+        'angular.architecture.singleton.benefit1',
+        'angular.architecture.singleton.benefit2',
+        'angular.architecture.singleton.benefit3',
+        'angular.architecture.singleton.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.singleton.useCase1',
+        'angular.architecture.singleton.useCase2',
+        'angular.architecture.singleton.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.singleton.implementation1',
+        'angular.architecture.singleton.implementation2',
+        'angular.architecture.singleton.implementation3',
+        'angular.architecture.singleton.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.singleton.challenge1',
+        'angular.architecture.singleton.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.decorator.title',
+      description: 'angular.architecture.decorator.description',
+      icon: 'auto_awesome',
+      detailTitle: 'angular.architecture.decorator.detailTitle',
+      explanation: 'angular.architecture.decorator.explanation',
+      codeExample: `// Method Decorator - Logging
+export function LogMethod(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+
+  descriptor.value = function (...args: any[]) {
+    console.log(\`Calling \${propertyKey} with\`, args);
+    const result = originalMethod.apply(this, args);
+    console.log(\`Result:\`, result);
+    return result;
+  };
+
+  return descriptor;
+}
+
+// Property Decorator - Memoization
+export function Memoize() {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    const cache = new Map();
+
+    descriptor.value = function (...args: any[]) {
+      const key = JSON.stringify(args);
+      if (cache.has(key)) {
+        return cache.get(key);
+      }
+      const result = originalMethod.apply(this, args);
+      cache.set(key, result);
+      return result;
+    };
+  };
+}
+
+// Class Decorator - Auto Unsubscribe
+export function AutoUnsubscribe() {
+  return function (constructor: any) {
+    const original = constructor.prototype.ngOnDestroy;
+
+    constructor.prototype.ngOnDestroy = function () {
+      for (let prop in this) {
+        const property = this[prop];
+        if (property && typeof property.unsubscribe === 'function') {
+          property.unsubscribe();
+        }
+      }
+      original?.apply(this);
+    };
+  };
+}
+
+// Usage Example
+@Component({
+  selector: 'app-example',
+  template: '...'
+})
+@AutoUnsubscribe()
+export class ExampleComponent {
+  private dataService = inject(DataService);
+  
+  @LogMethod
+  @Memoize()
+  expensiveCalculation(n: number): number {
+    return fibonacci(n);
+  }
+
+  subscription = this.dataService.getData()
+    .subscribe(data => console.log(data));
+  // Automatically unsubscribed by decorator
+}
+
+// Parameter Decorator
+export function Validate(target: any, propertyKey: string, parameterIndex: number) {
+  const existingParams = Reflect.getMetadata('validate_params', target, propertyKey) || [];
+  existingParams.push(parameterIndex);
+  Reflect.defineMetadata('validate_params', existingParams, target, propertyKey);
+}`,
+      benefits: [
+        'angular.architecture.decorator.benefit1',
+        'angular.architecture.decorator.benefit2',
+        'angular.architecture.decorator.benefit3',
+        'angular.architecture.decorator.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.decorator.useCase1',
+        'angular.architecture.decorator.useCase2',
+        'angular.architecture.decorator.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.decorator.implementation1',
+        'angular.architecture.decorator.implementation2',
+        'angular.architecture.decorator.implementation3',
+        'angular.architecture.decorator.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.decorator.challenge1',
+        'angular.architecture.decorator.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.strategy.title',
+      description: 'angular.architecture.strategy.description',
+      icon: 'psychology',
+      detailTitle: 'angular.architecture.strategy.detailTitle',
+      explanation: 'angular.architecture.strategy.explanation',
+      codeExample: `// Strategy Interface
+export interface ValidationStrategy {
+  validate(value: any): boolean;
+  getErrorMessage(): string;
+}
+
+// Concrete Strategies
+export class EmailValidationStrategy implements ValidationStrategy {
+  validate(value: string): boolean {
+    return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+  }
+  
+  getErrorMessage(): string {
+    return 'Invalid email format';
+  }
+}
+
+export class PhoneValidationStrategy implements ValidationStrategy {
+  validate(value: string): boolean {
+    return /^\\+?[1-9]\\d{1,14}$/.test(value);
+  }
+  
+  getErrorMessage(): string {
+    return 'Invalid phone number';
+  }
+}
+
+// Context
+@Injectable({ providedIn: 'root' })
+export class ValidationService {
+  private strategy!: ValidationStrategy;
+
+  setStrategy(strategy: ValidationStrategy) {
+    this.strategy = strategy;
+  }
+
+  validate(value: any): { valid: boolean; error?: string } {
+    const valid = this.strategy.validate(value);
+    return {
+      valid,
+      error: valid ? undefined : this.strategy.getErrorMessage()
+    };
+  }
+}
+
+// Payment Strategy Example
+export interface PaymentStrategy {
+  processPayment(amount: number): Observable<PaymentResult>;
+}
+
+export class CreditCardPayment implements PaymentStrategy {
+  processPayment(amount: number): Observable<PaymentResult> {
+    return this.http.post<PaymentResult>('/api/payment/credit-card', { amount });
+  }
+}
+
+export class PayPalPayment implements PaymentStrategy {
+  processPayment(amount: number): Observable<PaymentResult> {
+    return this.http.post<PaymentResult>('/api/payment/paypal', { amount });
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class PaymentService {
+  processPayment(strategy: PaymentStrategy, amount: number): Observable<PaymentResult> {
+    return strategy.processPayment(amount);
+  }
+}
+
+// Component Usage
+@Component({
+  selector: 'app-checkout',
+  template: \`
+    <button (click)="pay('credit-card')">Credit Card</button>
+    <button (click)="pay('paypal')">PayPal</button>
+  \`
+})
+export class CheckoutComponent {
+  private paymentService = inject(PaymentService);
+  private strategies = {
+    'credit-card': inject(CreditCardPayment),
+    'paypal': inject(PayPalPayment)
+  };
+
+  pay(method: string) {
+    const strategy = this.strategies[method];
+    this.paymentService.processPayment(strategy, 100)
+      .subscribe(result => console.log(result));
+  }
+}`,
+      benefits: [
+        'angular.architecture.strategy.benefit1',
+        'angular.architecture.strategy.benefit2',
+        'angular.architecture.strategy.benefit3',
+        'angular.architecture.strategy.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.strategy.useCase1',
+        'angular.architecture.strategy.useCase2',
+        'angular.architecture.strategy.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.strategy.implementation1',
+        'angular.architecture.strategy.implementation2',
+        'angular.architecture.strategy.implementation3',
+        'angular.architecture.strategy.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.strategy.challenge1',
+        'angular.architecture.strategy.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.adapter.title',
+      description: 'angular.architecture.adapter.description',
+      icon: 'settings_ethernet',
+      detailTitle: 'angular.architecture.adapter.detailTitle',
+      explanation: 'angular.architecture.adapter.explanation',
+      codeExample: `// External API Response
+interface ExternalUserResponse {
+  user_id: string;
+  full_name: string;
+  email_address: string;
+  created_at: string;
+  is_active: boolean;
+}
+
+// Internal Domain Model
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  createdDate: Date;
+  active: boolean;
+}
+
+// Adapter
+@Injectable({ providedIn: 'root' })
+export class UserApiAdapter {
+  adaptUser(external: ExternalUserResponse): User {
+    return {
+      id: external.user_id,
+      name: external.full_name,
+      email: external.email_address,
+      createdDate: new Date(external.created_at),
+      active: external.is_active
+    };
+  }
+
+  adaptUsers(externals: ExternalUserResponse[]): User[] {
+    return externals.map(ext => this.adaptUser(ext));
+  }
+
+  toExternal(user: Partial<User>): Partial<ExternalUserResponse> {
+    return {
+      full_name: user.name,
+      email_address: user.email,
+      is_active: user.active
+    };
+  }
+}
+
+// Service using Adapter
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private http = inject(HttpClient);
+  private adapter = inject(UserApiAdapter);
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<ExternalUserResponse[]>('/api/users')
+      .pipe(
+        map(response => this.adapter.adaptUsers(response))
+      );
+  }
+
+  createUser(user: Partial<User>): Observable<User> {
+    const external = this.adapter.toExternal(user);
+    return this.http.post<ExternalUserResponse>('/api/users', external)
+      .pipe(
+        map(response => this.adapter.adaptUser(response))
+      );
+  }
+}
+
+// Legacy System Adapter
+export class LegacySystemAdapter {
+  adapt(legacyData: any): ModernData {
+    // Transform legacy structure to modern
+    return {
+      id: legacyData.ID,
+      values: this.parseCSV(legacyData.VALUES),
+      timestamp: this.parseDate(legacyData.DATE)
+    };
+  }
+}`,
+      benefits: [
+        'angular.architecture.adapter.benefit1',
+        'angular.architecture.adapter.benefit2',
+        'angular.architecture.adapter.benefit3',
+        'angular.architecture.adapter.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.adapter.useCase1',
+        'angular.architecture.adapter.useCase2',
+        'angular.architecture.adapter.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.adapter.implementation1',
+        'angular.architecture.adapter.implementation2',
+        'angular.architecture.adapter.implementation3',
+        'angular.architecture.adapter.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.adapter.challenge1',
+        'angular.architecture.adapter.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.featureSlice.title',
+      description: 'angular.architecture.featureSlice.description',
+      icon: 'view_module',
+      detailTitle: 'angular.architecture.featureSlice.detailTitle',
+      explanation: 'angular.architecture.featureSlice.explanation',
+      codeExample: `// Feature Slice Structure
+// features/
+//   product/
+//     ├── data/
+//     │   ├── product.repository.ts
+//     │   ├── product.model.ts
+//     │   └── product.api.ts
+//     ├── domain/
+//     │   ├── product.facade.ts
+//     │   ├── product.state.ts
+//     │   └── product.service.ts
+//     ├── ui/
+//     │   ├── product-list/
+//     │   ├── product-detail/
+//     │   └── product-form/
+//     ├── product.routes.ts
+//     └── index.ts
+
+// Data Layer
+@Injectable({ providedIn: 'root' })
+export class ProductRepository {
+  private http = inject(HttpClient);
+  
+  getAll(): Observable<Product[]> {
+    return this.http.get<Product[]>('/api/products');
+  }
+}
+
+// Domain Layer
+@Injectable({ providedIn: 'root' })
+export class ProductFacade {
+  private repository = inject(ProductRepository);
+  private state = inject(ProductStateService);
+
+  products$ = this.state.products$;
+  loading$ = this.state.loading$;
+
+  loadProducts(): void {
+    this.state.setLoading(true);
+    this.repository.getAll().subscribe({
+      next: products => {
+        this.state.setProducts(products);
+        this.state.setLoading(false);
+      },
+      error: () => this.state.setLoading(false)
+    });
+  }
+}
+
+// UI Layer
+@Component({
+  selector: 'app-product-list',
+  template: \`
+    @if (facade.loading$ | async) {
+      <mat-spinner></mat-spinner>
+    }
+    @for (product of facade.products$ | async; track product.id) {
+      <app-product-card [product]="product"></app-product-card>
+    }
+  \`
+})
+export class ProductListComponent {
+  facade = inject(ProductFacade);
+
+  ngOnInit() {
+    this.facade.loadProducts();
+  }
+}
+
+// Feature Routes
+export const PRODUCT_ROUTES: Routes = [
+  {
+    path: '',
+    children: [
+      { path: '', component: ProductListComponent },
+      { path: ':id', component: ProductDetailComponent }
+    ]
+  }
+];`,
+      benefits: [
+        'angular.architecture.featureSlice.benefit1',
+        'angular.architecture.featureSlice.benefit2',
+        'angular.architecture.featureSlice.benefit3',
+        'angular.architecture.featureSlice.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.featureSlice.useCase1',
+        'angular.architecture.featureSlice.useCase2',
+        'angular.architecture.featureSlice.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.featureSlice.implementation1',
+        'angular.architecture.featureSlice.implementation2',
+        'angular.architecture.featureSlice.implementation3',
+        'angular.architecture.featureSlice.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.featureSlice.challenge1',
+        'angular.architecture.featureSlice.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.cleanArchitecture.title',
+      description: 'angular.architecture.cleanArchitecture.description',
+      icon: 'architecture',
+      detailTitle: 'angular.architecture.cleanArchitecture.detailTitle',
+      explanation: 'angular.architecture.cleanArchitecture.explanation',
+      codeExample: `// Clean Architecture Layers
+// src/
+//   ├── domain/           (Entities & Use Cases)
+//   ├── application/      (Application Logic)
+//   ├── infrastructure/   (External Services)
+//   └── presentation/     (UI Components)
+
+// Domain Layer - Entities
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface UserRepository {
+  findById(id: string): Observable<User>;
+  save(user: User): Observable<User>;
+}
+
+// Domain Layer - Use Cases
+@Injectable({ providedIn: 'root' })
+export class GetUserUseCase {
+  constructor(@Inject('UserRepository') private repo: UserRepository) {}
+
+  execute(id: string): Observable<User> {
+    return this.repo.findById(id);
+  }
+}
+
+// Infrastructure Layer - Repository Implementation
+@Injectable({ providedIn: 'root' })
+export class UserHttpRepository implements UserRepository {
+  private http = inject(HttpClient);
+
+  findById(id: string): Observable<User> {
+    return this.http.get<User>(\`/api/users/\${id}\`);
+  }
+
+  save(user: User): Observable<User> {
+    return this.http.post<User>('/api/users', user);
+  }
+}
+
+// Application Layer - Facade
+@Injectable({ providedIn: 'root' })
+export class UserApplicationService {
+  private getUserUseCase = inject(GetUserUseCase);
+  
+  loadUser(id: string): Observable<User> {
+    return this.getUserUseCase.execute(id).pipe(
+      catchError(error => {
+        // Application-level error handling
+        return throwError(() => new Error('Failed to load user'));
+      })
+    );
+  }
+}
+
+// Presentation Layer - Component
+@Component({
+  selector: 'app-user-profile',
+  template: \`
+    @if (user()) {
+      <h1>{{ user()!.name }}</h1>
+      <p>{{ user()!.email }}</p>
+    }
+  \`
+})
+export class UserProfileComponent {
+  private userApp = inject(UserApplicationService);
+  user = signal<User | null>(null);
+
+  ngOnInit() {
+    this.userApp.loadUser('123')
+      .subscribe(user => this.user.set(user));
+  }
+}
+
+// Dependency Injection Setup
+export const appConfig: ApplicationConfig = {
+  providers: [
+    { provide: 'UserRepository', useClass: UserHttpRepository },
+    GetUserUseCase,
+    UserApplicationService
+  ]
+};`,
+      benefits: [
+        'angular.architecture.cleanArchitecture.benefit1',
+        'angular.architecture.cleanArchitecture.benefit2',
+        'angular.architecture.cleanArchitecture.benefit3',
+        'angular.architecture.cleanArchitecture.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.cleanArchitecture.useCase1',
+        'angular.architecture.cleanArchitecture.useCase2',
+        'angular.architecture.cleanArchitecture.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.cleanArchitecture.implementation1',
+        'angular.architecture.cleanArchitecture.implementation2',
+        'angular.architecture.cleanArchitecture.implementation3',
+        'angular.architecture.cleanArchitecture.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.cleanArchitecture.challenge1',
+        'angular.architecture.cleanArchitecture.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.cqrs.title',
+      description: 'angular.architecture.cqrs.description',
+      icon: 'call_split',
+      detailTitle: 'angular.architecture.cqrs.detailTitle',
+      explanation: 'angular.architecture.cqrs.explanation',
+      codeExample: `// Command Side - Write Operations
+export interface Command {
+  execute(): Observable<void>;
+}
+
+export class CreateUserCommand implements Command {
+  constructor(
+    private user: CreateUserDto,
+    private userService: UserService
+  ) {}
+
+  execute(): Observable<void> {
+    return this.userService.create(this.user).pipe(
+      map(() => void 0)
+    );
+  }
+}
+
+export class UpdateUserCommand implements Command {
+  constructor(
+    private id: string,
+    private updates: Partial<User>,
+    private userService: UserService
+  ) {}
+
+  execute(): Observable<void> {
+    return this.userService.update(this.id, this.updates).pipe(
+      map(() => void 0)
+    );
+  }
+}
+
+// Command Bus
+@Injectable({ providedIn: 'root' })
+export class CommandBus {
+  execute(command: Command): Observable<void> {
+    return command.execute();
+  }
+}
+
+// Query Side - Read Operations
+export interface Query<T> {
+  execute(): Observable<T>;
+}
+
+export class GetUserQuery implements Query<User> {
+  constructor(
+    private id: string,
+    private userService: UserService
+  ) {}
+
+  execute(): Observable<User> {
+    return this.userService.getById(this.id);
+  }
+}
+
+export class GetAllUsersQuery implements Query<User[]> {
+  constructor(private userService: UserService) {}
+
+  execute(): Observable<User[]> {
+    return this.userService.getAll();
+  }
+}
+
+// Query Bus
+@Injectable({ providedIn: 'root' })
+export class QueryBus {
+  execute<T>(query: Query<T>): Observable<T> {
+    return query.execute();
+  }
+}
+
+// Component Usage
+@Component({
+  selector: 'app-user-management',
+  template: \`
+    @for (user of users(); track user.id) {
+      <app-user-card [user]="user"></app-user-card>
+    }
+    <button (click)="createUser()">Add User</button>
+  \`
+})
+export class UserManagementComponent {
+  private commandBus = inject(CommandBus);
+  private queryBus = inject(QueryBus);
+  private userService = inject(UserService);
+  
+  users = signal<User[]>([]);
+
+  ngOnInit() {
+    const query = new GetAllUsersQuery(this.userService);
+    this.queryBus.execute(query)
+      .subscribe(users => this.users.set(users));
+  }
+
+  createUser() {
+    const command = new CreateUserCommand(
+      { name: 'New User', email: 'new@example.com' },
+      this.userService
+    );
+    this.commandBus.execute(command).subscribe(() => {
+      // Refresh query after command
+      this.loadUsers();
+    });
+  }
+}`,
+      benefits: [
+        'angular.architecture.cqrs.benefit1',
+        'angular.architecture.cqrs.benefit2',
+        'angular.architecture.cqrs.benefit3',
+        'angular.architecture.cqrs.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.cqrs.useCase1',
+        'angular.architecture.cqrs.useCase2',
+        'angular.architecture.cqrs.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.cqrs.implementation1',
+        'angular.architecture.cqrs.implementation2',
+        'angular.architecture.cqrs.implementation3',
+        'angular.architecture.cqrs.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.cqrs.challenge1',
+        'angular.architecture.cqrs.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.eventDriven.title',
+      description: 'angular.architecture.eventDriven.description',
+      icon: 'event',
+      detailTitle: 'angular.architecture.eventDriven.detailTitle',
+      explanation: 'angular.architecture.eventDriven.explanation',
+      codeExample: `// Event Bus
+@Injectable({ providedIn: 'root' })
+export class EventBus {
+  private eventSubject = new Subject<DomainEvent>();
+  events$ = this.eventSubject.asObservable();
+
+  publish(event: DomainEvent): void {
+    this.eventSubject.next(event);
+  }
+
+  ofType<T extends DomainEvent>(eventType: new (...args: any[]) => T): Observable<T> {
+    return this.events$.pipe(
+      filter(event => event instanceof eventType)
+    ) as Observable<T>;
+  }
+}
+
+// Domain Events
+export abstract class DomainEvent {
+  readonly timestamp = new Date();
+  abstract readonly type: string;
+}
+
+export class UserCreatedEvent extends DomainEvent {
+  readonly type = 'USER_CREATED';
+  constructor(public user: User) { super(); }
+}
+
+export class UserUpdatedEvent extends DomainEvent {
+  readonly type = 'USER_UPDATED';
+  constructor(public userId: string, public changes: Partial<User>) { super(); }
+}
+
+export class OrderPlacedEvent extends DomainEvent {
+  readonly type = 'ORDER_PLACED';
+  constructor(public order: Order) { super(); }
+}
+
+// Event Handlers
+@Injectable({ providedIn: 'root' })
+export class NotificationHandler {
+  private eventBus = inject(EventBus);
+  private notificationService = inject(NotificationService);
+
+  constructor() {
+    this.eventBus.ofType(UserCreatedEvent).subscribe(event => {
+      this.notificationService.show(\`Welcome \${event.user.name}!\`);
+    });
+
+    this.eventBus.ofType(OrderPlacedEvent).subscribe(event => {
+      this.notificationService.show(\`Order #\${event.order.id} placed\`);
+    });
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class AnalyticsHandler {
+  private eventBus = inject(EventBus);
+  private analytics = inject(AnalyticsService);
+
+  constructor() {
+    this.eventBus.events$.subscribe(event => {
+      this.analytics.track(event.type, {
+        timestamp: event.timestamp,
+        data: event
+      });
+    });
+  }
+}
+
+// Component Publishing Events
+@Component({
+  selector: 'app-user-form',
+  template: \`<form (submit)="save()">...</form>\`
+})
+export class UserFormComponent {
+  private eventBus = inject(EventBus);
+  private userService = inject(UserService);
+
+  save() {
+    this.userService.create(this.form.value).subscribe(user => {
+      // Publish event instead of direct calls
+      this.eventBus.publish(new UserCreatedEvent(user));
+    });
+  }
+}`,
+      benefits: [
+        'angular.architecture.eventDriven.benefit1',
+        'angular.architecture.eventDriven.benefit2',
+        'angular.architecture.eventDriven.benefit3',
+        'angular.architecture.eventDriven.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.eventDriven.useCase1',
+        'angular.architecture.eventDriven.useCase2',
+        'angular.architecture.eventDriven.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.eventDriven.implementation1',
+        'angular.architecture.eventDriven.implementation2',
+        'angular.architecture.eventDriven.implementation3',
+        'angular.architecture.eventDriven.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.eventDriven.challenge1',
+        'angular.architecture.eventDriven.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.microFrontends.title',
+      description: 'angular.architecture.microFrontends.description',
+      icon: 'dashboard',
+      detailTitle: 'angular.architecture.microFrontends.detailTitle',
+      explanation: 'angular.architecture.microFrontends.explanation',
+      codeExample: `// Module Federation Configuration
+// webpack.config.js (Shell App)
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+
+module.exports = {
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'shell',
+      remotes: {
+        products: 'products@http://localhost:4201/remoteEntry.js',
+        orders: 'orders@http://localhost:4202/remoteEntry.js'
+      },
+      shared: {
+        '@angular/core': { singleton: true, strictVersion: true },
+        '@angular/common': { singleton: true, strictVersion: true },
+        '@angular/router': { singleton: true, strictVersion: true }
+      }
+    })
+  ]
+};
+
+// Shell App Routes
+export const routes: Routes = [
+  {
+    path: 'products',
+    loadChildren: () => import('products/Module')
+      .then(m => m.ProductsModule)
+  },
+  {
+    path: 'orders',
+    loadChildren: () => import('orders/Module')
+      .then(m => m.OrdersModule)
+  }
+];
+
+// Remote App (Products) - webpack.config.js
+module.exports = {
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'products',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './Module': './src/app/products/products.module.ts'
+      },
+      shared: {
+        '@angular/core': { singleton: true, strictVersion: true },
+        '@angular/common': { singleton: true, strictVersion: true }
+      }
+    })
+  ]
+};
+
+// Shared Event Bus for Communication
+@Injectable({ providedIn: 'root' })
+export class MicroFrontendEventBus {
+  private events = new Subject<MicroFrontendEvent>();
+  events$ = this.events.asObservable();
+
+  publish(event: MicroFrontendEvent): void {
+    this.events.next(event);
+  }
+
+  subscribe(callback: (event: MicroFrontendEvent) => void) {
+    return this.events$.subscribe(callback);
+  }
+}
+
+// Dynamic Remote Loading
+@Injectable({ providedIn: 'root' })
+export class RemoteLoaderService {
+  async loadRemote(remoteName: string, moduleName: string): Promise<any> {
+    const container = window[remoteName];
+    await container.init(__webpack_share_scopes__.default);
+    const factory = await container.get(moduleName);
+    return factory();
+  }
+}`,
+      benefits: [
+        'angular.architecture.microFrontends.benefit1',
+        'angular.architecture.microFrontends.benefit2',
+        'angular.architecture.microFrontends.benefit3',
+        'angular.architecture.microFrontends.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.microFrontends.useCase1',
+        'angular.architecture.microFrontends.useCase2',
+        'angular.architecture.microFrontends.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.microFrontends.implementation1',
+        'angular.architecture.microFrontends.implementation2',
+        'angular.architecture.microFrontends.implementation3',
+        'angular.architecture.microFrontends.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.microFrontends.challenge1',
+        'angular.architecture.microFrontends.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.ddd.title',
+      description: 'angular.architecture.ddd.description',
+      icon: 'domain',
+      detailTitle: 'angular.architecture.ddd.detailTitle',
+      explanation: 'angular.architecture.ddd.explanation',
+      codeExample: `// Domain Model - Entity
+export class User {
+  private constructor(
+    public readonly id: UserId,
+    public name: UserName,
+    public email: Email,
+    private status: UserStatus
+  ) {}
+
+  static create(name: string, email: string): User {
+    return new User(
+      UserId.generate(),
+      UserName.create(name),
+      Email.create(email),
+      UserStatus.Active
+    );
+  }
+
+  activate(): void {
+    if (this.status === UserStatus.Active) {
+      throw new Error('User already active');
+    }
+    this.status = UserStatus.Active;
+  }
+
+  deactivate(): void {
+    this.status = UserStatus.Inactive;
+  }
+
+  isActive(): boolean {
+    return this.status === UserStatus.Active;
+  }
+}
+
+// Value Objects
+export class Email {
+  private constructor(private readonly value: string) {}
+
+  static create(email: string): Email {
+    if (!this.isValid(email)) {
+      throw new Error('Invalid email');
+    }
+    return new Email(email);
+  }
+
+  private static isValid(email: string): boolean {
+    return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+  }
+
+  getValue(): string {
+    return this.value;
+  }
+}
+
+// Aggregate Root
+export class Order {
+  private items: OrderItem[] = [];
+  
+  constructor(
+    public readonly id: OrderId,
+    private customerId: CustomerId,
+    private status: OrderStatus
+  ) {}
+
+  addItem(product: Product, quantity: number): void {
+    const item = OrderItem.create(product, quantity);
+    this.items.push(item);
+  }
+
+  removeItem(productId: ProductId): void {
+    this.items = this.items.filter(i => !i.productId.equals(productId));
+  }
+
+  getTotalAmount(): Money {
+    return this.items.reduce(
+      (sum, item) => sum.add(item.getSubtotal()),
+      Money.zero()
+    );
+  }
+
+  place(): void {
+    if (this.items.length === 0) {
+      throw new Error('Cannot place empty order');
+    }
+    this.status = OrderStatus.Placed;
+    // Domain event
+    DomainEvents.raise(new OrderPlacedEvent(this));
+  }
+}
+
+// Repository Interface
+export interface UserRepository {
+  findById(id: UserId): Observable<User | null>;
+  save(user: User): Observable<void>;
+  findByEmail(email: Email): Observable<User | null>;
+}
+
+// Domain Service
+@Injectable({ providedIn: 'root' })
+export class UserRegistrationService {
+  constructor(
+    @Inject('UserRepository') private userRepo: UserRepository,
+    private emailService: EmailService
+  ) {}
+
+  async register(name: string, email: string): Promise<User> {
+    const emailVO = Email.create(email);
+    const existing = await firstValueFrom(this.userRepo.findByEmail(emailVO));
+    
+    if (existing) {
+      throw new Error('Email already registered');
+    }
+
+    const user = User.create(name, email);
+    await firstValueFrom(this.userRepo.save(user));
+    await this.emailService.sendWelcome(user);
+    
+    return user;
+  }
+}`,
+      benefits: [
+        'angular.architecture.ddd.benefit1',
+        'angular.architecture.ddd.benefit2',
+        'angular.architecture.ddd.benefit3',
+        'angular.architecture.ddd.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.ddd.useCase1',
+        'angular.architecture.ddd.useCase2',
+        'angular.architecture.ddd.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.ddd.implementation1',
+        'angular.architecture.ddd.implementation2',
+        'angular.architecture.ddd.implementation3',
+        'angular.architecture.ddd.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.ddd.challenge1',
+        'angular.architecture.ddd.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.hexagonal.title',
+      description: 'angular.architecture.hexagonal.description',
+      icon: 'hexagon',
+      detailTitle: 'angular.architecture.hexagonal.detailTitle',
+      explanation: 'angular.architecture.hexagonal.explanation',
+      codeExample: `// Port (Interface in Domain)
+export interface UserRepository {
+  save(user: User): Observable<void>;
+  findById(id: string): Observable<User>;
+}
+
+export interface NotificationService {
+  send(message: string): Observable<void>;
+}
+
+// Domain Layer (Core Business Logic)
+export class User {
+  constructor(
+    public id: string,
+    public name: string,
+    public email: string
+  ) {}
+
+  validate(): boolean {
+    return this.email.includes('@') && this.name.length > 0;
+  }
+}
+
+// Use Case (Application Layer)
+@Injectable({ providedIn: 'root' })
+export class RegisterUserUseCase {
+  constructor(
+    @Inject('UserRepository') private userRepo: UserRepository,
+    @Inject('NotificationService') private notifier: NotificationService
+  ) {}
+
+  execute(name: string, email: string): Observable<User> {
+    const user = new User(crypto.randomUUID(), name, email);
+    
+    if (!user.validate()) {
+      return throwError(() => new Error('Invalid user data'));
+    }
+
+    return this.userRepo.save(user).pipe(
+      switchMap(() => this.notifier.send(\`Welcome \${user.name}!\`)),
+      map(() => user)
+    );
+  }
+}
+
+// Adapter (Infrastructure Layer) - HTTP Implementation
+@Injectable({ providedIn: 'root' })
+export class HttpUserRepository implements UserRepository {
+  private http = inject(HttpClient);
+
+  save(user: User): Observable<void> {
+    return this.http.post<void>('/api/users', user);
+  }
+
+  findById(id: string): Observable<User> {
+    return this.http.get<any>(\`/api/users/\${id}\`).pipe(
+      map(data => new User(data.id, data.name, data.email))
+    );
+  }
+}
+
+// Adapter - Email Notification
+@Injectable({ providedIn: 'root' })
+export class EmailNotificationService implements NotificationService {
+  private http = inject(HttpClient);
+
+  send(message: string): Observable<void> {
+    return this.http.post<void>('/api/notifications', { message });
+  }
+}
+
+// DI Configuration
+export const appConfig: ApplicationConfig = {
+  providers: [
+    { provide: 'UserRepository', useClass: HttpUserRepository },
+    { provide: 'NotificationService', useClass: EmailNotificationService },
+    RegisterUserUseCase
+  ]
+};`,
+      benefits: [
+        'angular.architecture.hexagonal.benefit1',
+        'angular.architecture.hexagonal.benefit2',
+        'angular.architecture.hexagonal.benefit3',
+        'angular.architecture.hexagonal.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.hexagonal.useCase1',
+        'angular.architecture.hexagonal.useCase2',
+        'angular.architecture.hexagonal.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.hexagonal.implementation1',
+        'angular.architecture.hexagonal.implementation2',
+        'angular.architecture.hexagonal.implementation3',
+        'angular.architecture.hexagonal.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.hexagonal.challenge1',
+        'angular.architecture.hexagonal.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.stateManagement.title',
+      description: 'angular.architecture.stateManagement.description',
+      icon: 'hub',
+      detailTitle: 'angular.architecture.stateManagement.detailTitle',
+      explanation: 'angular.architecture.stateManagement.explanation',
+      codeExample: `// Signal Store Pattern
+interface AppState {
+  users: User[];
+  loading: boolean;
+  error: string | null;
+}
+
+@Injectable({ providedIn: 'root' })
+export class UserStore {
+  private state = signal<AppState>({
+    users: [],
+    loading: false,
+    error: null
+  });
+
+  // Selectors
+  readonly users = computed(() => this.state().users);
+  readonly loading = computed(() => this.state().loading);
+  readonly error = computed(() => this.state().error);
+  readonly userCount = computed(() => this.state().users.length);
+
+  // Actions
+  loadUsers(): void {
+    this.state.update(state => ({ ...state, loading: true, error: null }));
+    
+    this.userService.getUsers().subscribe({
+      next: users => this.state.update(state => ({
+        ...state,
+        users,
+        loading: false
+      })),
+      error: err => this.state.update(state => ({
+        ...state,
+        loading: false,
+        error: err.message
+      }))
+    });
+  }
+
+  addUser(user: User): void {
+    this.state.update(state => ({
+      ...state,
+      users: [...state.users, user]
+    }));
+  }
+
+  removeUser(id: string): void {
+    this.state.update(state => ({
+      ...state,
+      users: state.users.filter(u => u.id !== id)
+    }));
+  }
+
+  updateUser(updated: User): void {
+    this.state.update(state => ({
+      ...state,
+      users: state.users.map(u => u.id === updated.id ? updated : u)
+    }));
+  }
+}
+
+// Component Usage
+@Component({
+  selector: 'app-users',
+  template: \`
+    @if (store.loading()) {
+      <mat-spinner></mat-spinner>
+    }
+    @if (store.error()) {
+      <div class="error">{{ store.error() }}</div>
+    }
+    <p>Total: {{ store.userCount() }}</p>
+    @for (user of store.users(); track user.id) {
+      <app-user-card [user]="user"></app-user-card>
+    }
+  \`
+})
+export class UsersComponent {
+  store = inject(UserStore);
+
+  ngOnInit() {
+    this.store.loadUsers();
+  }
+}`,
+      benefits: [
+        'angular.architecture.stateManagement.benefit1',
+        'angular.architecture.stateManagement.benefit2',
+        'angular.architecture.stateManagement.benefit3',
+        'angular.architecture.stateManagement.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.stateManagement.useCase1',
+        'angular.architecture.stateManagement.useCase2',
+        'angular.architecture.stateManagement.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.stateManagement.implementation1',
+        'angular.architecture.stateManagement.implementation2',
+        'angular.architecture.stateManagement.implementation3',
+        'angular.architecture.stateManagement.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.stateManagement.challenge1',
+        'angular.architecture.stateManagement.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.onion.title',
+      description: 'angular.architecture.onion.description',
+      icon: 'contrast',
+      detailTitle: 'angular.architecture.onion.detailTitle',
+      explanation: 'angular.architecture.onion.explanation',
+      codeExample: `// Onion Architecture Layers (innermost to outermost)
+
+// 1. Domain Core (Innermost - No Dependencies)
+export class Product {
+  constructor(
+    public id: string,
+    public name: string,
+    public price: number
+  ) {}
+
+  applyDiscount(percentage: number): void {
+    if (percentage < 0 || percentage > 100) {
+      throw new Error('Invalid discount');
+    }
+    this.price = this.price * (1 - percentage / 100);
+  }
+
+  isAffordable(budget: number): boolean {
+    return this.price <= budget;
+  }
+}
+
+// Domain Service
+export interface IProductRepository {
+  findById(id: string): Observable<Product>;
+  save(product: Product): Observable<void>;
+}
+
+// 2. Domain Services Layer
+@Injectable()
+export class PricingService {
+  calculateTax(price: number, rate: number): number {
+    return price * rate;
+  }
+
+  calculateTotal(products: Product[]): number {
+    return products.reduce((sum, p) => sum + p.price, 0);
+  }
+}
+
+// 3. Application Services Layer
+@Injectable({ providedIn: 'root' })
+export class ProductApplicationService {
+  constructor(
+    @Inject('IProductRepository') private repo: IProductRepository,
+    private pricingService: PricingService
+  ) {}
+
+  applyDiscountToProduct(id: string, discount: number): Observable<Product> {
+    return this.repo.findById(id).pipe(
+      map(product => {
+        product.applyDiscount(discount);
+        return product;
+      }),
+      switchMap(product => this.repo.save(product).pipe(map(() => product)))
+    );
+  }
+}
+
+// 4. Infrastructure Layer (Outermost)
+@Injectable({ providedIn: 'root' })
+export class HttpProductRepository implements IProductRepository {
+  private http = inject(HttpClient);
+
+  findById(id: string): Observable<Product> {
+    return this.http.get<any>(\`/api/products/\${id}\`).pipe(
+      map(data => new Product(data.id, data.name, data.price))
+    );
+  }
+
+  save(product: Product): Observable<void> {
+    return this.http.put<void>(\`/api/products/\${product.id}\`, product);
+  }
+}
+
+// 5. Presentation Layer
+@Component({
+  selector: 'app-product-detail',
+  template: \`
+    <h1>{{ product()?.name }}</h1>
+    <p>Price: {{ product()?.price }}</p>
+    <button (click)="applyDiscount()">Apply 10% Discount</button>
+  \`
+})
+export class ProductDetailComponent {
+  private appService = inject(ProductApplicationService);
+  product = signal<Product | null>(null);
+
+  applyDiscount() {
+    this.appService.applyDiscountToProduct('123', 10)
+      .subscribe(p => this.product.set(p));
+  }
+}`,
+      benefits: [
+        'angular.architecture.onion.benefit1',
+        'angular.architecture.onion.benefit2',
+        'angular.architecture.onion.benefit3',
+        'angular.architecture.onion.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.onion.useCase1',
+        'angular.architecture.onion.useCase2',
+        'angular.architecture.onion.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.onion.implementation1',
+        'angular.architecture.onion.implementation2',
+        'angular.architecture.onion.implementation3',
+        'angular.architecture.onion.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.onion.challenge1',
+        'angular.architecture.onion.challenge2'
+      ]
+    },
+    {
+      title: 'angular.architecture.mvvm.title',
+      description: 'angular.architecture.mvvm.description',
+      icon: 'view_in_ar',
+      detailTitle: 'angular.architecture.mvvm.detailTitle',
+      explanation: 'angular.architecture.mvvm.explanation',
+      codeExample: `// Model (Domain/Business Logic)
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  age: number;
+}
+
+export class UserModel {
+  static validate(user: Partial<User>): boolean {
+    return !!(user.email?.includes('@') && user.firstName && user.lastName);
+  }
+
+  static getFullName(user: User): string {
+    return \`\${user.firstName} \${user.lastName}\`;
+  }
+}
+
+// ViewModel (Component as ViewModel)
+@Component({
+  selector: 'app-user-form',
+  template: \`
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput formControlName="firstName" placeholder="First Name">
+        @if (form.controls.firstName.errors?.['required']) {
+          <mat-error>First name is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput formControlName="lastName" placeholder="Last Name">
+        @if (form.controls.lastName.errors?.['required']) {
+          <mat-error>Last name is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput formControlName="email" placeholder="Email">
+        @if (form.controls.email.errors?.['email']) {
+          <mat-error>Invalid email</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="number" formControlName="age" placeholder="Age">
+      </mat-form-field>
+
+      <p>Full Name Preview: {{ fullNamePreview() }}</p>
+      <p>Is Valid: {{ isFormValid() }}</p>
+
+      <button mat-raised-button type="submit" [disabled]="!isFormValid()">
+        Save User
+      </button>
+    </form>
+  \`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class UserFormComponent {
+  private userService = inject(UserService);
+
+  // Form as part of ViewModel
+  form = new FormGroup({
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    age: new FormControl<number | null>(null, [Validators.min(0)])
+  });
+
+  // Computed properties (ViewModel state)
+  fullNamePreview = computed(() => {
+    const firstName = this.form.controls.firstName.value || '';
+    const lastName = this.form.controls.lastName.value || '';
+    return \`\${firstName} \${lastName}\`.trim() || 'N/A';
+  });
+
+  isFormValid = computed(() => this.form.valid);
+
+  // Commands (ViewModel actions)
+  onSubmit(): void {
+    if (this.form.valid) {
+      const user: Partial<User> = {
+        id: crypto.randomUUID(),
+        ...this.form.value as any
+      };
+
+      this.userService.createUser(user as User).subscribe({
+        next: () => this.form.reset(),
+        error: err => console.error(err)
+      });
+    }
+  }
+}
+
+// View binds to ViewModel (Component)
+// Data flows: Model ← ViewModel ← View
+// Commands: View → ViewModel → Model`,
+      benefits: [
+        'angular.architecture.mvvm.benefit1',
+        'angular.architecture.mvvm.benefit2',
+        'angular.architecture.mvvm.benefit3',
+        'angular.architecture.mvvm.benefit4'
+      ],
+      useCases: [
+        'angular.architecture.mvvm.useCase1',
+        'angular.architecture.mvvm.useCase2',
+        'angular.architecture.mvvm.useCase3'
+      ],
+      implementation: [
+        'angular.architecture.mvvm.implementation1',
+        'angular.architecture.mvvm.implementation2',
+        'angular.architecture.mvvm.implementation3',
+        'angular.architecture.mvvm.implementation4'
+      ],
+      challenges: [
+        'angular.architecture.mvvm.challenge1',
+        'angular.architecture.mvvm.challenge2'
+      ]
+    }
+  ]);
+
+  readonly detailedCodeExamples = signal<CodeExample[]>([
+    {
+      title: 'angular.codeExamples.signals.title',
+      subtitle: 'angular.codeExamples.signals.subtitle',
+      description: 'angular.codeExamples.signals.description',
+      icon: 'sensors',
+      language: 'typescript',
+      code: `// Signal erstellen
 const count = signal(0);
 const user = signal({ name: 'Mike', age: 30 });
 
@@ -2093,14 +5367,14 @@ count.update(value => value + 1);
 effect(() => {
   console.log('Count changed:', count());
 });`
-        },
-        {
-            title: 'angular.codeExamples.component.title',
-            subtitle: 'angular.codeExamples.component.subtitle',
-            description: 'angular.codeExamples.component.description',
-            icon: 'widgets',
-            language: 'typescript',
-            code: `import { Component, input, output, model } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.component.title',
+      subtitle: 'angular.codeExamples.component.subtitle',
+      description: 'angular.codeExamples.component.description',
+      icon: 'widgets',
+      language: 'typescript',
+      code: `import { Component, input, output, model } from '@angular/core';
 
 @Component({
   selector: 'app-user-card',
@@ -2132,14 +5406,14 @@ export class UserCardComponent {
     this.userClicked.emit(this.name());
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.controlFlow.title',
-            subtitle: 'angular.codeExamples.controlFlow.subtitle',
-            description: 'angular.codeExamples.controlFlow.description',
-            icon: 'alt_route',
-            language: 'html',
-            code: `<!-- @if Conditional -->
+    },
+    {
+      title: 'angular.codeExamples.controlFlow.title',
+      subtitle: 'angular.codeExamples.controlFlow.subtitle',
+      description: 'angular.codeExamples.controlFlow.description',
+      icon: 'alt_route',
+      language: 'html',
+      code: `<!-- @if Conditional -->
 @if (isLoggedIn()) {
   <app-user-dashboard />
 } @else if (isLoading()) {
@@ -2167,14 +5441,14 @@ export class UserCardComponent {
     <app-guest-panel />
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.service.title',
-            subtitle: 'angular.codeExamples.service.subtitle',
-            description: 'angular.codeExamples.service.description',
-            icon: 'business_center',
-            language: 'typescript',
-            code: `import { Injectable, inject, signal } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.service.title',
+      subtitle: 'angular.codeExamples.service.subtitle',
+      description: 'angular.codeExamples.service.description',
+      icon: 'business_center',
+      language: 'typescript',
+      code: `import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -2205,14 +5479,14 @@ export class UserService {
     this.usersSignal.update(users => [...users, user]);
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.routing.title',
-            subtitle: 'angular.codeExamples.routing.subtitle',
-            description: 'angular.codeExamples.routing.description',
-            icon: 'route',
-            language: 'typescript',
-            code: `import { Routes } from '@angular/router';
+    },
+    {
+      title: 'angular.codeExamples.routing.title',
+      subtitle: 'angular.codeExamples.routing.subtitle',
+      description: 'angular.codeExamples.routing.description',
+      icon: 'route',
+      language: 'typescript',
+      code: `import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
@@ -2241,14 +5515,14 @@ export const routes: Routes = [
         .then(m => m.ADMIN_ROUTES)
   }
 ];`
-        },
-        {
-            title: 'angular.codeExamples.forms.title',
-            subtitle: 'angular.codeExamples.forms.subtitle',
-            description: 'angular.codeExamples.forms.description',
-            icon: 'edit_note',
-            language: 'typescript',
-            code: `import { FormControl, FormGroup, Validators } from '@angular/forms';
+    },
+    {
+      title: 'angular.codeExamples.forms.title',
+      subtitle: 'angular.codeExamples.forms.subtitle',
+      description: 'angular.codeExamples.forms.description',
+      icon: 'edit_note',
+      language: 'typescript',
+      code: `import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export class UserFormComponent {
   // Reactive Form mit Signals
@@ -2281,14 +5555,14 @@ export class UserFormComponent {
     }
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.rxjs.title',
-            subtitle: 'angular.codeExamples.rxjs.subtitle',
-            description: 'angular.codeExamples.rxjs.description',
-            icon: 'stream',
-            language: 'typescript',
-            code: `import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+    },
+    {
+      title: 'angular.codeExamples.rxjs.title',
+      subtitle: 'angular.codeExamples.rxjs.subtitle',
+      description: 'angular.codeExamples.rxjs.description',
+      icon: 'stream',
+      language: 'typescript',
+      code: `import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { map, filter, debounceTime } from 'rxjs/operators';
 
 export class SearchComponent {
@@ -2314,14 +5588,14 @@ export class SearchComponent {
     return results.filter(r => r.category === filter);
   });
 }`
-        },
-        {
-            title: 'angular.codeExamples.guards.title',
-            subtitle: 'angular.codeExamples.guards.subtitle',
-            description: 'angular.codeExamples.guards.description',
-            icon: 'shield',
-            language: 'typescript',
-            code: `import { inject } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.guards.title',
+      subtitle: 'angular.codeExamples.guards.subtitle',
+      description: 'angular.codeExamples.guards.description',
+      icon: 'shield',
+      language: 'typescript',
+      code: `import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
@@ -2348,14 +5622,14 @@ export const adminGuard = () => {
   
   return router.createUrlTree(['/unauthorized']);
 };`
-        },
-        {
-            title: 'angular.codeExamples.pipes.title',
-            subtitle: 'angular.codeExamples.pipes.subtitle',
-            description: 'angular.codeExamples.pipes.description',
-            icon: 'transform',
-            language: 'typescript',
-            code: `import { Pipe, PipeTransform } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.pipes.title',
+      subtitle: 'angular.codeExamples.pipes.subtitle',
+      description: 'angular.codeExamples.pipes.description',
+      icon: 'transform',
+      language: 'typescript',
+      code: `import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'highlight',
@@ -2382,14 +5656,14 @@ export class HighlightPipe implements PipeTransform {
     <div>{{ dataSignal() }}</div>
   \`
 })`
-        },
-        {
-            title: 'angular.codeExamples.interceptor.title',
-            subtitle: 'angular.codeExamples.interceptor.subtitle',
-            description: 'angular.codeExamples.interceptor.description',
-            icon: 'sync_alt',
-            language: 'typescript',
-            code: `import { HttpInterceptorFn } from '@angular/common/http';
+    },
+    {
+      title: 'angular.codeExamples.interceptor.title',
+      subtitle: 'angular.codeExamples.interceptor.subtitle',
+      description: 'angular.codeExamples.interceptor.description',
+      icon: 'sync_alt',
+      language: 'typescript',
+      code: `import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 
@@ -2426,14 +5700,14 @@ export const appConfig: ApplicationConfig = {
     )
   ]
 };`
-        },
-        {
-            title: 'angular.codeExamples.directive.title',
-            subtitle: 'angular.codeExamples.directive.subtitle',
-            description: 'angular.codeExamples.directive.description',
-            icon: 'extension',
-            language: 'typescript',
-            code: `import { Directive, ElementRef, input, effect } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.directive.title',
+      subtitle: 'angular.codeExamples.directive.subtitle',
+      description: 'angular.codeExamples.directive.description',
+      icon: 'extension',
+      language: 'typescript',
+      code: `import { Directive, ElementRef, input, effect } from '@angular/core';
 
 @Directive({
   selector: '[appHighlight]',
@@ -2469,14 +5743,14 @@ export class TooltipDirective {
   show() { this.isVisible.set(true); }
   hide() { this.isVisible.set(false); }
 }`
-        },
-        {
-            title: 'angular.codeExamples.deferrable.title',
-            subtitle: 'angular.codeExamples.deferrable.subtitle',
-            description: 'angular.codeExamples.deferrable.description',
-            icon: 'hourglass_empty',
-            language: 'html',
-            code: `<!-- Lazy Loading mit @defer -->
+    },
+    {
+      title: 'angular.codeExamples.deferrable.title',
+      subtitle: 'angular.codeExamples.deferrable.subtitle',
+      description: 'angular.codeExamples.deferrable.description',
+      icon: 'hourglass_empty',
+      language: 'html',
+      code: `<!-- Lazy Loading mit @defer -->
 @defer (on viewport) {
   <app-heavy-component />
 } @placeholder {
@@ -2506,14 +5780,14 @@ export class TooltipDirective {
     <app-product-filters />
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.viewChild.title',
-            subtitle: 'angular.codeExamples.viewChild.subtitle',
-            description: 'angular.codeExamples.viewChild.description',
-            icon: 'pageview',
-            language: 'typescript',
-            code: `import { Component, viewChild, viewChildren } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.viewChild.title',
+      subtitle: 'angular.codeExamples.viewChild.subtitle',
+      description: 'angular.codeExamples.viewChild.description',
+      icon: 'pageview',
+      language: 'typescript',
+      code: `import { Component, viewChild, viewChildren } from '@angular/core';
 
 @Component({
   selector: 'app-parent',
@@ -2551,14 +5825,14 @@ export class ParentComponent {
     });
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.hostBinding.title',
-            subtitle: 'angular.codeExamples.hostBinding.subtitle',
-            description: 'angular.codeExamples.hostBinding.description',
-            icon: 'link',
-            language: 'typescript',
-            code: `@Component({
+    },
+    {
+      title: 'angular.codeExamples.hostBinding.title',
+      subtitle: 'angular.codeExamples.hostBinding.subtitle',
+      description: 'angular.codeExamples.hostBinding.description',
+      icon: 'link',
+      language: 'typescript',
+      code: `@Component({
   selector: 'app-card',
   template: \`<ng-content></ng-content>\`,
   host: {
@@ -2608,14 +5882,14 @@ export class CardComponent {
     this.highlighted.set(false);
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.contentChild.title',
-            subtitle: 'angular.codeExamples.contentChild.subtitle',
-            description: 'angular.codeExamples.contentChild.description',
-            icon: 'vertical_split',
-            language: 'typescript',
-            code: `import { Component, contentChild, contentChildren } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.contentChild.title',
+      subtitle: 'angular.codeExamples.contentChild.subtitle',
+      description: 'angular.codeExamples.contentChild.description',
+      icon: 'vertical_split',
+      language: 'typescript',
+      code: `import { Component, contentChild, contentChildren } from '@angular/core';
 
 // Tabs Component mit Content Projection
 @Component({
@@ -2655,14 +5929,14 @@ export class TabComponent {
   title = input.required<string>();
   active = signal(false);
 }`
-        },
-        {
-            title: 'angular.codeExamples.testing.title',
-            subtitle: 'angular.codeExamples.testing.subtitle',
-            description: 'angular.codeExamples.testing.description',
-            icon: 'bug_report',
-            language: 'typescript',
-            code: `import { TestBed } from '@angular/core/testing';
+    },
+    {
+      title: 'angular.codeExamples.testing.title',
+      subtitle: 'angular.codeExamples.testing.subtitle',
+      description: 'angular.codeExamples.testing.description',
+      icon: 'bug_report',
+      language: 'typescript',
+      code: `import { TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
 
 describe('UserComponent', () => {
@@ -2712,14 +5986,14 @@ describe('UserService', () => {
     expect(service.users()).toEqual(mockUsers);
   });
 });`
-        },
-        {
-            title: 'angular.codeExamples.resource.title',
-            subtitle: 'angular.codeExamples.resource.subtitle',
-            description: 'angular.codeExamples.resource.description',
-            icon: 'cloud_download',
-            language: 'typescript',
-            code: `import { resource } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.resource.title',
+      subtitle: 'angular.codeExamples.resource.subtitle',
+      description: 'angular.codeExamples.resource.description',
+      icon: 'cloud_download',
+      language: 'typescript',
+      code: `import { resource } from '@angular/core';
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -2763,14 +6037,14 @@ export class UserListComponent {
     this.searchTerm.set(term); // Triggert automatisch reload
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.animations.title',
-            subtitle: 'angular.codeExamples.animations.subtitle',
-            description: 'angular.codeExamples.animations.description',
-            icon: 'animation',
-            language: 'typescript',
-            code: `import { trigger, transition, style, animate, state } from '@angular/animations';
+    },
+    {
+      title: 'angular.codeExamples.animations.title',
+      subtitle: 'angular.codeExamples.animations.subtitle',
+      description: 'angular.codeExamples.animations.description',
+      icon: 'animation',
+      language: 'typescript',
+      code: `import { trigger, transition, style, animate, state } from '@angular/animations';
 
 @Component({
   selector: 'app-animated-box',
@@ -2829,14 +6103,14 @@ export class AnimatedBoxComponent {
   isExpanded = signal(false);
   items = signal<Item[]>([]);
 }`
-        },
-        {
-            title: 'angular.codeExamples.stateManagement.title',
-            subtitle: 'angular.codeExamples.stateManagement.subtitle',
-            description: 'angular.codeExamples.stateManagement.description',
-            icon: 'storage',
-            language: 'typescript',
-            code: `import { Injectable, signal, computed } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.stateManagement.title',
+      subtitle: 'angular.codeExamples.stateManagement.subtitle',
+      description: 'angular.codeExamples.stateManagement.description',
+      icon: 'storage',
+      language: 'typescript',
+      code: `import { Injectable, signal, computed } from '@angular/core';
 
 // Zentraler State Store mit Signals
 @Injectable({ providedIn: 'root' })
@@ -2899,14 +6173,14 @@ export class AppStore {
     this._error.set(error);
   }
 }`
-        },
-        {
-            title: 'angular.codeExamples.httpSignals.title',
-            subtitle: 'angular.codeExamples.httpSignals.subtitle',
-            description: 'angular.codeExamples.httpSignals.description',
-            icon: 'http',
-            language: 'typescript',
-            code: `import { Component, inject, signal } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.httpSignals.title',
+      subtitle: 'angular.codeExamples.httpSignals.subtitle',
+      description: 'angular.codeExamples.httpSignals.description',
+      icon: 'http',
+      language: 'typescript',
+      code: `import { Component, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, switchMap } from 'rxjs';
@@ -2974,14 +6248,14 @@ export class DataFetcherComponent {
   
   private dataSignal = signal<Item | null>(null);
 }`
-        },
-        {
-            title: 'angular.codeExamples.performance.title',
-            subtitle: 'angular.codeExamples.performance.subtitle',
-            description: 'angular.codeExamples.performance.description',
-            icon: 'speed',
-            language: 'typescript',
-            code: `import { Component, ChangeDetectionStrategy, TrackByFunction } from '@angular/core';
+    },
+    {
+      title: 'angular.codeExamples.performance.title',
+      subtitle: 'angular.codeExamples.performance.subtitle',
+      description: 'angular.codeExamples.performance.description',
+      icon: 'speed',
+      language: 'typescript',
+      code: `import { Component, ChangeDetectionStrategy, TrackByFunction } from '@angular/core';
 
 @Component({
   selector: 'app-optimized-list',
@@ -3041,21 +6315,21 @@ export class OptimizedListComponent {
   
   private filterSignal = signal('');
 }`
-        }
-    ]);
+    }
+  ]);
 
-    readonly realWorldPatterns = signal<RealWorldPattern[]>([
-        {
-            title: 'angular.realWorldPatterns.errorBoundary.title',
-            description: 'angular.realWorldPatterns.errorBoundary.description',
-            icon: 'error_outline',
-            useCases: [
-                'angular.realWorldPatterns.errorBoundary.useCase1',
-                'angular.realWorldPatterns.errorBoundary.useCase2',
-                'angular.realWorldPatterns.errorBoundary.useCase3',
-                'angular.realWorldPatterns.errorBoundary.useCase4'
-            ],
-            code: `// Error Boundary Service
+  readonly realWorldPatterns = signal<RealWorldPattern[]>([
+    {
+      title: 'angular.realWorldPatterns.errorBoundary.title',
+      description: 'angular.realWorldPatterns.errorBoundary.description',
+      icon: 'error_outline',
+      useCases: [
+        'angular.realWorldPatterns.errorBoundary.useCase1',
+        'angular.realWorldPatterns.errorBoundary.useCase2',
+        'angular.realWorldPatterns.errorBoundary.useCase3',
+        'angular.realWorldPatterns.errorBoundary.useCase4'
+      ],
+      code: `// Error Boundary Service
 @Injectable({ providedIn: 'root' })
 export class ErrorBoundaryService {
   private errorSubject = new Subject<Error>();
@@ -3103,18 +6377,18 @@ export class ErrorBoundaryComponent implements OnInit {
     window.location.reload();
   }
 }`
-        },
-        {
-            title: 'angular.realWorldPatterns.loadingState.title',
-            description: 'angular.realWorldPatterns.loadingState.description',
-            icon: 'hourglass_empty',
-            useCases: [
-                'angular.realWorldPatterns.loadingState.useCase1',
-                'angular.realWorldPatterns.loadingState.useCase2',
-                'angular.realWorldPatterns.loadingState.useCase3',
-                'angular.realWorldPatterns.loadingState.useCase4'
-            ],
-            code: `// Loading State Service mit Signals
+    },
+    {
+      title: 'angular.realWorldPatterns.loadingState.title',
+      description: 'angular.realWorldPatterns.loadingState.description',
+      icon: 'hourglass_empty',
+      useCases: [
+        'angular.realWorldPatterns.loadingState.useCase1',
+        'angular.realWorldPatterns.loadingState.useCase2',
+        'angular.realWorldPatterns.loadingState.useCase3',
+        'angular.realWorldPatterns.loadingState.useCase4'
+      ],
+      code: `// Loading State Service mit Signals
 @Injectable({ providedIn: 'root' })
 export class LoadingService {
   private loadingMap = new Map<string, boolean>();
@@ -3184,18 +6458,18 @@ export class DataListComponent {
     }
   }
 }`
-        },
-        {
-            title: 'angular.realWorldPatterns.retryLogic.title',
-            description: 'angular.realWorldPatterns.retryLogic.description',
-            icon: 'replay',
-            useCases: [
-                'angular.realWorldPatterns.retryLogic.useCase1',
-                'angular.realWorldPatterns.retryLogic.useCase2',
-                'angular.realWorldPatterns.retryLogic.useCase3',
-                'angular.realWorldPatterns.retryLogic.useCase4'
-            ],
-            code: `// Retry Service mit exponential backoff
+    },
+    {
+      title: 'angular.realWorldPatterns.retryLogic.title',
+      description: 'angular.realWorldPatterns.retryLogic.description',
+      icon: 'replay',
+      useCases: [
+        'angular.realWorldPatterns.retryLogic.useCase1',
+        'angular.realWorldPatterns.retryLogic.useCase2',
+        'angular.realWorldPatterns.retryLogic.useCase3',
+        'angular.realWorldPatterns.retryLogic.useCase4'
+      ],
+      code: `// Retry Service mit exponential backoff
 @Injectable({ providedIn: 'root' })
 export class RetryService {
   private http = inject(HttpClient);
@@ -3268,18 +6542,18 @@ export class ApiDataComponent {
       });
   }
 }`
-        },
-        {
-            title: 'angular.realWorldPatterns.optimisticUpdates.title',
-            description: 'angular.realWorldPatterns.optimisticUpdates.description',
-            icon: 'flash_on',
-            useCases: [
-                'angular.realWorldPatterns.optimisticUpdates.useCase1',
-                'angular.realWorldPatterns.optimisticUpdates.useCase2',
-                'angular.realWorldPatterns.optimisticUpdates.useCase3',
-                'angular.realWorldPatterns.optimisticUpdates.useCase4'
-            ],
-            code: `// Optimistic Update Service
+    },
+    {
+      title: 'angular.realWorldPatterns.optimisticUpdates.title',
+      description: 'angular.realWorldPatterns.optimisticUpdates.description',
+      icon: 'flash_on',
+      useCases: [
+        'angular.realWorldPatterns.optimisticUpdates.useCase1',
+        'angular.realWorldPatterns.optimisticUpdates.useCase2',
+        'angular.realWorldPatterns.optimisticUpdates.useCase3',
+        'angular.realWorldPatterns.optimisticUpdates.useCase4'
+      ],
+      code: `// Optimistic Update Service
 @Injectable({ providedIn: 'root' })
 export class TodoService {
   private http = inject(HttpClient);
@@ -3356,18 +6630,18 @@ export class TodoService {
     }
   }
 }`
-        },
-        {
-            title: 'angular.realWorldPatterns.polling.title',
-            description: 'angular.realWorldPatterns.polling.description',
-            icon: 'sync',
-            useCases: [
-                'angular.realWorldPatterns.polling.useCase1',
-                'angular.realWorldPatterns.polling.useCase2',
-                'angular.realWorldPatterns.polling.useCase3',
-                'angular.realWorldPatterns.polling.useCase4'
-            ],
-            code: `// Polling Service
+    },
+    {
+      title: 'angular.realWorldPatterns.polling.title',
+      description: 'angular.realWorldPatterns.polling.description',
+      icon: 'sync',
+      useCases: [
+        'angular.realWorldPatterns.polling.useCase1',
+        'angular.realWorldPatterns.polling.useCase2',
+        'angular.realWorldPatterns.polling.useCase3',
+        'angular.realWorldPatterns.polling.useCase4'
+      ],
+      code: `// Polling Service
 @Injectable({ providedIn: 'root' })
 export class PollingService {
   private http = inject(HttpClient);
@@ -3459,18 +6733,18 @@ export class JobStatusComponent implements OnInit, OnDestroy {
       });
   }
 }`
-        },
-        {
-            title: 'angular.realWorldPatterns.websocket.title',
-            description: 'angular.realWorldPatterns.websocket.description',
-            icon: 'cable',
-            useCases: [
-                'angular.realWorldPatterns.websocket.useCase1',
-                'angular.realWorldPatterns.websocket.useCase2',
-                'angular.realWorldPatterns.websocket.useCase3',
-                'angular.realWorldPatterns.websocket.useCase4'
-            ],
-            code: `// WebSocket Service
+    },
+    {
+      title: 'angular.realWorldPatterns.websocket.title',
+      description: 'angular.realWorldPatterns.websocket.description',
+      icon: 'cable',
+      useCases: [
+        'angular.realWorldPatterns.websocket.useCase1',
+        'angular.realWorldPatterns.websocket.useCase2',
+        'angular.realWorldPatterns.websocket.useCase3',
+        'angular.realWorldPatterns.websocket.useCase4'
+      ],
+      code: `// WebSocket Service
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
   private socket: WebSocket | null = null;
@@ -3584,15 +6858,15 @@ export class LiveChatComponent implements OnInit, OnDestroy {
     this.ws.disconnect();
   }
 }`
-        }
-    ]);
+    }
+  ]);
 
-    readonly developmentTools = signal<DevelopmentTool[]>([
-        {
-            title: 'angular.developmentTools.schematics.title',
-            description: 'angular.developmentTools.schematics.description',
-            icon: 'auto_fix_high',
-            setup: `// Custom Schematic erstellen
+  readonly developmentTools = signal<DevelopmentTool[]>([
+    {
+      title: 'angular.developmentTools.schematics.title',
+      description: 'angular.developmentTools.schematics.description',
+      icon: 'auto_fix_high',
+      setup: `// Custom Schematic erstellen
 npm install -g @angular-devkit/schematics-cli
 schematics blank --name=my-schematics
 
@@ -3605,7 +6879,7 @@ schematics blank --name=my-schematics
     }
   }
 }`,
-            config: `// my-component/index.ts
+      config: `// my-component/index.ts
 import { Rule, SchematicContext, Tree, apply, url, template, mergeWith } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
 
@@ -3624,12 +6898,12 @@ export function myComponent(options: any): Rule {
 
 // Verwendung
 ng generate my-schematics:my-component --name=feature`
-        },
-        {
-            title: 'angular.developmentTools.eslint.title',
-            description: 'angular.developmentTools.eslint.description',
-            icon: 'rule',
-            setup: `// Installation
+    },
+    {
+      title: 'angular.developmentTools.eslint.title',
+      description: 'angular.developmentTools.eslint.description',
+      icon: 'rule',
+      setup: `// Installation
 ng add @angular-eslint/schematics
 
 // ESLint ausführen
@@ -3637,7 +6911,7 @@ ng lint
 
 // Auto-fix
 ng lint --fix`,
-            config: `// eslint.config.js (ESLint 9+)
+      config: `// eslint.config.js (ESLint 9+)
 import angular from '@angular-eslint/eslint-plugin';
 import typescript from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
@@ -3682,12 +6956,12 @@ export default [
     }
   }
 ];`
-        },
-        {
-            title: 'angular.developmentTools.prettier.title',
-            description: 'angular.developmentTools.prettier.description',
-            icon: 'format_paint',
-            setup: `// Installation
+    },
+    {
+      title: 'angular.developmentTools.prettier.title',
+      description: 'angular.developmentTools.prettier.description',
+      icon: 'format_paint',
+      setup: `// Installation
 npm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
 
 // Format all files
@@ -3695,7 +6969,7 @@ npx prettier --write "src/**/*.{ts,html,scss,json}"
 
 // Check formatting
 npx prettier --check "src/**/*.{ts,html,scss,json}"`,
-            config: `// .prettierrc.json
+      config: `// .prettierrc.json
 {
   "semi": true,
   "trailingComma": "es5",
@@ -3737,12 +7011,12 @@ coverage
     "format:check": "prettier --check \\"src/**/*.{ts,html,scss,json}\\""
   }
 }`
-        },
-        {
-            title: 'angular.developmentTools.husky.title',
-            description: 'angular.developmentTools.husky.description',
-            icon: 'pets',
-            setup: `// Installation
+    },
+    {
+      title: 'angular.developmentTools.husky.title',
+      description: 'angular.developmentTools.husky.description',
+      icon: 'pets',
+      setup: `// Installation
 npm install --save-dev husky lint-staged
 
 // Husky initialisieren
@@ -3753,7 +7027,7 @@ echo "npx lint-staged" > .husky/pre-commit
 
 // Pre-push hook
 echo "npm run test:ci" > .husky/pre-push`,
-            config: `// package.json
+      config: `// package.json
 {
   "scripts": {
     "prepare": "husky",
@@ -3800,12 +7074,12 @@ echo "✅ Pre-commit checks passed"
 
 # Validate commit message format
 npx --no -- commitlint --edit $1`
-        },
-        {
-            title: 'angular.developmentTools.conventionalCommits.title',
-            description: 'angular.developmentTools.conventionalCommits.description',
-            icon: 'commit',
-            setup: `// Installation
+    },
+    {
+      title: 'angular.developmentTools.conventionalCommits.title',
+      description: 'angular.developmentTools.conventionalCommits.description',
+      icon: 'commit',
+      setup: `// Installation
 npm install --save-dev @commitlint/cli @commitlint/config-conventional
 
 // Commitizen für interaktive Commits
@@ -3813,7 +7087,7 @@ npm install --save-dev commitizen cz-conventional-changelog
 
 // Commitizen initialisieren
 npx commitizen init cz-conventional-changelog --save-dev --save-exact`,
-            config: `// commitlint.config.js
+      config: `// commitlint.config.js
 export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
@@ -3872,22 +7146,22 @@ export default {
 
 // BREAKING CHANGE: The /auth endpoint has been replaced
 // with /api/v2/authenticate. Update all API calls accordingly.`
-        }
-    ]);
+    }
+  ]);
 
-    readonly deploymentStrategies = signal<DeploymentStrategy[]>([
-        {
-            title: 'angular.deploymentStrategies.docker.title',
-            description: 'angular.deploymentStrategies.docker.description',
-            icon: 'sailing',
-            steps: [
-                'angular.deploymentStrategies.docker.step1',
-                'angular.deploymentStrategies.docker.step2',
-                'angular.deploymentStrategies.docker.step3',
-                'angular.deploymentStrategies.docker.step4',
-                'angular.deploymentStrategies.docker.step5'
-            ],
-            code: `# Multi-stage Dockerfile für Angular
+  readonly deploymentStrategies = signal<DeploymentStrategy[]>([
+    {
+      title: 'angular.deploymentStrategies.docker.title',
+      description: 'angular.deploymentStrategies.docker.description',
+      icon: 'sailing',
+      steps: [
+        'angular.deploymentStrategies.docker.step1',
+        'angular.deploymentStrategies.docker.step2',
+        'angular.deploymentStrategies.docker.step3',
+        'angular.deploymentStrategies.docker.step4',
+        'angular.deploymentStrategies.docker.step5'
+      ],
+      code: `# Multi-stage Dockerfile für Angular
 # Stage 1: Build
 FROM node:20-alpine AS builder
 
@@ -3988,19 +7262,19 @@ dist
 coverage
 *.md
 .vscode`
-        },
-        {
-            title: 'angular.deploymentStrategies.cicd.title',
-            description: 'angular.deploymentStrategies.cicd.description',
-            icon: 'factory',
-            steps: [
-                'angular.deploymentStrategies.cicd.step1',
-                'angular.deploymentStrategies.cicd.step2',
-                'angular.deploymentStrategies.cicd.step3',
-                'angular.deploymentStrategies.cicd.step4',
-                'angular.deploymentStrategies.cicd.step5'
-            ],
-            code: `# .github/workflows/deploy.yml
+    },
+    {
+      title: 'angular.deploymentStrategies.cicd.title',
+      description: 'angular.deploymentStrategies.cicd.description',
+      icon: 'factory',
+      steps: [
+        'angular.deploymentStrategies.cicd.step1',
+        'angular.deploymentStrategies.cicd.step2',
+        'angular.deploymentStrategies.cicd.step3',
+        'angular.deploymentStrategies.cicd.step4',
+        'angular.deploymentStrategies.cicd.step5'
+      ],
+      code: `# .github/workflows/deploy.yml
 name: CI/CD Pipeline
 
 on:
@@ -4163,18 +7437,18 @@ deploy:prod:
   environment:
     name: production
     url: https://app.example.com`
-        },
-        {
-            title: 'angular.deploymentStrategies.envVariables.title',
-            description: 'angular.deploymentStrategies.envVariables.description',
-            icon: 'settings',
-            steps: [
-                'angular.deploymentStrategies.envVariables.step1',
-                'angular.deploymentStrategies.envVariables.step2',
-                'angular.deploymentStrategies.envVariables.step3',
-                'angular.deploymentStrategies.envVariables.step4'
-            ],
-            code: `// src/environments/environment.ts
+    },
+    {
+      title: 'angular.deploymentStrategies.envVariables.title',
+      description: 'angular.deploymentStrategies.envVariables.description',
+      icon: 'settings',
+      steps: [
+        'angular.deploymentStrategies.envVariables.step1',
+        'angular.deploymentStrategies.envVariables.step2',
+        'angular.deploymentStrategies.envVariables.step3',
+        'angular.deploymentStrategies.envVariables.step4'
+      ],
+      code: `// src/environments/environment.ts
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
@@ -4277,18 +7551,18 @@ cat > /usr/share/nginx/html/assets/config.json << EOF
 EOF
 
 nginx -g "daemon off;"`
-        },
-        {
-            title: 'angular.deploymentStrategies.featureFlags.title',
-            description: 'angular.deploymentStrategies.featureFlags.description',
-            icon: 'flag',
-            steps: [
-                'angular.deploymentStrategies.featureFlags.step1',
-                'angular.deploymentStrategies.featureFlags.step2',
-                'angular.deploymentStrategies.featureFlags.step3',
-                'angular.deploymentStrategies.featureFlags.step4'
-            ],
-            code: `// Feature Flag Service
+    },
+    {
+      title: 'angular.deploymentStrategies.featureFlags.title',
+      description: 'angular.deploymentStrategies.featureFlags.description',
+      icon: 'flag',
+      steps: [
+        'angular.deploymentStrategies.featureFlags.step1',
+        'angular.deploymentStrategies.featureFlags.step2',
+        'angular.deploymentStrategies.featureFlags.step3',
+        'angular.deploymentStrategies.featureFlags.step4'
+      ],
+      code: `// Feature Flag Service
 @Injectable({ providedIn: 'root' })
 export class FeatureFlagService {
   private http = inject(HttpClient);
@@ -4402,19 +7676,19 @@ export class LaunchDarklyService {
     return this.flags()[key] ?? defaultValue;
   }
 }`
-        },
-        {
-            title: 'angular.deploymentStrategies.monitoring.title',
-            description: 'angular.deploymentStrategies.monitoring.description',
-            icon: 'monitoring',
-            steps: [
-                'angular.deploymentStrategies.monitoring.step1',
-                'angular.deploymentStrategies.monitoring.step2',
-                'angular.deploymentStrategies.monitoring.step3',
-                'angular.deploymentStrategies.monitoring.step4',
-                'angular.deploymentStrategies.monitoring.step5'
-            ],
-            code: `// Sentry Error Tracking
+    },
+    {
+      title: 'angular.deploymentStrategies.monitoring.title',
+      description: 'angular.deploymentStrategies.monitoring.description',
+      icon: 'monitoring',
+      steps: [
+        'angular.deploymentStrategies.monitoring.step1',
+        'angular.deploymentStrategies.monitoring.step2',
+        'angular.deploymentStrategies.monitoring.step3',
+        'angular.deploymentStrategies.monitoring.step4',
+        'angular.deploymentStrategies.monitoring.step5'
+      ],
+      code: `// Sentry Error Tracking
 import * as Sentry from '@sentry/angular';
 
 export const appConfig: ApplicationConfig = {
@@ -4590,21 +7864,21 @@ export class LoggerService {
     });
   }
 }`
-        }
-    ]);
+    }
+  ]);
 
-    readonly accessibilityPatterns = signal<AccessibilityPattern[]>([
-        {
-            title: 'angular.accessibility.ariaLabels.title',
-            description: 'angular.accessibility.ariaLabels.description',
-            icon: 'label',
-            tips: [
-                'angular.accessibility.ariaLabels.tip1',
-                'angular.accessibility.ariaLabels.tip2',
-                'angular.accessibility.ariaLabels.tip3',
-                'angular.accessibility.ariaLabels.tip4'
-            ],
-            example: `<!-- ARIA Labels für Buttons und Links -->
+  readonly accessibilityPatterns = signal<AccessibilityPattern[]>([
+    {
+      title: 'angular.accessibility.ariaLabels.title',
+      description: 'angular.accessibility.ariaLabels.description',
+      icon: 'label',
+      tips: [
+        'angular.accessibility.ariaLabels.tip1',
+        'angular.accessibility.ariaLabels.tip2',
+        'angular.accessibility.ariaLabels.tip3',
+        'angular.accessibility.ariaLabels.tip4'
+      ],
+      example: `<!-- ARIA Labels für Buttons und Links -->
 <button 
   aria-label="Schließen" 
   (click)="close()">
@@ -4668,19 +7942,19 @@ export class AccessibleAccordionComponent {
     this.isExpanded.update(v => !v);
   }
 }`
-        },
-        {
-            title: 'angular.accessibility.keyboardNav.title',
-            description: 'angular.accessibility.keyboardNav.description',
-            icon: 'keyboard',
-            tips: [
-                'angular.accessibility.keyboardNav.tip1',
-                'angular.accessibility.keyboardNav.tip2',
-                'angular.accessibility.keyboardNav.tip3',
-                'angular.accessibility.keyboardNav.tip4',
-                'angular.accessibility.keyboardNav.tip5'
-            ],
-            example: `// Keyboard Navigation Directive
+    },
+    {
+      title: 'angular.accessibility.keyboardNav.title',
+      description: 'angular.accessibility.keyboardNav.description',
+      icon: 'keyboard',
+      tips: [
+        'angular.accessibility.keyboardNav.tip1',
+        'angular.accessibility.keyboardNav.tip2',
+        'angular.accessibility.keyboardNav.tip3',
+        'angular.accessibility.keyboardNav.tip4',
+        'angular.accessibility.keyboardNav.tip5'
+      ],
+      example: `// Keyboard Navigation Directive
 @Directive({
   selector: '[appKeyboardNav]',
   standalone: true,
@@ -4786,18 +8060,18 @@ export class KeyboardListComponent {
     console.log('Selected:', this.items()[index]);
   }
 }`
-        },
-        {
-            title: 'angular.accessibility.focusManagement.title',
-            description: 'angular.accessibility.focusManagement.description',
-            icon: 'highlight',
-            tips: [
-                'angular.accessibility.focusManagement.tip1',
-                'angular.accessibility.focusManagement.tip2',
-                'angular.accessibility.focusManagement.tip3',
-                'angular.accessibility.focusManagement.tip4'
-            ],
-            example: `// Focus Trap Directive für Modals
+    },
+    {
+      title: 'angular.accessibility.focusManagement.title',
+      description: 'angular.accessibility.focusManagement.description',
+      icon: 'highlight',
+      tips: [
+        'angular.accessibility.focusManagement.tip1',
+        'angular.accessibility.focusManagement.tip2',
+        'angular.accessibility.focusManagement.tip3',
+        'angular.accessibility.focusManagement.tip4'
+      ],
+      example: `// Focus Trap Directive für Modals
 @Directive({
   selector: '[appFocusTrap]',
   standalone: true
@@ -4947,19 +8221,19 @@ export class ModalComponent {
     this.focusManager.restoreFocus();
   }
 }`
-        },
-        {
-            title: 'angular.accessibility.screenReader.title',
-            description: 'angular.accessibility.screenReader.description',
-            icon: 'record_voice_over',
-            tips: [
-                'angular.accessibility.screenReader.tip1',
-                'angular.accessibility.screenReader.tip2',
-                'angular.accessibility.screenReader.tip3',
-                'angular.accessibility.screenReader.tip4',
-                'angular.accessibility.screenReader.tip5'
-            ],
-            example: `// Screen Reader Only CSS
+    },
+    {
+      title: 'angular.accessibility.screenReader.title',
+      description: 'angular.accessibility.screenReader.description',
+      icon: 'record_voice_over',
+      tips: [
+        'angular.accessibility.screenReader.tip1',
+        'angular.accessibility.screenReader.tip2',
+        'angular.accessibility.screenReader.tip3',
+        'angular.accessibility.screenReader.tip4',
+        'angular.accessibility.screenReader.tip5'
+      ],
+      example: `// Screen Reader Only CSS
 /* styles.scss */
 .sr-only {
   position: absolute;
@@ -5087,15 +8361,15 @@ export class FormValidationComponent {
     }
   }
 }`
-        }
-    ]);
+    }
+  ]);
 
-    readonly commonPitfalls = signal<CommonPitfall[]>([
-        {
-            title: 'angular.pitfalls.memoryLeaks.title',
-            description: 'angular.pitfalls.memoryLeaks.description',
-            icon: 'memory',
-            problem: `// ❌ FALSCH - Memory Leak durch nicht abgemeldete Subscription
+  readonly commonPitfalls = signal<CommonPitfall[]>([
+    {
+      title: 'angular.pitfalls.memoryLeaks.title',
+      description: 'angular.pitfalls.memoryLeaks.description',
+      icon: 'memory',
+      problem: `// ❌ FALSCH - Memory Leak durch nicht abgemeldete Subscription
 @Component({...})
 export class LeakyComponent implements OnInit {
   private http = inject(HttpClient);
@@ -5124,7 +8398,7 @@ export class EventLeakComponent implements OnInit {
     console.log('Window resized');
   }
 }`,
-            solution: `// ✅ RICHTIG - Mit takeUntilDestroyed
+      solution: `// ✅ RICHTIG - Mit takeUntilDestroyed
 @Component({...})
 export class CleanComponent implements OnInit {
   private http = inject(HttpClient);
@@ -5179,12 +8453,12 @@ export class ManualCleanupComponent implements OnInit {
     });
   }
 }`
-        },
-        {
-            title: 'angular.pitfalls.changeDetection.title',
-            description: 'angular.pitfalls.changeDetection.description',
-            icon: 'update',
-            problem: `// ❌ FALSCH - OnPush mit mutierten Arrays
+    },
+    {
+      title: 'angular.pitfalls.changeDetection.title',
+      description: 'angular.pitfalls.changeDetection.description',
+      icon: 'update',
+      problem: `// ❌ FALSCH - OnPush mit mutierten Arrays
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -5233,7 +8507,7 @@ export class ExpensiveMethodComponent {
     );
   }
 }`,
-            solution: `// ✅ RICHTIG - Immutable Updates mit Signals
+      solution: `// ✅ RICHTIG - Immutable Updates mit Signals
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -5297,12 +8571,12 @@ export class OptimizedComponent {
     );
   });
 }`
-        },
-        {
-            title: 'angular.pitfalls.zoneJs.title',
-            description: 'angular.pitfalls.zoneJs.description',
-            icon: 'animation',
-            problem: `// ❌ FALSCH - Zu viele Change Detection Durchläufe
+    },
+    {
+      title: 'angular.pitfalls.zoneJs.title',
+      description: 'angular.pitfalls.zoneJs.description',
+      icon: 'animation',
+      problem: `// ❌ FALSCH - Zu viele Change Detection Durchläufe
 @Component({...})
 export class FrequentUpdatesComponent implements OnInit {
   position = { x: 0, y: 0 };
@@ -5327,7 +8601,7 @@ export class TimerComponent implements OnInit {
     }, 1000);
   }
 }`,
-            solution: `// ✅ RICHTIG - Zone.js umgehen mit runOutsideAngular
+      solution: `// ✅ RICHTIG - Zone.js umgehen mit runOutsideAngular
 @Component({...})
 export class OptimizedEventsComponent implements OnInit {
   private ngZone = inject(NgZone);
@@ -5394,12 +8668,12 @@ export class ZonelessComponent {
     this.count.update(c => c + 1);
   }
 }`
-        },
-        {
-            title: 'angular.pitfalls.antiPatterns.title',
-            description: 'angular.pitfalls.antiPatterns.description',
-            icon: 'warning',
-            problem: `// ❌ FALSCH - Logic in Templates
+    },
+    {
+      title: 'angular.pitfalls.antiPatterns.title',
+      description: 'angular.pitfalls.antiPatterns.description',
+      icon: 'warning',
+      problem: `// ❌ FALSCH - Logic in Templates
 @Component({
   template: \`
     <div *ngIf="user && user.role === 'admin' && user.permissions.includes('edit')">
@@ -5442,7 +8716,7 @@ export class BusinessLogicComponent {
     return price * (1 + this.taxRate);
   }
 }`,
-            solution: `// ✅ RICHTIG - Computed Properties
+      solution: `// ✅ RICHTIG - Computed Properties
 @Component({
   template: \`
     @if (isAdmin()) {
@@ -5529,129 +8803,150 @@ export class CleanComponent {
     this.pricingService.calculatePrice(this.item())
   );
 }`
-        }
-    ]);
-
-    readonly resources = signal<Resource[]>([
-        {
-            title: 'angular.resources.official.title',
-            description: 'angular.resources.official.description',
-            icon: 'book',
-            links: [
-                { name: 'Angular.dev', url: 'https://angular.dev' },
-                { name: 'Angular GitHub', url: 'https://github.com/angular/angular' },
-                { name: 'Angular Material', url: 'https://material.angular.io' },
-                { name: 'Angular CLI', url: 'https://angular.dev/tools/cli' },
-                { name: 'Angular Blog', url: 'https://blog.angular.dev' }
-            ]
-        },
-        {
-            title: 'angular.resources.community.title',
-            description: 'angular.resources.community.description',
-            icon: 'groups',
-            links: [
-                { name: 'Angular Community', url: 'https://community.angular.io' },
-                { name: 'r/Angular Reddit', url: 'https://reddit.com/r/angular' },
-                { name: 'Angular Discord', url: 'https://discord.gg/angular' },
-                { name: 'Stack Overflow', url: 'https://stackoverflow.com/questions/tagged/angular' },
-                { name: 'Angular Meetups', url: 'https://www.meetup.com/topics/angularjs/' }
-            ]
-        },
-        {
-            title: 'angular.resources.learning.title',
-            description: 'angular.resources.learning.description',
-            icon: 'school',
-            links: [
-                { name: 'Angular University', url: 'https://angular-university.io' },
-                { name: 'Ultimate Angular', url: 'https://ultimatecourses.com/angular' },
-                { name: 'Pluralsight Angular Path', url: 'https://www.pluralsight.com/paths/angular' },
-                { name: 'Udemy Angular Courses', url: 'https://www.udemy.com/topic/angular/' },
-                { name: 'egghead.io Angular', url: 'https://egghead.io/q/angular' }
-            ]
-        },
-        {
-            title: 'angular.resources.youtube.title',
-            description: 'angular.resources.youtube.description',
-            icon: 'play_circle',
-            links: [
-                { name: 'Angular YouTube Channel', url: 'https://www.youtube.com/@Angular' },
-                { name: 'Fireship Angular', url: 'https://www.youtube.com/@Fireship' },
-                { name: 'Decoded Frontend', url: 'https://www.youtube.com/@DecodedFrontend' },
-                { name: 'Joshua Morony', url: 'https://www.youtube.com/@JoshuaMorony' },
-                { name: 'Tomas Trajan', url: 'https://www.youtube.com/@TomasTrajan' }
-            ]
-        },
-        {
-            title: 'angular.resources.blogs.title',
-            description: 'angular.resources.blogs.description',
-            icon: 'article',
-            links: [
-                { name: 'Angular Blog', url: 'https://blog.angular.dev' },
-                { name: 'This is Angular', url: 'https://dev.to/t/angular' },
-                { name: 'Angular Experts', url: 'https://angularexperts.io/blog' },
-                { name: 'Ninja Squad Blog', url: 'https://blog.ninja-squad.com' },
-                { name: 'Netanel Basal Medium', url: 'https://netbasal.medium.com' }
-            ]
-        },
-        {
-            title: 'angular.resources.tools.title',
-            description: 'angular.resources.tools.description',
-            icon: 'build',
-            links: [
-                { name: 'Angular DevTools', url: 'https://angular.dev/tools/devtools' },
-                { name: 'StackBlitz', url: 'https://stackblitz.com' },
-                { name: 'CodeSandbox', url: 'https://codesandbox.io' },
-                { name: 'Angular Playground', url: 'https://angularplayground.it' },
-                { name: 'Compodoc', url: 'https://compodoc.app' }
-            ]
-        },
-        {
-            title: 'angular.resources.libraries.title',
-            description: 'angular.resources.libraries.description',
-            icon: 'widgets',
-            links: [
-                { name: 'NgRx', url: 'https://ngrx.io' },
-                { name: 'RxJS', url: 'https://rxjs.dev' },
-                { name: 'Transloco', url: 'https://ngneat.github.io/transloco/' },
-                { name: 'Taiga UI', url: 'https://taiga-ui.dev' },
-                { name: 'PrimeNG', url: 'https://primeng.org' },
-                { name: 'Nebular', url: 'https://akveo.github.io/nebular/' },
-                { name: 'NG-ZORRO', url: 'https://ng.ant.design' }
-            ]
-        },
-        {
-            title: 'angular.resources.newsletters.title',
-            description: 'angular.resources.newsletters.description',
-            icon: 'mail',
-            links: [
-                { name: 'Angular Weekly', url: 'https://www.angularweekly.com' },
-                { name: 'This Week in Angular', url: 'https://thisweekinangular.com' },
-                { name: 'ng-newsletter', url: 'https://www.ng-newsletter.com' }
-            ]
-        }
-    ]);
-
-    openFeatureDetail(feature: AngularFeature): void {
-        this.dialog.open(FeatureDetailDialogComponent, {
-            data: feature,
-            width: '700px',
-            maxWidth: '90vw',
-            autoFocus: 'dialog',
-            restoreFocus: true
-        });
     }
+  ]);
 
-    openPracticeDetail(practice: BestPractice): void {
-        this.dialog.open(BestPracticeDialogComponent, {
-            data: practice,
-            width: '750px',
-            maxWidth: '90vw',
-            autoFocus: 'dialog',
-            restoreFocus: true
-        });
+  readonly resources = signal<Resource[]>([
+    {
+      title: 'angular.resources.official.title',
+      description: 'angular.resources.official.description',
+      icon: 'book',
+      links: [
+        { name: 'Angular.dev', url: 'https://angular.dev' },
+        { name: 'Angular GitHub', url: 'https://github.com/angular/angular' },
+        { name: 'Angular Material', url: 'https://material.angular.io' },
+        { name: 'Angular CLI', url: 'https://angular.dev/tools/cli' },
+        { name: 'Angular Blog', url: 'https://blog.angular.dev' }
+      ]
+    },
+    {
+      title: 'angular.resources.community.title',
+      description: 'angular.resources.community.description',
+      icon: 'groups',
+      links: [
+        { name: 'Angular Community', url: 'https://community.angular.io' },
+        { name: 'r/Angular Reddit', url: 'https://reddit.com/r/angular' },
+        { name: 'Angular Discord', url: 'https://discord.gg/angular' },
+        { name: 'Stack Overflow', url: 'https://stackoverflow.com/questions/tagged/angular' },
+        { name: 'Angular Meetups', url: 'https://www.meetup.com/topics/angularjs/' }
+      ]
+    },
+    {
+      title: 'angular.resources.learning.title',
+      description: 'angular.resources.learning.description',
+      icon: 'school',
+      links: [
+        { name: 'Angular University', url: 'https://angular-university.io' },
+        { name: 'Ultimate Angular', url: 'https://ultimatecourses.com/angular' },
+        { name: 'Pluralsight Angular Path', url: 'https://www.pluralsight.com/paths/angular' },
+        { name: 'Udemy Angular Courses', url: 'https://www.udemy.com/topic/angular/' },
+        { name: 'egghead.io Angular', url: 'https://egghead.io/q/angular' }
+      ]
+    },
+    {
+      title: 'angular.resources.youtube.title',
+      description: 'angular.resources.youtube.description',
+      icon: 'play_circle',
+      links: [
+        { name: 'Angular YouTube Channel', url: 'https://www.youtube.com/@Angular' },
+        { name: 'Fireship Angular', url: 'https://www.youtube.com/@Fireship' },
+        { name: 'Decoded Frontend', url: 'https://www.youtube.com/@DecodedFrontend' },
+        { name: 'Joshua Morony', url: 'https://www.youtube.com/@JoshuaMorony' },
+        { name: 'Tomas Trajan', url: 'https://www.youtube.com/@TomasTrajan' }
+      ]
+    },
+    {
+      title: 'angular.resources.blogs.title',
+      description: 'angular.resources.blogs.description',
+      icon: 'article',
+      links: [
+        { name: 'Angular Blog', url: 'https://blog.angular.dev' },
+        { name: 'This is Angular', url: 'https://dev.to/t/angular' },
+        { name: 'Angular Experts', url: 'https://angularexperts.io/blog' },
+        { name: 'Ninja Squad Blog', url: 'https://blog.ninja-squad.com' },
+        { name: 'Netanel Basal Medium', url: 'https://netbasal.medium.com' }
+      ]
+    },
+    {
+      title: 'angular.resources.tools.title',
+      description: 'angular.resources.tools.description',
+      icon: 'build',
+      links: [
+        { name: 'Angular DevTools', url: 'https://angular.dev/tools/devtools' },
+        { name: 'StackBlitz', url: 'https://stackblitz.com' },
+        { name: 'CodeSandbox', url: 'https://codesandbox.io' },
+        { name: 'Angular Playground', url: 'https://angularplayground.it' },
+        { name: 'Compodoc', url: 'https://compodoc.app' }
+      ]
+    },
+    {
+      title: 'angular.resources.libraries.title',
+      description: 'angular.resources.libraries.description',
+      icon: 'widgets',
+      links: [
+        { name: 'Angular Material', url: 'https://material.angular.io' },
+        { name: 'NgRx', url: 'https://ngrx.io' },
+        { name: 'RxJS', url: 'https://rxjs.dev' },
+        { name: 'Transloco', url: 'https://ngneat.github.io/transloco/' },
+        { name: 'Taiga UI', url: 'https://taiga-ui.dev' },
+        { name: 'PrimeNG', url: 'https://primeng.org' },
+        { name: 'Nebular', url: 'https://akveo.github.io/nebular/' },
+        { name: 'NG-ZORRO', url: 'https://ng.ant.design' }
+      ]
+    },
+    {
+      title: 'angular.resources.newsletters.title',
+      description: 'angular.resources.newsletters.description',
+      icon: 'mail',
+      links: [
+        { name: 'Angular Weekly', url: 'https://www.angularweekly.com' },
+        { name: 'This Week in Angular', url: 'https://thisweekinangular.com' },
+        { name: 'ng-newsletter', url: 'https://www.ng-newsletter.com' }
+      ]
     }
+  ]);
 
-    navigateHome(): void {
-        this.router.navigate(['/']);
-    }
+  openFeatureDetail(feature: AngularFeature): void {
+    this.dialog.open(FeatureDetailDialogComponent, {
+      data: feature,
+      width: '700px',
+      maxWidth: '90vw',
+      autoFocus: 'dialog',
+      restoreFocus: true
+    });
+  }
+
+  openPracticeDetail(practice: BestPractice): void {
+    this.dialog.open(BestPracticeDialogComponent, {
+      data: practice,
+      width: '750px',
+      maxWidth: '90vw',
+      autoFocus: 'dialog',
+      restoreFocus: true
+    });
+  }
+
+  openAdvancedTopic(topic: AdvancedTopic): void {
+    this.dialog.open(AdvancedTopicDialogComponent, {
+      data: topic,
+      width: '750px',
+      maxWidth: '90vw',
+      autoFocus: 'dialog',
+      restoreFocus: true
+    });
+  }
+
+  openArchitecturePattern(pattern: ArchitecturePattern): void {
+    this.dialog.open(ArchitecturePatternDialogComponent, {
+      data: pattern,
+      width: '750px',
+      maxWidth: '90vw',
+      autoFocus: 'dialog',
+      restoreFocus: true
+    });
+  }
+
+  navigateHome(): void {
+    this.router.navigate(['/']);
+  }
 }

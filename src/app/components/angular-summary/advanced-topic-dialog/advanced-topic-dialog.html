@@ -1,9 +1,9 @@
-<div class="best-practice-dialog">
+<div class="advanced-topic-dialog">
     <div class="dialog-header">
         <div class="header-icon">
             <mat-icon>{{ data.icon }}</mat-icon>
         </div>
-        <h2 mat-dialog-title>{{ data.detailTitle || data.category | translate }}</h2>
+        <h2 mat-dialog-title>{{ data.detailTitle || data.title | translate }}</h2>
         <button mat-icon-button mat-dialog-close class="close-button">
             <mat-icon>close</mat-icon>
         </button>
@@ -24,7 +24,7 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <mat-icon class="panel-icon">check_circle</mat-icon>
+                            <mat-icon class="panel-icon">arrow_right</mat-icon>
                             {{ item.title | translate }}
                         </mat-panel-title>
                     </mat-expansion-panel-header>
@@ -42,43 +42,44 @@
 
         @if (data.codeExample) {
         <section class="code-section">
-            <h3>{{ 'angularSummary.codeExample' | translate }}</h3>
+            <h3>{{ 'angularSummary.example' | translate }}</h3>
             <pre><code>{{ data.codeExample }}</code></pre>
         </section>
         }
 
         @if (data.benefits && data.benefits.length > 0) {
         <section class="benefits-section">
-            <h3>{{ 'angularSummary.benefits' | translate }}</h3>
-            <ul class="benefits-list">
+            <h3>{{ 'angular.common.benefits' | translate }}</h3>
+            <mat-chip-set>
                 @for (benefit of data.benefits; track benefit) {
-                <li class="benefit-item">
-                    <mat-icon class="item-icon">check_circle</mat-icon>
-                    <span>{{ benefit | translate }}</span>
-                </li>
+                <mat-chip class="benefit-chip">
+                    <mat-icon>check_circle</mat-icon>
+                    {{ benefit | translate }}
+                </mat-chip>
                 }
-            </ul>
+            </mat-chip-set>
         </section>
         }
 
         @if (data.antiPatterns && data.antiPatterns.length > 0) {
-        <section class="anti-patterns-section">
+        <section class="antipatterns-section">
             <h3>{{ 'angularSummary.antiPatterns' | translate }}</h3>
-            <ul class="anti-patterns-list">
-                @for (antiPattern of data.antiPatterns; track antiPattern) {
-                <li class="anti-pattern-item">
-                    <mat-icon class="item-icon">warning</mat-icon>
-                    <span>{{ antiPattern | translate }}</span>
-                </li>
+            <mat-list>
+                @for (pattern of data.antiPatterns; track pattern) {
+                <mat-list-item>
+                    <mat-icon matListItemIcon class="warning-icon">warning</mat-icon>
+                    <span matListItemTitle>{{ pattern | translate }}</span>
+                </mat-list-item>
                 }
-            </ul>
+            </mat-list>
         </section>
         }
-    </mat-dialog-content>
 
-    <mat-dialog-actions align="end">
-        <button mat-raised-button color="primary" (click)="close()">
-            {{ 'common.close' | translate }}
-        </button>
-    </mat-dialog-actions>
+        <section class="tips-section">
+            <div class="tip-box">
+                <mat-icon>lightbulb</mat-icon>
+                <p>{{ 'angularSummary.quickTips' | translate }}</p>
+            </div>
+        </section>
+    </mat-dialog-content>
 </div>

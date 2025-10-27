@@ -1,141 +1,211 @@
 .feature-detail-dialog {
-    .dialog-header {
+    background: var(--portfolio-bg-primary);
+    color: var(--portfolio-text-primary);
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+    border-bottom: 2px solid var(--portfolio-accent-primary);
+    position: relative;
+
+    .header-icon {
+        background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+        color: var(--portfolio-bg-primary);
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 
-        .feature-icon {
-            font-size: 2rem;
-            width: 2rem;
-            height: 2rem;
-        }
-
-        h2 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--portfolio-text-primary);
+        mat-icon {
+            font-size: 1.75rem;
+            width: 1.75rem;
+            height: 1.75rem;
         }
     }
 
-    mat-dialog-content {
-        max-width: 600px;
-        padding: 1rem 0;
+    h2 {
+        flex: 1;
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--portfolio-text-primary);
+    }
+
+    .close-button {
         color: var(--portfolio-text-secondary);
+        transition: all 0.2s ease;
 
-        .description {
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: var(--portfolio-text-primary);
+        &:hover {
+            color: var(--portfolio-accent-primary);
+            background: rgba(255, 215, 0, 0.1);
         }
+    }
+}
 
-        .explanation {
-            margin-bottom: 1.5rem;
+mat-dialog-content {
+    padding: 2rem;
+    overflow-y: auto;
 
-            h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.5rem;
-                color: var(--portfolio-accent-primary);
-                font-weight: 500;
-            }
+    section {
+        margin-bottom: 2rem;
 
-            p {
-                line-height: 1.6;
-                color: var(--portfolio-text-secondary);
-            }
-        }
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--portfolio-accent-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
 
-        .code-example {
-            margin-bottom: 1.5rem;
-
-            h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.5rem;
-                color: var(--portfolio-accent-primary);
-                font-weight: 500;
-            }
-
-            pre {
-                background: var(--portfolio-bg-accent);
-                border-left: 4px solid var(--portfolio-accent-primary);
-                padding: 1rem;
-                overflow-x: auto;
-                border-radius: 4px;
-                box-shadow: var(--portfolio-shadow-sm);
-
-                code {
-                    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
-                    font-size: 0.9rem;
-                    line-height: 1.5;
-                    color: var(--portfolio-text-primary);
-                }
-            }
-        }
-
-        .benefits {
-            margin-bottom: 1.5rem;
-
-            h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.5rem;
-                color: var(--portfolio-accent-primary);
-                font-weight: 500;
-            }
-
-            mat-chip-set {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            mat-chip {
-                display: flex;
-                align-items: center;
-                gap: 0.25rem;
-                background-color: var(--portfolio-bg-accent);
-                color: var(--portfolio-text-primary);
-
-                mat-icon {
-                    font-size: 1rem;
-                    width: 1rem;
-                    height: 1rem;
-                    color: var(--portfolio-accent-secondary);
-                }
-            }
-        }
-
-        .use-cases {
-            h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.5rem;
-                color: var(--portfolio-accent-primary);
-                font-weight: 500;
-            }
-
-            ul {
-                margin: 0;
-                padding-left: 1.5rem;
-
-                li {
-                    margin-bottom: 0.5rem;
-                    line-height: 1.6;
-                    color: var(--portfolio-text-secondary);
-
-                    &::marker {
-                        color: var(--portfolio-accent-secondary);
-                    }
-                }
+            &::before {
+                content: '';
+                width: 4px;
+                height: 1.25rem;
+                background: linear-gradient(180deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+                border-radius: 2px;
             }
         }
     }
+}
 
-    mat-dialog-actions {
-        padding: 1rem 0 0;
+.explanation-section {
+    .explanation-text {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--portfolio-text-secondary);
+        background: var(--portfolio-bg-secondary);
+        padding: 1.25rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--portfolio-accent-primary);
+        margin: 0;
+    }
+}
+
+.code-section {
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--portfolio-accent-primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        &::before {
+            content: '';
+            width: 4px;
+            height: 1.25rem;
+            background: linear-gradient(180deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+            border-radius: 2px;
+        }
+    }
+
+    pre {
+        background: var(--portfolio-bg-secondary);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 8px;
+        padding: 1.25rem;
+        overflow-x: auto;
         margin: 0;
 
-        button {
+        code {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--portfolio-text-secondary);
+        }
+    }
+}
+
+.benefits-section,
+.use-cases-section {
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--portfolio-accent-primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        &::before {
+            content: '';
+            width: 4px;
+            height: 1.25rem;
+            background: linear-gradient(180deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+            border-radius: 2px;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: var(--portfolio-bg-secondary);
+        border-radius: 8px;
+        border-left: 3px solid rgba(255, 215, 0, 0.3);
+        transition: all 0.2s ease;
+
+        &:hover {
+            border-left-color: var(--portfolio-accent-primary);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .item-icon {
             color: var(--portfolio-accent-primary);
+            font-size: 1.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        span {
+            color: var(--portfolio-text-secondary);
+            line-height: 1.6;
+        }
+    }
+}
+
+mat-dialog-actions {
+    padding: 1rem 1.5rem;
+    background: var(--portfolio-bg-secondary);
+    border-top: 1px solid rgba(255, 215, 0, 0.1);
+
+    button {
+        background: linear-gradient(135deg, var(--portfolio-accent-primary) 0%, var(--portfolio-accent-secondary) 100%);
+        color: var(--portfolio-bg-primary);
+        font-weight: 500;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+        transition: all 0.2s ease;
+
+        &:hover {
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+            transform: translateY(-1px);
         }
     }
 }

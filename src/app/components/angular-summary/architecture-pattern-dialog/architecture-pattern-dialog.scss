@@ -1,4 +1,4 @@
-.best-practice-dialog {
+.architecture-pattern-dialog {
     background: var(--portfolio-bg-primary);
     color: var(--portfolio-text-primary);
     max-height: 85vh;
@@ -93,70 +93,6 @@ mat-dialog-content {
     }
 }
 
-.detailed-section {
-    mat-accordion {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    mat-expansion-panel {
-        background: var(--portfolio-bg-secondary);
-        border: 1px solid rgba(255, 215, 0, 0.15);
-        border-radius: 8px;
-        box-shadow: none;
-
-        &:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        mat-expansion-panel-header {
-            padding: 0 1.25rem;
-
-            mat-panel-title {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                color: var(--portfolio-text-primary);
-                font-weight: 500;
-
-                .panel-icon {
-                    color: var(--portfolio-accent-primary);
-                    font-size: 1.25rem;
-                    width: 1.25rem;
-                    height: 1.25rem;
-                }
-            }
-        }
-
-        .panel-content {
-            padding: 0 1.25rem 1.25rem;
-
-            p {
-                color: var(--portfolio-text-secondary);
-                line-height: 1.6;
-                margin-bottom: 1rem;
-            }
-
-            pre {
-                background: var(--portfolio-bg-primary);
-                border: 1px solid rgba(255, 215, 0, 0.2);
-                border-radius: 6px;
-                padding: 1rem;
-                overflow-x: auto;
-                margin: 0;
-
-                code {
-                    font-family: 'Fira Code', 'Courier New', monospace;
-                    font-size: 0.9rem;
-                    line-height: 1.6;
-                    color: var(--portfolio-text-secondary);
-                }
-            }
-        }
-    }
-}
-
 .code-section {
     h3 {
         font-size: 1.25rem;
@@ -193,8 +129,10 @@ mat-dialog-content {
     }
 }
 
+.implementation-section,
 .benefits-section,
-.anti-patterns-section {
+.use-cases-section,
+.challenges-section {
     h3 {
         font-size: 1.25rem;
         font-weight: 600;
@@ -253,17 +191,17 @@ mat-dialog-content {
     }
 }
 
-.anti-patterns-section {
+.challenges-section {
     li {
-        border-left-color: rgba(255, 87, 34, 0.3);
+        border-left-color: rgba(255, 152, 0, 0.3);
 
         &:hover {
-            border-left-color: #FF5722;
-            background: rgba(255, 87, 34, 0.05);
+            border-left-color: #FF9800;
+            background: rgba(255, 152, 0, 0.05);
         }
 
         .item-icon {
-            color: #FF5722;
+            color: #FF9800;
         }
     }
 }
