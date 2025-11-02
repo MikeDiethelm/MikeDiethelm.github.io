@@ -6,6 +6,7 @@ export const DE_TRANSLATIONS: Translations = {
     'nav.weather': 'Wetter',
     'nav.crypto': 'Krypto',
     'nav.angular': 'Angular',
+    'nav.playground': 'Playground',
     'nav.features': 'Features',
 
     // Home Component

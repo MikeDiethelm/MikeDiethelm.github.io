@@ -1,5 +1,9 @@
+@if (!isPlaygroundRoute) {
 <app-header></app-header>
-<main>
+}
+<main [class.fullscreen]="isPlaygroundRoute">
   <router-outlet></router-outlet>
 </main>
+@if (!isPlaygroundRoute) {
 <app-footer></app-footer>
+}

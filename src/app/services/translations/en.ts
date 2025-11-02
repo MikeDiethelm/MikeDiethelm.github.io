@@ -6,6 +6,7 @@ export const EN_TRANSLATIONS: Translations = {
   'nav.weather': 'Weather',
   'nav.crypto': 'Crypto',
   'nav.angular': 'Angular',
+  'nav.playground': 'Playground',
   'nav.features': 'Features',
 
   // Home Component

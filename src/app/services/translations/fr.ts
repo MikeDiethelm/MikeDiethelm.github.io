@@ -6,6 +6,7 @@ export const FR_TRANSLATIONS: Translations = {
   'nav.weather': 'Météo',
   'nav.crypto': 'Crypto',
   'nav.angular': 'Angular',
+  'nav.playground': 'Playground',
   'nav.features': 'Fonctionnalités',
 
   // Home Component

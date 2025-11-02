@@ -5,6 +5,15 @@
     min-height: 100vh;
     background-color: var(--mat-sys-surface);
     color: var(--mat-sys-on-surface);
+
+    &:has(main.fullscreen) {
+        min-height: 100vh;
+        max-height: 100vh;
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
 }
 
 main {
@@ -13,6 +22,15 @@ main {
     flex-direction: column;
     background-color: var(--mat-sys-background);
     margin-top: 64px; // Account for fixed header height
+
+    &.fullscreen {
+        margin-top: 0;
+        margin-bottom: 0;
+        height: 100vh;
+        max-height: 100vh;
+        overflow: hidden;
+        flex: none;
+    }
 
     router-outlet {
         display: contents;

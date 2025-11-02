@@ -3,6 +3,7 @@ import { HomeComponent } from './components/home/home';
 import { WeatherComponent } from './components/weather/weather';
 import { CryptoComponent } from './components/crypto/crypto';
 import { AngularSummaryComponent } from './components/angular-summary/angular-summary';
+import { CodePlaygroundComponent } from './components/code-playground/code-playground';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -10,6 +11,7 @@ export const routes: Routes = [
   { path: 'weather', component: WeatherComponent },
   { path: 'crypto', component: CryptoComponent },
   { path: 'angular', component: AngularSummaryComponent },
+  { path: 'playground', component: CodePlaygroundComponent },
   { path: 'features', redirectTo: '', pathMatch: 'full' }, // Platzhalter für zukünftige Features
   { path: '**', redirectTo: '' }
 ];
